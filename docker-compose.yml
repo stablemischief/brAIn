@@ -1,0 +1,118 @@
+version: '3.9'
+
+services:
+  brain-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: brain-dev
+    ports:
+      - "8000:8000"  # FastAPI backend
+      - "3000:3000"  # React frontend
+      - "8080:8080"  # WebSocket server
+      - "5555:5555"  # Debug port
+    volumes:
+      - ./backend:/app/backend
+      - ./frontend:/app/frontend
+      - ./src:/app/src
+      - ./scripts:/app/scripts
+      - ./config:/app/config
+      - ./tests:/app/tests
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - ./.env:/app/.env
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - PYTHONPATH=/app
+      - NODE_ENV=development
+      # Supabase Configuration
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      # OpenAI Configuration
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4-turbo-preview}
+      # Google Drive Configuration
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
+      # Langfuse Configuration
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+      # Database Configuration
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+    networks:
+      - brain-network
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "python", "/app/scripts/health-check.py"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  postgres:
+    image: ankane/pgvector:v0.5.1
+    container_name: brain-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-brain_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-brain_password}
+      - POSTGRES_DB=${POSTGRES_DB:-brain_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    networks:
+      - brain-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-brain_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: brain-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - brain-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Optional: Adminer for database management
+  adminer:
+    image: adminer
+    container_name: brain-adminer
+    ports:
+      - "8090:8080"
+    networks:
+      - brain-network
+    depends_on:
+      - postgres
+    profiles:
+      - tools
+
+networks:
+  brain-network:
+    driver: bridge
+    name: brain-network
+
+volumes:
+  postgres_data:
+    name: brain-postgres-data
+  redis_data:
+    name: brain-redis-data
