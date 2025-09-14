@@ -402,6 +402,100 @@ class CostOptimizer:
             seasonal_factors=seasonal_factors
         )
     
+    def analyze_costs(self, costs: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Analyze a list of costs and provide insights"""
+        if not costs:
+            return {
+                'total_cost': 0.0,
+                'average_cost': 0.0,
+                'model_distribution': {},
+                'cost_by_model': {},
+                'recommendations': []
+            }
+        
+        total_cost = sum(c.get('cost', 0) for c in costs)
+        avg_cost = total_cost / len(costs) if costs else 0
+        
+        # Analyze model distribution
+        model_dist = defaultdict(int)
+        model_costs = defaultdict(float)
+        
+        for cost_item in costs:
+            model = cost_item.get('model', 'unknown')
+            model_dist[model] += 1
+            model_costs[model] += cost_item.get('cost', 0)
+        
+        # Generate basic recommendations
+        recommendations = []
+        if total_cost > 1.0:
+            recommendations.append("Consider batch processing to reduce costs")
+        
+        most_expensive_model = max(model_costs.items(), key=lambda x: x[1])[0] if model_costs else None
+        if most_expensive_model and model_costs[most_expensive_model] > total_cost * 0.5:
+            recommendations.append(f"Model {most_expensive_model} accounts for >50% of costs - consider alternatives")
+        
+        return {
+            'total_cost': total_cost,
+            'average_cost': avg_cost,
+            'model_distribution': dict(model_dist),
+            'cost_by_model': dict(model_costs),
+            'recommendations': recommendations
+        }
+    
+    def get_recommendations(self, usage_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Get optimization recommendations based on usage data"""
+        recommendations = []
+        
+        daily_cost = usage_data.get('daily_cost', 0)
+        primary_model = usage_data.get('primary_model', '')
+        avg_tokens = usage_data.get('average_tokens', 0)
+        
+        # Cost-based recommendations
+        if daily_cost > 100:
+            recommendations.append({
+                'type': 'budget_alert',
+                'priority': 'high',
+                'description': 'Daily costs exceed $100 - implement budget controls',
+                'action': 'Set up cost alerts and budget limits'
+            })
+        elif daily_cost > 50:
+            recommendations.append({
+                'type': 'cost_optimization',
+                'priority': 'medium',
+                'description': 'Consider cost optimization strategies',
+                'action': 'Review model selection and batch processing options'
+            })
+        
+        # Model-specific recommendations
+        if primary_model == 'gpt-4' and avg_tokens < 1000:
+            recommendations.append({
+                'type': 'model_optimization',
+                'priority': 'high',
+                'description': 'Using GPT-4 for short prompts is not cost-effective',
+                'action': 'Switch to gpt-4o-mini or gpt-3.5-turbo for shorter content'
+            })
+        
+        # Token optimization
+        if avg_tokens > 2000:
+            recommendations.append({
+                'type': 'token_optimization',
+                'priority': 'medium',
+                'description': 'High average token usage detected',
+                'action': 'Consider summarization or chunking strategies'
+            })
+        
+        # Batch processing recommendation
+        if daily_cost > 10 and not usage_data.get('batch_processing_enabled', False):
+            recommendations.append({
+                'type': 'batch_processing',
+                'priority': 'medium',
+                'description': 'Enable batch processing for cost savings',
+                'action': 'Group similar operations for batch processing',
+                'potential_savings': '15-25%'
+            })
+        
+        return recommendations
+    
     def get_optimization_insights(self) -> Dict[str, Any]:
         """Get comprehensive optimization insights and recommendations"""
         

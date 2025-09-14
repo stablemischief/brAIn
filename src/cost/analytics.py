@@ -334,6 +334,66 @@ class CostAnalytics:
         
         return new_alerts
     
+    def calculate_trends(self, history: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Calculate trends from historical cost data"""
+        if not history:
+            return {
+                'trend': 'stable',
+                'change_percentage': 0.0,
+                'average_cost': 0.0,
+                'peak_cost': 0.0,
+                'low_cost': 0.0
+            }
+        
+        # Extract costs from history
+        costs = []
+        dates = []
+        for item in history:
+            if 'cost' in item and 'date' in item:
+                costs.append(item['cost'])
+                dates.append(item['date'])
+        
+        if not costs:
+            return {
+                'trend': 'stable',
+                'change_percentage': 0.0,
+                'average_cost': 0.0,
+                'peak_cost': 0.0,
+                'low_cost': 0.0
+            }
+        
+        # Calculate basic statistics
+        avg_cost = statistics.mean(costs)
+        peak_cost = max(costs)
+        low_cost = min(costs)
+        
+        # Calculate trend
+        if len(costs) >= 2:
+            # Simple linear trend
+            first_half_avg = statistics.mean(costs[:len(costs)//2])
+            second_half_avg = statistics.mean(costs[len(costs)//2:])
+            
+            change_pct = ((second_half_avg - first_half_avg) / first_half_avg * 100) if first_half_avg > 0 else 0
+            
+            if change_pct > 10:
+                trend = 'increasing'
+            elif change_pct < -10:
+                trend = 'decreasing'
+            else:
+                trend = 'stable'
+        else:
+            trend = 'stable'
+            change_pct = 0.0
+        
+        return {
+            'trend': trend,
+            'change_percentage': change_pct,
+            'average_cost': avg_cost,
+            'peak_cost': peak_cost,
+            'low_cost': low_cost,
+            'data_points': len(costs)
+        }
+    
     def get_cost_insights(self, days: int = 30) -> Dict[str, Any]:
         """Get actionable cost insights and recommendations"""
         

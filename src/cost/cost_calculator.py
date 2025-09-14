@@ -112,6 +112,10 @@ class CostCalculator:
     ) -> CostBreakdown:
         """Calculate cost for a specific operation"""
         
+        # Validate no negative tokens
+        if token_count.input_tokens < 0 or token_count.output_tokens < 0:
+            raise ValueError(f"Token counts cannot be negative: input={token_count.input_tokens}, output={token_count.output_tokens}")
+        
         model_config = self.token_counter.get_model_info(token_count.model)
         if not model_config:
             logger.warning(f"No pricing info for model {token_count.model}")
@@ -163,6 +167,47 @@ class CostCalculator:
         self.daily_costs[today] = self.daily_costs.get(today, Decimal('0')) + total_cost
         
         return breakdown
+    
+    def calculate_cost(
+        self,
+        token_count: Union[int, TokenCount],
+        category: CostCategory = CostCategory.PROCESSING,
+        model: str = "gpt-4o-mini"
+    ) -> CostBreakdown:
+        """Calculate cost for tokens - simplified version for tests"""
+        
+        # If it's just a number, create a TokenCount
+        if isinstance(token_count, int):
+            tc = TokenCount(
+                input_tokens=token_count // 2,
+                output_tokens=token_count // 2,
+                total_tokens=token_count,
+                model=model,
+                provider=ModelProvider.OPENAI
+            )
+        else:
+            tc = token_count
+            
+        return self.calculate_operation_cost(tc, category)
+    
+    def check_budget(self, amount: Decimal) -> bool:
+        """Check if we have budget available for the given amount"""
+        if not self.budget_config:
+            return True  # No budget limits
+            
+        # Check daily budget
+        if self.budget_config.daily_limit:
+            today = datetime.now().strftime('%Y-%m-%d')
+            current_daily = self.daily_costs.get(today, Decimal('0'))
+            if current_daily + amount > self.budget_config.daily_limit:
+                return False
+                
+        # Check per-operation limit
+        if self.budget_config.per_operation_limit:
+            if amount > self.budget_config.per_operation_limit:
+                return False
+                
+        return True
     
     def calculate_batch_cost(
         self,
