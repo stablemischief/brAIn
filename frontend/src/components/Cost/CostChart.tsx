@@ -15,7 +15,7 @@ import {
 import { Line, Bar } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
 import { format, parseISO } from 'date-fns';
-import { DailyCost } from '@/types';
+import { DailyCost } from '../../types';
 import { 
   ChartBarIcon, 
   PresentationChartLineIcon,
@@ -239,9 +239,6 @@ export const CostChart: React.FC<CostChartProps> = ({
       axis: 'x' as const,
       intersect: false,
     },
-    hover: {
-      animationDuration: 200,
-    },
     animation: {
       duration: 1000,
       easing: 'easeInOutQuart' as const,
@@ -254,7 +251,7 @@ export const CostChart: React.FC<CostChartProps> = ({
     { value: 'bar', label: 'Bar', icon: ChartBarIcon },
   ] as const;
 
-  const metrics = [
+  const metricOptions = [
     { value: 'cost', label: 'Cost ($)', color: 'text-blue-600' },
     { value: 'tokens', label: 'Tokens', color: 'text-green-600' },
     { value: 'requests', label: 'Requests', color: 'text-purple-600' },
@@ -306,7 +303,7 @@ export const CostChart: React.FC<CostChartProps> = ({
             <div className="flex items-center gap-3">
               {/* Metric Selector */}
               <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-                {metrics.map((m) => (
+                {metricOptions.map((m) => (
                   <button
                     key={m.value}
                     onClick={() => setMetric(m.value as typeof metric)}

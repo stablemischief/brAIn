@@ -8,7 +8,8 @@ import secrets
 from functools import lru_cache
 from typing import List, Optional, Literal, Any, Dict
 
-from pydantic import BaseSettings, Field, validator, PostgresDsn, validator, root_validator
+from pydantic import Field, validator, AnyUrl
+from pydantic_core import Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -69,7 +70,7 @@ class Settings(BaseSettings):
     # DATABASE SETTINGS
     # ========================================
     
-    database_url: Optional[PostgresDsn] = Field(
+    database_url: Optional[AnyUrl] = Field(
         default=None,
         description="PostgreSQL database URL"
     )

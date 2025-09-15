@@ -1,5 +1,5 @@
 import React from 'react';
-import { SystemHealth, ServiceStatus } from '@/types';
+import { SystemHealth, ServiceStatus } from '../../types';
 import { 
   CheckCircleIcon, 
   ExclamationTriangleIcon, 

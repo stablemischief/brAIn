@@ -372,6 +372,8 @@ export interface UseWebSocketResult {
   subscribe: (channel: string) => void;
   unsubscribe: (channel: string) => void;
   lastMessage: WebSocketMessage | null;
+  connect: () => Promise<void>;
+  disconnect: () => void;
 }
 
 // API Endpoint Types

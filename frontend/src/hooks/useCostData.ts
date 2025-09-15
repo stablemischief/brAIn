@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { CostAnalytics, DailyCost, BudgetInfo, ApiResponse } from '@/types';
+import { CostAnalytics, DailyCost, BudgetInfo, ApiResponse } from '../types';
 import { format, subDays, startOfDay } from 'date-fns';
 
 interface CostDataFilters {
@@ -185,9 +185,6 @@ export const useCostData = (options: UseCostDataOptions = {}): CostDataState & C
       }
       return failureCount < 3;
     },
-    onError: (error: Error) => {
-      setError(error.message);
-    },
   });
 
   // Historical data query
@@ -201,9 +198,6 @@ export const useCostData = (options: UseCostDataOptions = {}): CostDataState & C
         return false;
       }
       return failureCount < 3;
-    },
-    onError: (error: Error) => {
-      setError(error.message);
     },
   });
 
@@ -219,9 +213,6 @@ export const useCostData = (options: UseCostDataOptions = {}): CostDataState & C
       }
       return failureCount < 3;
     },
-    onError: (error: Error) => {
-      setError(error.message);
-    },
   });
 
   // Budget update mutation
@@ -231,9 +222,6 @@ export const useCostData = (options: UseCostDataOptions = {}): CostDataState & C
       // Update the budget query cache
       queryClient.setQueryData(getCostQueryKeys.budget(), data);
       setError(null);
-    },
-    onError: (error: Error) => {
-      setError(error.message);
     },
   });
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useWebSocketEvent } from '@/hooks/useWebSocket';
-import { WS_EVENTS } from '@/utils/websocket';
+import { useWebSocketEvent } from '../../hooks/useWebSocket';
+import { WS_EVENTS } from '../../utils/websocket';
 import {
   DocumentTextIcon,
   CheckCircleIcon,
@@ -132,6 +132,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
       title: 'High memory usage detected',
       description: 'System memory usage at 85%',
       timestamp: new Date(Date.now() - 30 * 60000).toISOString(),
+      metadata: { usage: '85%' }
     },
     {
       id: '4',
@@ -142,7 +143,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
       metadata: { error: 'Invalid PDF format' }
     }
   ]);
-  
+
   const [newItemIds, setNewItemIds] = useState<Set<string>>(new Set());
 
   // Listen for real-time activity updates
@@ -160,7 +161,7 @@ export const RecentActivity: React.FC<RecentActivityProps> = ({
       });
       
       // Mark as new for animation
-      setNewItemIds(prev => new Set([...prev, newActivity.id]));
+      setNewItemIds(prev => new Set(Array.from(prev).concat(newActivity.id)));
       
       // Remove new status after animation
       setTimeout(() => {

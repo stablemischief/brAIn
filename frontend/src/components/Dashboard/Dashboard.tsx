@@ -4,9 +4,9 @@ import {
   useSystemHealth, 
   useCostUpdates,
   useWebSocket 
-} from '@/hooks/useWebSocket';
-import { SystemHealth, ProcessingStatus, CostAnalytics } from '@/types';
-import { WS_CHANNELS } from '@/utils/websocket';
+} from '../../hooks/useWebSocket';
+import { SystemHealth, ProcessingStatus, CostAnalytics } from '../../types';
+import { WS_CHANNELS } from '../../utils/websocket';
 import { HealthIndicator } from './HealthIndicator';
 import { ProcessingStatusCard } from './ProcessingStatusCard';
 import { CostAnalyticsCard } from './CostAnalyticsCard';
@@ -33,10 +33,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ className = '' }) => {
   } = useWebSocket({
     autoConnect: true,
     channels: [
-      WS_CHANNELS.PROCESSING_STATUS,
+      WS_CHANNELS.PROCESSING,
       WS_CHANNELS.SYSTEM_HEALTH,
-      WS_CHANNELS.COST_UPDATES,
-      WS_CHANNELS.ACTIVITY_FEED
+      WS_CHANNELS.COST_MONITORING,
+      WS_CHANNELS.USER_ACTIVITY
     ]
   });
 
@@ -59,9 +59,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ className = '' }) => {
     sendMessage({
       type: 'request_update',
       channels: [
-        WS_CHANNELS.PROCESSING_STATUS,
+        WS_CHANNELS.PROCESSING,
         WS_CHANNELS.SYSTEM_HEALTH,
-        WS_CHANNELS.COST_UPDATES
+        WS_CHANNELS.COST_MONITORING
       ]
     });
 

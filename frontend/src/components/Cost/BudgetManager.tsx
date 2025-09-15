@@ -11,7 +11,7 @@ import {
   TrashIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
-import { BudgetInfo } from '@/types';
+import { BudgetInfo } from '../../types';
 
 interface BudgetFormData {
   monthlyLimit: number;

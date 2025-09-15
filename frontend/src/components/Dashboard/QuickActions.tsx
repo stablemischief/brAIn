@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SystemHealth, ProcessingStatus } from '@/types';
+import { SystemHealth, ProcessingStatus } from '../../types';
 import {
   FolderPlusIcon,
   PlayIcon,

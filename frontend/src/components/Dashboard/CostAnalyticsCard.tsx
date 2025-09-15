@@ -1,11 +1,11 @@
 import React from 'react';
-import { CostAnalytics } from '@/types';
+import { CostAnalytics } from '../../types';
 import {
   BanknotesIcon,
   ChartBarIcon,
   ExclamationTriangleIcon,
-  TrendingUpIcon,
-  TrendingDownIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
   ClockIcon
 } from '@heroicons/react/24/outline';
 
@@ -35,9 +35,9 @@ const QuickStat: React.FC<QuickStatProps> = ({
   const getTrendIcon = () => {
     switch (trend) {
       case 'up':
-        return <TrendingUpIcon className="h-3 w-3 text-red-500" />;
+        return <ArrowTrendingUpIcon className="h-3 w-3 text-red-500" />;
       case 'down':
-        return <TrendingDownIcon className="h-3 w-3 text-green-500" />;
+        return <ArrowTrendingDownIcon className="h-3 w-3 text-green-500" />;
       default:
         return null;
     }

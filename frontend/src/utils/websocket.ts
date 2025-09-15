@@ -1,4 +1,4 @@
-import { WebSocketMessage, RealtimeUpdate } from '@/types';
+import { WebSocketMessage, RealtimeUpdate } from '../types';
 
 export class WebSocketClient {
   private ws: WebSocket | null = null;
@@ -321,6 +321,7 @@ export const WS_EVENTS = {
   COST_UPDATE: 'type:cost_update',
   NEW_DOCUMENT: 'type:new_document',
   JOB_PROGRESS: 'type:job_progress',
+  ACTIVITY_FEED: 'type:activity_feed',
 } as const;
 
 /**

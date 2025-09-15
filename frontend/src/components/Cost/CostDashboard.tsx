@@ -9,13 +9,13 @@ import {
   ClockIcon,
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
-import { CostAnalytics, BudgetInfo } from '@/types';
+import { CostAnalytics, BudgetInfo } from '../../types';
 import CostChart from './CostChart';
 import BudgetManager from './BudgetManager';
 import CostProjections from './CostProjections';
 import OptimizationCards from './OptimizationCards';
 import ExportControls from './ExportControls';
-import { useCostData, useCostInsights } from '@/hooks/useCostData';
+import { useCostData, useCostInsights } from '../../hooks/useCostData';
 
 interface CostDashboardProps {
   className?: string;

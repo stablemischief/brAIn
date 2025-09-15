@@ -10,7 +10,7 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
-import { CostAnalytics, DailyCost } from '@/types';
+import { CostAnalytics, DailyCost } from '../../types';
 import { format } from 'date-fns';
 
 interface ExportFormat {

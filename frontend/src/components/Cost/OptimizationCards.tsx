@@ -14,7 +14,7 @@ import {
   ShieldCheckIcon,
   BoltIcon,
 } from '@heroicons/react/24/outline';
-import { CostAnalytics, DailyCost } from '@/types';
+import { CostAnalytics, DailyCost } from '../../types';
 
 interface OptimizationRecommendation {
   id: string;
@@ -215,7 +215,7 @@ export const OptimizationCards: React.FC<OptimizationCardsProps> = ({
   }, [filteredRecommendations]);
 
   const handleImplement = async (recommendationId: string) => {
-    setImplementingIds(prev => new Set([...prev, recommendationId]));
+    setImplementingIds(prev => new Set(Array.from(prev).concat(recommendationId)));
     try {
       await onImplementRecommendation(recommendationId);
       // Update recommendation as implemented

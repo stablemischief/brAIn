@@ -14,8 +14,8 @@ import {
 import { Line } from 'react-chartjs-2';
 import { format, addDays, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
 import {
-  TrendingUpIcon,
-  TrendingDownIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
   CalendarIcon,
   ClockIcon,
   ExclamationTriangleIcon,
@@ -23,7 +23,7 @@ import {
   ChartBarIcon,
   CurrencyDollarIcon,
 } from '@heroicons/react/24/outline';
-import { DailyCost } from '@/types';
+import { DailyCost } from '../../types';
 
 ChartJS.register(
   CategoryScale,
@@ -467,9 +467,9 @@ export const CostProjections: React.FC<CostProjectionsProps> = ({
                   </div>
                   <div className="flex items-center gap-1">
                     {summary.budgetUtilization > 100 ? (
-                      <TrendingUpIcon className="h-4 w-4 text-red-500" />
+                      <ArrowTrendingUpIcon className="h-4 w-4 text-red-500" />
                     ) : (
-                      <TrendingDownIcon className="h-4 w-4 text-green-500" />
+                      <ArrowTrendingDownIcon className="h-4 w-4 text-green-500" />
                     )}
                     <span className="text-sm font-medium text-gray-900 dark:text-white">
                       {summary.budgetUtilization.toFixed(0)}%

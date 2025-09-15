@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { WebSocketMessage, WebSocketState, UseWebSocketResult } from '@/types';
-import { getWebSocketClient, WS_EVENTS, WS_CHANNELS } from '@/utils/websocket';
+import {
+  WebSocketMessage,
+  WebSocketState,
+  UseWebSocketResult,
+  ProcessingStatus,
+  SystemHealth,
+  CostAnalytics
+} from '../types';
+import { getWebSocketClient, WS_EVENTS, WS_CHANNELS } from '../utils/websocket';
 
 interface UseWebSocketOptions {
   userId?: string;
@@ -85,7 +92,7 @@ export const useWebSocket = (options: UseWebSocketOptions = {}): UseWebSocketRes
     wsClient.current.subscribe(channel);
     setState(prev => ({
       ...prev,
-      subscriptions: [...new Set([...prev.subscriptions, channel])]
+      subscriptions: Array.from(new Set(prev.subscriptions.concat(channel)))
     }));
   }, []);
 
@@ -215,8 +222,8 @@ export const useWebSocketEvent = (
 /**
  * Hook for processing status updates
  */
-export const useProcessingStatus = () => {
-  const [processingStatus, setProcessingStatus] = useState(null);
+export const useProcessingStatus = (): ProcessingStatus | null => {
+  const [processingStatus, setProcessingStatus] = useState<ProcessingStatus | null>(null);
 
   useWebSocketEvent(WS_EVENTS.PROCESSING_STATUS, (message: WebSocketMessage) => {
     setProcessingStatus(message.payload);
@@ -228,8 +235,8 @@ export const useProcessingStatus = () => {
 /**
  * Hook for system health updates
  */
-export const useSystemHealth = () => {
-  const [systemHealth, setSystemHealth] = useState(null);
+export const useSystemHealth = (): SystemHealth | null => {
+  const [systemHealth, setSystemHealth] = useState<SystemHealth | null>(null);
 
   useWebSocketEvent(WS_EVENTS.SYSTEM_HEALTH, (message: WebSocketMessage) => {
     setSystemHealth(message.payload);
@@ -241,8 +248,8 @@ export const useSystemHealth = () => {
 /**
  * Hook for cost updates
  */
-export const useCostUpdates = () => {
-  const [costData, setCostData] = useState(null);
+export const useCostUpdates = (): CostAnalytics | null => {
+  const [costData, setCostData] = useState<CostAnalytics | null>(null);
 
   useWebSocketEvent(WS_EVENTS.COST_UPDATE, (message: WebSocketMessage) => {
     setCostData(message.payload);

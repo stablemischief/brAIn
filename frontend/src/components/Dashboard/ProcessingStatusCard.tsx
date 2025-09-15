@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProcessingStatus } from '@/types';
+import { ProcessingStatus } from '../../types';
 import {
   DocumentTextIcon,
   ClockIcon,

@@ -9,6 +9,7 @@ import { RealtimeProvider } from './context/RealtimeContext';
 const SearchPage = React.lazy(() => import('./pages/SearchPage').catch(() => ({ default: () => <div>Search page coming soon</div> })));
 const AnalyticsPage = React.lazy(() => import('./pages/AnalyticsPage').catch(() => ({ default: () => <div>Analytics page coming soon</div> })));
 const ConfigurationPage = React.lazy(() => import('./pages/ConfigurationPage').catch(() => ({ default: () => <div>Configuration page coming soon</div> })));
+const KnowledgeGraphPage = React.lazy(() => import('./pages/KnowledgeGraphPage'));
 
 function App() {
   return (
@@ -42,15 +43,24 @@ function App() {
                 } 
               />
               
-              <Route 
-                path="/config" 
+              <Route
+                path="/config"
                 element={
                   <React.Suspense fallback={<LoadingSpinner />}>
                     <ConfigurationPage />
                   </React.Suspense>
-                } 
+                }
               />
-              
+
+              <Route
+                path="/knowledge-graph"
+                element={
+                  <React.Suspense fallback={<LoadingSpinner />}>
+                    <KnowledgeGraphPage />
+                  </React.Suspense>
+                }
+              />
+
               {/* Catch all - redirect to dashboard */}
               <Route 
                 path="*" 

@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { 
-  SystemHealth, 
-  ProcessingStatus, 
-  CostAnalytics, 
+import {
+  SystemHealth,
+  ProcessingStatus,
+  CostAnalytics,
   ProcessingJob,
   WebSocketMessage,
   RealtimeUpdate,
   Notification
-} from '@/types';
-import { useWebSocket, useWebSocketEvent } from '@/hooks/useWebSocket';
-import { WS_EVENTS, WS_CHANNELS } from '@/utils/websocket';
+} from '../types';
+import { useWebSocket, useWebSocketEvent } from '../hooks/useWebSocket';
+import { WS_EVENTS, WS_CHANNELS } from '../utils/websocket';
 
 // State interface
 interface RealtimeState {
