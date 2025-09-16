@@ -10,6 +10,7 @@ const SearchPage = React.lazy(() => import('./pages/SearchPage').catch(() => ({ 
 const AnalyticsPage = React.lazy(() => import('./pages/AnalyticsPage').catch(() => ({ default: () => <div>Analytics page coming soon</div> })));
 const ConfigurationPage = React.lazy(() => import('./pages/ConfigurationPage').catch(() => ({ default: () => <div>Configuration page coming soon</div> })));
 const KnowledgeGraphPage = React.lazy(() => import('./pages/KnowledgeGraphPage'));
+const ConfigWizardPage = React.lazy(() => import('./pages/ConfigWizardPage'));
 
 function App() {
   return (
@@ -57,6 +58,15 @@ function App() {
                 element={
                   <React.Suspense fallback={<LoadingSpinner />}>
                     <KnowledgeGraphPage />
+                  </React.Suspense>
+                }
+              />
+
+              <Route
+                path="/setup"
+                element={
+                  <React.Suspense fallback={<LoadingSpinner />}>
+                    <ConfigWizardPage />
                   </React.Suspense>
                 }
               />

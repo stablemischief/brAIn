@@ -9,6 +9,16 @@ export interface ApiResponse<T = any> {
   };
 }
 
+// Configuration Wizard Types
+export interface ConfigTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: 'development' | 'production' | 'testing' | 'custom';
+  config: any;
+  isDefault?: boolean;
+}
+
 // User and Authentication Types
 export interface User {
   id: string;
