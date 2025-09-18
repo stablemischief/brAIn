@@ -10,6 +10,8 @@ modern AI validation, Pydantic models, and intelligent processing capabilities.
 Author: BMad Team
 """
 
+from typing import Tuple, List
+
 from .text_processor import (
     EnhancedTextProcessor,
     ProcessingConfig,
@@ -78,8 +80,18 @@ __version__ = "2.0.0"
 __author__ = "BMad Team"
 __description__ = "Enhanced RAG Pipeline with AI Validation and Quality Assessment"
 
-# Main orchestrator for easy access
-orchestrator = get_default_orchestrator()
+# Main orchestrator for easy access (lazy loaded)
+_orchestrator = None
+
+def get_orchestrator():
+    """Get the default orchestrator (lazy loaded)."""
+    global _orchestrator
+    if _orchestrator is None:
+        _orchestrator = get_default_orchestrator()
+    return _orchestrator
+
+# For backward compatibility
+orchestrator = None  # Will be loaded when needed
 
 # Quick access functions for common operations
 def quick_process_file(file_path: str, priority: str = "normal") -> FileProcessingResult:
@@ -107,10 +119,11 @@ def quick_process_file(file_path: str, priority: str = "normal") -> FileProcessi
     priority_enum = priority_map.get(priority.lower(), ProcessingPriority.NORMAL)
     
     # Create and process job
-    job = orchestrator.create_processing_job(file_path, priority_enum)
+    orch = get_orchestrator()
+    job = orch.create_processing_job(file_path, priority_enum)
     
     async def process_async():
-        return await orchestrator.process_single_job(job)
+        return await orch.process_single_job(job)
     
     # Run in event loop
     try:

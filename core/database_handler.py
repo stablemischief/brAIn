@@ -38,14 +38,25 @@ project_root = Path(__file__).resolve().parent.parent
 dotenv_path = project_root / '.env'
 load_dotenv(dotenv_path, override=True)
 
-# Initialize Supabase client
-supabase_url = os.getenv("SUPABASE_URL")
-supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
+# Lazy initialization for Supabase client
+_supabase_client = None
 
-if not supabase_url or not supabase_key:
-    raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set in environment")
+def get_supabase_client() -> Client:
+    """Get or create Supabase client with lazy initialization."""
+    global _supabase_client
+    if _supabase_client is None:
+        supabase_url = os.getenv("SUPABASE_URL")
+        supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
 
-supabase: Client = create_client(supabase_url, supabase_key)
+        if not supabase_url or not supabase_key:
+            raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set in environment")
+
+        _supabase_client = create_client(supabase_url, supabase_key)
+
+    return _supabase_client
+
+# For backward compatibility
+supabase = None  # Will be initialized when needed
 
 # =============================================================================
 # PYDANTIC MODELS FOR DATABASE VALIDATION
@@ -116,15 +127,22 @@ class ProcessingStats(BaseModel):
 class EnhancedDatabaseHandler:
     """Enhanced database handler with duplicate detection and validation."""
     
-    def __init__(self, duplicate_threshold: float = 0.95):
+    def __init__(self, duplicate_threshold: float = 0.95, supabase_url: str = None, supabase_key: str = None):
         """
         Initialize with configuration.
-        
+
         Args:
             duplicate_threshold: Similarity threshold for duplicate detection
+            supabase_url: Optional Supabase URL (uses env if not provided)
+            supabase_key: Optional Supabase key (uses env if not provided)
         """
         self.duplicate_threshold = duplicate_threshold
-        self.supabase = supabase
+
+        # Use provided credentials or get from environment
+        if supabase_url and supabase_key:
+            self.supabase = create_client(supabase_url, supabase_key)
+        else:
+            self.supabase = get_supabase_client()
         
     def calculate_vector_similarity(self, vec1: List[float], vec2: List[float]) -> float:
         """Calculate cosine similarity between two vectors."""

@@ -776,3 +776,52 @@ def extract_text_from_file(file_content: bytes, mime_type: str, file_name: str) 
     processor = get_default_processor()
     text, _, _, _ = processor.extract_text_from_file(file_content, mime_type, file_name)
     return text
+
+def is_tabular_file(file_path: str) -> bool:
+    """Check if file contains tabular data (CSV, TSV, Excel)."""
+    import mimetypes
+    mime_type, _ = mimetypes.guess_type(file_path)
+
+    tabular_types = [
+        'text/csv',
+        'text/tab-separated-values',
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ]
+
+    if mime_type in tabular_types:
+        return True
+
+    # Check by extension if MIME type not found
+    extensions = ['.csv', '.tsv', '.xls', '.xlsx']
+    return any(file_path.lower().endswith(ext) for ext in extensions)
+
+def extract_schema_from_csv(content: str) -> Dict[str, str]:
+    """Extract schema from CSV content."""
+    import csv
+    from io import StringIO
+
+    reader = csv.DictReader(StringIO(content))
+    headers = reader.fieldnames or []
+
+    # Simple type inference (can be enhanced)
+    schema = {}
+    for header in headers:
+        schema[header] = "string"  # Default to string type
+
+    return schema
+
+def extract_rows_from_csv(content: str, limit: int = 5) -> List[Dict[str, Any]]:
+    """Extract sample rows from CSV content."""
+    import csv
+    from io import StringIO
+
+    reader = csv.DictReader(StringIO(content))
+    rows = []
+
+    for i, row in enumerate(reader):
+        if i >= limit:
+            break
+        rows.append(dict(row))
+
+    return rows

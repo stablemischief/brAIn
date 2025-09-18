@@ -4,7 +4,45 @@
 **Copy this exact prompt for new sessions after proactive handoff:**
 
 ---
+```
+🔄 **BMAD PROACTIVE SESSION RECOVERY - ENHANCED PROTOCOL**
 
+CONTEXT: This is a planned session restart following BMAD Enhanced Proactive Session Management. Previous session ended cleanly with full handoff documentation.
+
+IMMEDIATE SEQUENCE:
+1. `/BMad:agents:bmad-orchestrator` - Activate BMAD team
+2. Execute comprehensive project health assessment
+3. Validate session handoff documentation
+4. Resume from documented state
+
+PROJECT HEALTH ASSESSMENT REQUIRED:
+□ Read CLAUDE.md for project constraints & architecture
+□ Check SESSION-HANDOFF.md for last session state
+□ Validate Archon MCP task status and synchronization
+□ Review recent git commits for compliance violations
+□ Check code against established patterns and standards
+□ Verify all tests passing and no technical debt introduced
+□ Assess any compression-gap changes or drift
+
+BMAD TEAM ACTIVATION PROTOCOL:
+- Full context restoration from handoff documentation
+- Validate project state matches documented expectations
+- Check for any "Claude chaos" changes during gap
+- Create remediation plan for any issues discovered
+- Resume development from validated, clean state
+
+CRITICAL SUCCESS CRITERIA:
+✅ BMAD team successfully activated and contextually aware
+✅ Project state validated against handoff documentation
+✅ Archon task system synchronized and current
+✅ No compliance violations or architecture drift detected
+✅ All tests passing and code quality maintained
+✅ Ready to resume productive development
+
+COMPLIANCE REQUIREMENT: 
+All actions must use: 🎯 BMAD-Archon: [ACTION] | Task: [ID] | Status: [STATUS]
+
+DO NOT proceed with new development until all validation criteria are met and any issues are resolved.
 ```
 🔄 **BMAD PROACTIVE SESSION RECOVERY - ENHANCED PROTOCOL**
 
