@@ -51,6 +51,17 @@ class Settings(BaseSettings):
         description="Secret key for session encryption"
     )
     session_max_age: int = Field(default=86400, description="Session max age in seconds")
+
+    # JWT Authentication Settings
+    jwt_secret: Optional[str] = Field(default=None, description="JWT signing secret key")
+    jwt_algorithm: str = Field(default="HS256", description="JWT signing algorithm")
+    jwt_expiry_minutes: int = Field(default=1440, description="JWT token expiry in minutes (24 hours)")
+    jwt_refresh_expiry_days: int = Field(default=30, description="JWT refresh token expiry in days")
+
+    # Authentication Settings
+    auth_enabled: bool = Field(default=True, description="Enable authentication middleware")
+    allow_api_key_auth: bool = Field(default=True, description="Allow API key authentication")
+    admin_api_key: Optional[str] = Field(default=None, description="Admin API key for system access")
     
     # CORS Settings
     allowed_origins: List[str] = Field(
@@ -88,6 +99,7 @@ class Settings(BaseSettings):
     supabase_url: Optional[str] = Field(default=None, description="Supabase project URL")
     supabase_anon_key: Optional[str] = Field(default=None, description="Supabase anonymous key")
     supabase_service_key: Optional[str] = Field(default=None, description="Supabase service role key")
+    supabase_jwt_secret: Optional[str] = Field(default=None, description="Supabase JWT verification secret")
     
     # ========================================
     # OPENAI SETTINGS

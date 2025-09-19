@@ -85,41 +85,79 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
         return request.cookies.get("access_token")
     
     async def _validate_token(self, token: str) -> Optional[dict]:
-        """Validate JWT token and return user information."""
+        """Validate JWT token with proper signature verification."""
         try:
             if not self.supabase_client:
                 logger.warning("Supabase client not available for token validation")
                 return None
-            
-            # Validate token with Supabase
-            # In a real implementation, you would verify the JWT signature
-            # For now, we'll decode without verification for development
+
+            # Get JWT secret for verification
+            jwt_secret = self.settings.jwt_secret or self.settings.supabase_jwt_secret
+            if not jwt_secret:
+                logger.error("JWT secret not configured - cannot validate tokens")
+                return None
+
             try:
-                # Decode token without verification (development only)
-                decoded_token = jwt.decode(token, options={"verify_signature": False})
-                
+                # Decode token WITH signature verification (SECURITY FIX)
+                decoded_token = jwt.decode(
+                    token,
+                    jwt_secret,
+                    algorithms=["HS256"],  # Explicitly specify allowed algorithms
+                    options={
+                        "verify_signature": True,
+                        "verify_exp": True,
+                        "verify_iat": True,
+                        "verify_aud": False,  # Can be enabled if audience is configured
+                        "require": ["sub", "exp", "iat"]  # Require essential claims
+                    }
+                )
+
                 # Extract user information
                 user_id = decoded_token.get("sub")
                 email = decoded_token.get("email")
                 role = decoded_token.get("role", "authenticated")
-                
-                if user_id and email:
-                    return {
-                        "user_id": user_id,
-                        "email": email,
-                        "role": role,
-                        "authenticated": True,
-                        "token_exp": decoded_token.get("exp"),
-                        "token_iat": decoded_token.get("iat")
-                    }
+
+                # Validate essential claims
+                if not user_id:
+                    logger.warning("JWT token missing required 'sub' claim")
+                    return None
+
+                # Additional security: Check token age (optional)
+                iat = decoded_token.get("iat")
+                if iat:
+                    current_time = datetime.now(timezone.utc).timestamp()
+                    # Reject tokens older than 24 hours even if not expired
+                    if current_time - iat > 86400:  # 24 hours
+                        logger.warning("JWT token is older than maximum allowed age")
+                        return None
+
+                return {
+                    "user_id": user_id,
+                    "email": email or f"user-{user_id}@system.local",
+                    "role": role,
+                    "authenticated": True,
+                    "token_exp": decoded_token.get("exp"),
+                    "token_iat": decoded_token.get("iat"),
+                    "auth_method": "jwt"
+                }
+
+            except jwt.ExpiredSignatureError:
+                logger.warning("JWT token has expired")
+                return None
+            except jwt.InvalidSignatureError:
+                logger.warning("JWT token has invalid signature")
+                return None
             except jwt.InvalidTokenError as e:
                 logger.warning(f"Invalid JWT token: {e}")
                 return None
-                
+            except jwt.MissingRequiredClaimError as e:
+                logger.warning(f"JWT token missing required claim: {e}")
+                return None
+
         except Exception as e:
             logger.error(f"Token validation error: {e}")
             return None
-        
+
         return None
     
     async def dispatch(self, request: Request, call_next: Callable) -> Response:

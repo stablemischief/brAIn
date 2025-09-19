@@ -31,6 +31,7 @@ from api.config import router as config_router
 from api.websocket_endpoints import realtime_router as websocket_router
 from middleware.auth_middleware import AuthenticationMiddleware
 from middleware.rate_limiting import RateLimitingMiddleware, IPWhitelistMiddleware
+from middleware.security_middleware import SecurityMiddleware
 from utils.error_handlers import setup_error_handlers
 from database.connection import initialize_database, cleanup_database
 
@@ -91,13 +92,24 @@ def create_application() -> FastAPI:
         lifespan=lifespan
     )
     
-    # CORS Configuration
+    # CORS Configuration - Security Hardened
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],  # Explicit methods only
+        allow_headers=[
+            "Accept",
+            "Accept-Language",
+            "Content-Language",
+            "Content-Type",
+            "Authorization",
+            "X-Requested-With",
+            "X-API-Key",
+            "Cache-Control"
+        ],  # Explicit headers only - no wildcards
+        expose_headers=["X-Total-Count", "X-User-ID", "X-User-Email"],  # Safe response headers
+        max_age=86400,  # Cache preflight responses for 24 hours
     )
     
     # Trusted Host Middleware
@@ -112,7 +124,10 @@ def create_application() -> FastAPI:
         secret_key=settings.secret_key,
         max_age=settings.session_max_age
     )
-    
+
+    # Security Middleware (MUST be before authentication)
+    app.add_middleware(SecurityMiddleware)
+
     # Authentication Middleware
     app.add_middleware(AuthenticationMiddleware)
     

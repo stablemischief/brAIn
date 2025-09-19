@@ -9,6 +9,8 @@ and escalation procedures.
 import asyncio
 import logging
 import json
+import re
+import shlex
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Callable, Awaitable
 from dataclasses import dataclass, field
@@ -19,6 +21,150 @@ import os
 
 from .anomaly_detection import AnomalyResult, AnomalySeverity
 from .predictive import FailurePrediction, PredictionConfidence
+
+
+class CommandValidator:
+    """
+    Secure command validation and sanitization utilities.
+    Prevents command injection attacks through input validation.
+    """
+
+    # Allowed commands for different operation types
+    ALLOWED_COMMANDS = {
+        'service_management': {
+            'systemctl': ['start', 'stop', 'restart', 'reload', 'enable', 'disable', 'is-active', 'status'],
+        },
+        'container_management': {
+            'docker': ['update', 'restart', 'stop', 'start', 'ps', 'inspect'],
+        },
+        'system_monitoring': {
+            'top': ['-bn1'],
+            'free': [],
+            'df': ['/'],
+            'ps': ['aux'],
+        },
+        'cache_management': {
+            'redis-cli': ['-h', 'FLUSHALL'],
+        },
+        'log_management': {
+            'logrotate': ['-f'],
+        },
+        'process_management': {
+            'pgrep': ['-f'],
+            'kill': ['-TERM', '-KILL', '-HUP'],
+        },
+        'disk_management': {
+            'find': ['-type', 'f', '-mtime', '-delete'],
+            'apt-get': ['clean'],
+            'yum': ['clean', 'all'],
+        }
+    }
+
+    # Dangerous characters and patterns
+    DANGEROUS_PATTERNS = [
+        r'[;&|`$()]',  # Shell metacharacters
+        r'\.\./',      # Directory traversal
+        r'/etc/',      # System directories
+        r'/proc/',     # Process filesystem
+        r'rm\s+-rf',   # Destructive commands
+        r'dd\s+if=',   # Disk operations
+        r'mkfs\.',     # Filesystem creation
+        r'fdisk',      # Disk partitioning
+        r'mount',      # Mount operations
+        r'umount',     # Unmount operations
+    ]
+
+    @staticmethod
+    def validate_service_name(service_name: str) -> bool:
+        """Validate service name for systemctl operations."""
+        if not service_name or len(service_name) > 50:
+            return False
+
+        # Only allow alphanumeric, hyphens, underscores, and dots
+        if not re.match(r'^[a-zA-Z0-9._-]+$', service_name):
+            return False
+
+        # Prevent path traversal
+        if '..' in service_name or '/' in service_name:
+            return False
+
+        return True
+
+    @staticmethod
+    def validate_container_name(container_name: str) -> bool:
+        """Validate Docker container name."""
+        if not container_name or len(container_name) > 100:
+            return False
+
+        # Docker container names: alphanumeric, hyphens, underscores
+        if not re.match(r'^[a-zA-Z0-9._-]+$', container_name):
+            return False
+
+        return True
+
+    @staticmethod
+    def validate_file_path(file_path: str) -> bool:
+        """Validate file paths to prevent directory traversal."""
+        if not file_path or len(file_path) > 500:
+            return False
+
+        # Prevent directory traversal
+        if '..' in file_path:
+            return False
+
+        # Only allow specific safe directories
+        safe_prefixes = ['/tmp/', '/var/log/', '/opt/', '/home/', '/usr/local/']
+        if not any(file_path.startswith(prefix) for prefix in safe_prefixes):
+            return False
+
+        return True
+
+    @staticmethod
+    def validate_process_pattern(pattern: str) -> bool:
+        """Validate process search patterns."""
+        if not pattern or len(pattern) > 100:
+            return False
+
+        # Check for dangerous patterns
+        for dangerous in CommandValidator.DANGEROUS_PATTERNS:
+            if re.search(dangerous, pattern, re.IGNORECASE):
+                return False
+
+        return True
+
+    @staticmethod
+    def validate_signal(signal: str) -> bool:
+        """Validate process signals."""
+        valid_signals = ['TERM', 'HUP', 'INT', 'QUIT', 'KILL', 'USR1', 'USR2']
+        return signal in valid_signals
+
+    @staticmethod
+    def sanitize_command_args(args: List[str]) -> List[str]:
+        """Sanitize command arguments."""
+        sanitized = []
+        for arg in args:
+            # Remove dangerous characters
+            sanitized_arg = re.sub(r'[;&|`$()]', '', str(arg))
+            # Limit length
+            if len(sanitized_arg) > 200:
+                sanitized_arg = sanitized_arg[:200]
+            sanitized.append(sanitized_arg)
+        return sanitized
+
+    @staticmethod
+    def build_safe_command(base_cmd: str, args: List[str]) -> List[str]:
+        """Build a safe command list for subprocess execution."""
+        # Validate base command
+        if base_cmd not in ['systemctl', 'docker', 'redis-cli', 'logrotate', 'pgrep', 'kill', 'find', 'apt-get', 'yum', 'chmod']:
+            raise ValueError(f"Command not allowed: {base_cmd}")
+
+        # Sanitize arguments
+        safe_args = CommandValidator.sanitize_command_args(args)
+
+        # Build command list (no shell injection possible)
+        cmd_list = [base_cmd] + safe_args
+
+        return cmd_list
 
 
 class RecoveryAction(Enum):
@@ -255,16 +401,25 @@ class RecoveryExecutor:
     ) -> 'CommandResult':
         """Restart a system service"""
         service_name = action_def.parameters.get("service_name", "unknown")
-        
+
+        # Validate service name
+        if not CommandValidator.validate_service_name(service_name):
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error=f"Invalid service name: {service_name}"
+            )
+
         try:
-            # Use systemctl for service management
-            command = f"sudo systemctl restart {service_name}"
-            result = await self._run_command(command, action_def.timeout_seconds)
-            
+            # Use systemctl for service management - build safe command
+            restart_cmd = CommandValidator.build_safe_command('systemctl', ['restart', service_name])
+            result = await self._run_safe_command(restart_cmd, action_def.timeout_seconds)
+
             # Verify service is running
             await asyncio.sleep(5)  # Wait for service to start
-            check_result = await self._run_command(f"sudo systemctl is-active {service_name}", 10)
-            
+            check_cmd = CommandValidator.build_safe_command('systemctl', ['is-active', service_name])
+            check_result = await self._run_safe_command(check_cmd, 10)
+
             if check_result.return_code == 0 and "active" in check_result.output:
                 return CommandResult(
                     result=RecoveryResult.SUCCESS,
@@ -277,7 +432,7 @@ class RecoveryExecutor:
                     output=result.output,
                     error=f"Service {service_name} failed to start: {check_result.output}"
                 )
-                
+
         except Exception as e:
             return CommandResult(
                 result=RecoveryResult.FAILED,
@@ -293,35 +448,67 @@ class RecoveryExecutor:
         """Scale up resources (Docker containers, processes, etc.)"""
         scale_target = action_def.parameters.get("target", "unknown")
         scale_factor = action_def.parameters.get("factor", 1)
-        
+
         try:
             if "docker" in scale_target.lower():
                 # Docker container scaling
                 container_name = action_def.parameters.get("container_name")
-                if container_name:
-                    command = f"docker update --cpus='{scale_factor}' --memory='{scale_factor}g' {container_name}"
-                    result = await self._run_command(command, action_def.timeout_seconds)
-                    
-                    if result.return_code == 0:
-                        return CommandResult(
-                            result=RecoveryResult.SUCCESS,
-                            output=f"Scaled up {container_name} by factor {scale_factor}",
-                            error=""
-                        )
-                    else:
-                        return CommandResult(
-                            result=RecoveryResult.FAILED,
-                            output=result.output,
-                            error=result.error
-                        )
-            
-            # Default: log the scale up action
+                if not container_name:
+                    return CommandResult(
+                        result=RecoveryResult.FAILED,
+                        output="",
+                        error="Container name not specified for Docker scaling"
+                    )
+
+                # Validate container name
+                if not CommandValidator.validate_container_name(container_name):
+                    return CommandResult(
+                        result=RecoveryResult.FAILED,
+                        output="",
+                        error=f"Invalid container name: {container_name}"
+                    )
+
+                # Validate scale factor
+                try:
+                    scale_value = float(scale_factor)
+                    if scale_value <= 0 or scale_value > 16:  # Reasonable limits
+                        raise ValueError("Scale factor out of range")
+                except ValueError:
+                    return CommandResult(
+                        result=RecoveryResult.FAILED,
+                        output="",
+                        error=f"Invalid scale factor: {scale_factor}"
+                    )
+
+                # Build safe Docker command
+                docker_cmd = CommandValidator.build_safe_command('docker', [
+                    'update',
+                    f'--cpus={scale_value}',
+                    f'--memory={scale_value}g',
+                    container_name
+                ])
+                result = await self._run_safe_command(docker_cmd, action_def.timeout_seconds)
+
+                if result.return_code == 0:
+                    return CommandResult(
+                        result=RecoveryResult.SUCCESS,
+                        output=f"Scaled up {container_name} by factor {scale_factor}",
+                        error=""
+                    )
+                else:
+                    return CommandResult(
+                        result=RecoveryResult.FAILED,
+                        output=result.output,
+                        error=result.error
+                    )
+
+            # Default: log the scale up action (no actual operation for safety)
             return CommandResult(
                 result=RecoveryResult.SUCCESS,
-                output=f"Scale up action logged for {scale_target}",
+                output=f"Scale up action logged for {scale_target} (no operation performed for safety)",
                 error=""
             )
-            
+
         except Exception as e:
             return CommandResult(
                 result=RecoveryResult.FAILED,
@@ -352,20 +539,39 @@ class RecoveryExecutor:
     ) -> 'CommandResult':
         """Clear various types of caches"""
         cache_type = action_def.parameters.get("cache_type", "system")
-        
+
         try:
             if cache_type == "redis":
                 redis_host = action_def.parameters.get("redis_host", "localhost")
-                command = f"redis-cli -h {redis_host} FLUSHALL"
-                result = await self._run_command(command, action_def.timeout_seconds)
+
+                # Validate redis host
+                if not re.match(r'^[a-zA-Z0-9.-]+$', redis_host) or len(redis_host) > 100:
+                    return CommandResult(
+                        result=RecoveryResult.FAILED,
+                        output="",
+                        error=f"Invalid Redis host: {redis_host}"
+                    )
+
+                # Build safe Redis command
+                redis_cmd = CommandValidator.build_safe_command('redis-cli', ['-h', redis_host, 'FLUSHALL'])
+                result = await self._run_safe_command(redis_cmd, action_def.timeout_seconds)
+
             elif cache_type == "system":
-                command = "sync && echo 3 > /proc/sys/vm/drop_caches"
-                result = await self._run_command(f"sudo {command}", action_def.timeout_seconds)
+                # System cache clearing - too dangerous, just log
+                self.logger.warning("System cache clearing requested - skipped for security")
+                return CommandResult(
+                    result=RecoveryResult.SUCCESS,
+                    output="System cache clearing skipped for security reasons",
+                    error=""
+                )
             else:
-                # Custom cache clearing
-                command = action_def.command or f"echo 'Clearing {cache_type} cache'"
-                result = await self._run_command(command, action_def.timeout_seconds)
-            
+                # Custom cache clearing - not allowed for security
+                return CommandResult(
+                    result=RecoveryResult.FAILED,
+                    output="",
+                    error=f"Custom cache clearing not allowed for security: {cache_type}"
+                )
+
             if result.return_code == 0:
                 return CommandResult(
                     result=RecoveryResult.SUCCESS,
@@ -378,7 +584,7 @@ class RecoveryExecutor:
                     output=result.output,
                     error=result.error
                 )
-                
+
         except Exception as e:
             return CommandResult(
                 result=RecoveryResult.FAILED,
@@ -393,12 +599,16 @@ class RecoveryExecutor:
     ) -> 'CommandResult':
         """Rotate log files to free up disk space"""
         log_path = action_def.parameters.get("log_path", "/var/log")
-        
+
         try:
-            # Force log rotation
-            command = f"sudo logrotate -f /etc/logrotate.conf"
-            result = await self._run_command(command, action_def.timeout_seconds)
-            
+            # Validate log path (not actually used in current implementation for security)
+            if not CommandValidator.validate_file_path(log_path):
+                self.logger.warning(f"Invalid log path provided: {log_path}")
+
+            # Force log rotation - use standard config file only
+            logrotate_cmd = CommandValidator.build_safe_command('logrotate', ['-f', '/etc/logrotate.conf'])
+            result = await self._run_safe_command(logrotate_cmd, action_def.timeout_seconds)
+
             if result.return_code == 0:
                 return CommandResult(
                     result=RecoveryResult.SUCCESS,
@@ -411,7 +621,7 @@ class RecoveryExecutor:
                     output=result.output,
                     error=result.error
                 )
-                
+
         except Exception as e:
             return CommandResult(
                 result=RecoveryResult.FAILED,
@@ -427,36 +637,68 @@ class RecoveryExecutor:
         """Kill problematic processes"""
         process_pattern = action_def.parameters.get("process_pattern")
         signal = action_def.parameters.get("signal", "TERM")
-        
+
+        if not process_pattern:
+            return CommandResult(
+                result=RecoveryResult.SKIPPED,
+                output="No process pattern specified",
+                error=""
+            )
+
+        # Validate process pattern
+        if not CommandValidator.validate_process_pattern(process_pattern):
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error=f"Invalid process pattern: {process_pattern}"
+            )
+
+        # Validate signal
+        if not CommandValidator.validate_signal(signal):
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error=f"Invalid signal: {signal}"
+            )
+
         try:
-            if process_pattern:
-                # Find processes matching pattern
-                command = f"pgrep -f '{process_pattern}'"
-                result = await self._run_command(command, 10)
-                
-                if result.return_code == 0 and result.output.strip():
-                    pids = result.output.strip().split('\n')
-                    kill_command = f"sudo kill -{signal} {' '.join(pids)}"
-                    kill_result = await self._run_command(kill_command, action_def.timeout_seconds)
-                    
-                    return CommandResult(
-                        result=RecoveryResult.SUCCESS if kill_result.return_code == 0 else RecoveryResult.PARTIAL_SUCCESS,
-                        output=f"Killed {len(pids)} processes matching '{process_pattern}'",
-                        error=kill_result.error
-                    )
-                else:
+            # Find processes matching pattern - build safe command
+            pgrep_cmd = CommandValidator.build_safe_command('pgrep', ['-f', process_pattern])
+            result = await self._run_safe_command(pgrep_cmd, 10)
+
+            if result.return_code == 0 and result.output.strip():
+                pids = result.output.strip().split('\n')
+
+                # Validate PIDs are numeric
+                valid_pids = []
+                for pid in pids:
+                    if pid.isdigit() and int(pid) > 1:  # Don't allow killing PID 1 (init)
+                        valid_pids.append(pid)
+
+                if not valid_pids:
                     return CommandResult(
                         result=RecoveryResult.SUCCESS,
-                        output=f"No processes found matching '{process_pattern}'",
+                        output="No valid processes found to kill",
                         error=""
                     )
+
+                # Build kill command safely
+                kill_args = [f'-{signal}'] + valid_pids
+                kill_cmd = CommandValidator.build_safe_command('kill', kill_args)
+                kill_result = await self._run_safe_command(kill_cmd, action_def.timeout_seconds)
+
+                return CommandResult(
+                    result=RecoveryResult.SUCCESS if kill_result.return_code == 0 else RecoveryResult.PARTIAL_SUCCESS,
+                    output=f"Killed {len(valid_pids)} processes matching '{process_pattern}'",
+                    error=kill_result.error
+                )
             else:
                 return CommandResult(
-                    result=RecoveryResult.SKIPPED,
-                    output="No process pattern specified",
+                    result=RecoveryResult.SUCCESS,
+                    output=f"No processes found matching '{process_pattern}'",
                     error=""
                 )
-                
+
         except Exception as e:
             return CommandResult(
                 result=RecoveryResult.FAILED,
@@ -472,24 +714,64 @@ class RecoveryExecutor:
         """Clean up disk space"""
         target_path = action_def.parameters.get("target_path", "/tmp")
         max_age_days = action_def.parameters.get("max_age_days", 7)
-        
+
+        # Validate target path
+        if not CommandValidator.validate_file_path(target_path):
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error=f"Invalid target path: {target_path}"
+            )
+
+        # Validate max_age_days
         try:
-            # Clean old files
-            command = f"find {target_path} -type f -mtime +{max_age_days} -delete"
-            result = await self._run_command(command, action_def.timeout_seconds)
-            
+            age_days = int(max_age_days)
+            if age_days < 1 or age_days > 365:
+                raise ValueError("Age out of range")
+        except ValueError:
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error=f"Invalid max_age_days: {max_age_days}"
+            )
+
+        try:
+            # Clean old files - build safe find command
+            find_cmd = CommandValidator.build_safe_command('find', [
+                target_path,
+                '-type', 'f',
+                '-mtime', f'+{age_days}',
+                '-delete'
+            ])
+            result = await self._run_safe_command(find_cmd, action_def.timeout_seconds)
+
+            cleanup_messages = []
+            if result.return_code == 0:
+                cleanup_messages.append(f"Cleaned old files from {target_path}")
+            else:
+                cleanup_messages.append(f"File cleanup had issues: {result.error}")
+
             # Clean package cache if applicable
-            if os.path.exists("/usr/bin/apt-get"):
-                await self._run_command("sudo apt-get clean", 60)
-            elif os.path.exists("/usr/bin/yum"):
-                await self._run_command("sudo yum clean all", 60)
-            
+            try:
+                if os.path.exists("/usr/bin/apt-get"):
+                    apt_cmd = CommandValidator.build_safe_command('apt-get', ['clean'])
+                    apt_result = await self._run_safe_command(apt_cmd, 60)
+                    if apt_result.return_code == 0:
+                        cleanup_messages.append("APT cache cleaned")
+                elif os.path.exists("/usr/bin/yum"):
+                    yum_cmd = CommandValidator.build_safe_command('yum', ['clean', 'all'])
+                    yum_result = await self._run_safe_command(yum_cmd, 60)
+                    if yum_result.return_code == 0:
+                        cleanup_messages.append("YUM cache cleaned")
+            except Exception as cache_e:
+                cleanup_messages.append(f"Package cache cleanup failed: {cache_e}")
+
             return CommandResult(
                 result=RecoveryResult.SUCCESS,
-                output=f"Disk cleanup completed for {target_path}",
+                output="; ".join(cleanup_messages),
                 error=""
             )
-            
+
         except Exception as e:
             return CommandResult(
                 result=RecoveryResult.FAILED,
@@ -504,30 +786,78 @@ class RecoveryExecutor:
     ) -> 'CommandResult':
         """Execute a custom recovery script"""
         script_path = action_def.script_path
-        
-        if not script_path or not os.path.exists(script_path):
+
+        if not script_path:
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error="No script path specified"
+            )
+
+        # Validate script path
+        if not CommandValidator.validate_file_path(script_path):
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error=f"Invalid script path: {script_path}"
+            )
+
+        if not os.path.exists(script_path):
             return CommandResult(
                 result=RecoveryResult.FAILED,
                 output="",
                 error=f"Script not found: {script_path}"
             )
-        
+
+        # Additional security check - only allow scripts in specific directories
+        allowed_script_dirs = ['/opt/recovery/', '/usr/local/recovery/', '/home/recovery/']
+        if not any(script_path.startswith(allowed_dir) for allowed_dir in allowed_script_dirs):
+            return CommandResult(
+                result=RecoveryResult.FAILED,
+                output="",
+                error=f"Script not in allowed directory: {script_path}"
+            )
+
         try:
-            # Make script executable
-            await self._run_command(f"chmod +x {script_path}", 10)
-            
+            # Make script executable - build safe command
+            chmod_cmd = CommandValidator.build_safe_command('chmod', ['+x', script_path])
+            chmod_result = await self._run_safe_command(chmod_cmd, 10)
+
+            if chmod_result.return_code != 0:
+                return CommandResult(
+                    result=RecoveryResult.FAILED,
+                    output="",
+                    error=f"Failed to make script executable: {chmod_result.error}"
+                )
+
+            # Validate and sanitize parameters
+            script_args = []
+            for key, value in action_def.parameters.items():
+                # Validate parameter key
+                if not re.match(r'^[a-zA-Z_][a-zA-Z0-9_]{0,31}$', key):
+                    return CommandResult(
+                        result=RecoveryResult.FAILED,
+                        output="",
+                        error=f"Invalid parameter key: {key}"
+                    )
+
+                # Sanitize parameter value
+                safe_value = re.sub(r'[;&|`$()]', '', str(value))
+                if len(safe_value) > 200:
+                    safe_value = safe_value[:200]
+
+                script_args.append(f"{key}={safe_value}")
+
             # Execute script with parameters
-            params = " ".join([f"{k}={v}" for k, v in action_def.parameters.items()])
-            command = f"{script_path} {params}"
-            
-            result = await self._run_command(command, action_def.timeout_seconds)
-            
+            script_cmd = [script_path] + script_args
+            result = await self._run_safe_command(script_cmd, action_def.timeout_seconds)
+
             return CommandResult(
                 result=RecoveryResult.SUCCESS if result.return_code == 0 else RecoveryResult.FAILED,
                 output=result.output,
                 error=result.error
             )
-            
+
         except Exception as e:
             return CommandResult(
                 result=RecoveryResult.FAILED,
@@ -540,55 +870,99 @@ class RecoveryExecutor:
         action_def: RecoveryActionDef,
         context: Optional[Dict[str, Any]]
     ) -> 'CommandResult':
-        """Execute a generic command"""
+        """Execute a generic command - DEPRECATED: Use specific action methods instead"""
         command = action_def.command
-        
+
         if not command:
             return CommandResult(
                 result=RecoveryResult.SKIPPED,
                 output="",
                 error="No command specified"
             )
-        
-        try:
-            result = await self._run_command(command, action_def.timeout_seconds)
-            
-            return CommandResult(
-                result=RecoveryResult.SUCCESS if result.return_code == 0 else RecoveryResult.FAILED,
-                output=result.output,
-                error=result.error
-            )
-            
-        except Exception as e:
-            return CommandResult(
-                result=RecoveryResult.FAILED,
-                output="",
-                error=f"Failed to execute command: {str(e)}"
-            )
+
+        # Generic command execution is disabled for security
+        # All commands must go through specific action methods with validation
+        return CommandResult(
+            result=RecoveryResult.FAILED,
+            output="",
+            error="Generic command execution disabled for security. Use specific action methods."
+        )
     
     async def _run_command(self, command: str, timeout: int) -> 'ShellResult':
-        """Run a shell command with timeout"""
+        """Run a shell command with timeout - DEPRECATED: Use _run_safe_command instead"""
+        # This method is deprecated and should only be used for system monitoring commands
+        # All other operations should use _run_safe_command
+        self.logger.warning(f"Using deprecated _run_command: {command[:50]}...")
+
+        # Check if this is a safe monitoring command
+        safe_monitoring_commands = [
+            'top -bn1', 'free', 'df /', 'systemctl is-active'
+        ]
+
+        command_safe = any(command.startswith(safe_cmd) for safe_cmd in safe_monitoring_commands)
+
+        if not command_safe:
+            raise ValueError(f"Unsafe command blocked: {command}")
+
         try:
-            process = await asyncio.create_subprocess_shell(
-                command,
+            # Split command safely for monitoring operations only
+            cmd_parts = shlex.split(command)
+
+            process = await asyncio.create_subprocess_exec(
+                *cmd_parts,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE
             )
-            
+
             stdout, stderr = await asyncio.wait_for(
                 process.communicate(),
                 timeout=timeout
             )
-            
+
             return ShellResult(
                 return_code=process.returncode,
                 output=stdout.decode('utf-8'),
                 error=stderr.decode('utf-8')
             )
-            
+
         except asyncio.TimeoutError:
+            if 'process' in locals():
+                process.kill()
+                await process.wait()
+            raise
+        except Exception as e:
+            self.logger.error(f"Command execution failed: {e}")
+            raise
+
+    async def _run_safe_command(self, cmd_list: List[str], timeout: int) -> 'ShellResult':
+        """Run a command safely using argument list (no shell injection possible)"""
+        try:
+            self.logger.info(f"Executing safe command: {' '.join(cmd_list)}")
+
+            process = await asyncio.create_subprocess_exec(
+                *cmd_list,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+
+            stdout, stderr = await asyncio.wait_for(
+                process.communicate(),
+                timeout=timeout
+            )
+
+            return ShellResult(
+                return_code=process.returncode,
+                output=stdout.decode('utf-8', errors='replace'),
+                error=stderr.decode('utf-8', errors='replace')
+            )
+
+        except asyncio.TimeoutError:
+            self.logger.warning(f"Command timed out: {' '.join(cmd_list)}")
             process.kill()
             await process.wait()
+            raise
+        except Exception as e:
+            self.logger.error(f"Safe command execution failed: {e}")
             raise
     
     async def _collect_metrics(self, action_def: RecoveryActionDef) -> Dict[str, float]:
@@ -670,7 +1044,13 @@ class RecoveryExecutor:
     async def _is_service_running(self, service_name: str) -> bool:
         """Check if a service is running"""
         try:
-            result = await self._run_command(f"systemctl is-active {service_name}", 10)
+            # Validate service name
+            if not CommandValidator.validate_service_name(service_name):
+                return False
+
+            # Build safe systemctl command
+            systemctl_cmd = CommandValidator.build_safe_command('systemctl', ['is-active', service_name])
+            result = await self._run_safe_command(systemctl_cmd, 10)
             return result.return_code == 0 and "active" in result.output
         except Exception:
             return False
