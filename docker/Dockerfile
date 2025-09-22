@@ -32,7 +32,7 @@ ENV PATH="$POETRY_HOME/bin:$PATH"
 WORKDIR /app
 
 # Copy dependency files
-COPY config/pyproject.toml config/poetry.lock* ./
+COPY backend/pyproject.toml backend/poetry.lock* ./
 
 # Install Python dependencies
 RUN poetry install --no-dev --no-root && \
@@ -45,7 +45,7 @@ FROM node:18-alpine as node-builder
 WORKDIR /app
 
 # Copy package files
-COPY config/package.json config/package-lock.json* ./
+COPY frontend/package.json frontend/package-lock.json* ./
 
 # Install dependencies
 RUN npm ci --only=production
@@ -100,9 +100,6 @@ COPY --from=node-builder /app/frontend/build ./frontend/build
 
 # Copy application code
 COPY backend ./backend
-COPY src ./src
-COPY scripts ./scripts
-COPY config ./config
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create necessary directories
@@ -110,12 +107,12 @@ RUN mkdir -p /app/logs /app/data /app/tmp && \
     chown -R appuser:appuser /app
 
 # Copy and set permissions for health check script
-COPY scripts/health-check.py ./scripts/
-RUN chmod +x ./scripts/health-check.py
+COPY backend/scripts/health-check.py ./backend/scripts/
+RUN chmod +x ./backend/scripts/health-check.py
 
 # Health check configuration
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD python /app/scripts/health-check.py || exit 1
+    CMD python /app/backend/scripts/health-check.py || exit 1
 
 # Expose ports
 EXPOSE 8000 3000 8080
@@ -161,5 +158,5 @@ ENV ENVIRONMENT=development \
 # Switch back to appuser
 USER appuser
 
-# Development command
+# Development command (run from /app directory, backend.main refers to backend/main.py)
 CMD ["python", "-m", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

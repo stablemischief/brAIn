@@ -15,10 +15,9 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./frontend:/app/frontend
-      - ./src:/app/src
-      - ./scripts:/app/scripts
-      - ./config:/app/config
-      - ./tests:/app/tests
+      - ./docker:/app/docker
+      - ./deployment:/app/deployment
+      - ./docs:/app/docs
       - ./logs:/app/logs
       - ./data:/app/data
       - ./.env:/app/.env
