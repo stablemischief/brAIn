@@ -1,0 +1,436 @@
+# brAIn v2.0 - Comprehensive .gitignore for Security
+
+# ================================
+# SECURITY & SECRETS
+# ================================
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.staging
+.env.production
+.env.test
+.envrc
+
+# Secret files
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+
+# Configuration files with secrets
+config/secrets.yaml
+config/secrets.json
+config/production.yaml
+config/production.json
+*config*secret*
+*secret*config*
+
+# API keys and tokens
+*.apikey
+*.token
+api_keys.txt
+tokens.txt
+
+# Database credentials and connection strings
+database.url
+db_credentials.*
+*.sqlite
+*.sqlite3
+*.db
+
+# SSL certificates
+ssl/
+certs/
+certificates/
+
+# JWT keys
+jwt/
+*.jwt
+jwt_secret*
+
+# Google OAuth credentials
+client_secret*.json
+service-account*.json
+google-credentials*.json
+oauth-credentials*.json
+
+# ================================
+# DEVELOPMENT ENVIRONMENT
+# ================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pyvenv.cfg
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Package files
+*.tgz
+*.tar.gz
+
+# ================================
+# DATA & PROCESSING
+# ================================
+
+# Uploaded files
+uploads/
+documents/
+files/
+temp_files/
+processed/
+raw_data/
+extracted/
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Backup files
+*.backup
+*.bak
+backups/
+dumps/
+
+# CSV and data files
+*.csv
+*.xlsx
+*.json
+large_data/
+data_exports/
+
+# Vector embeddings
+embeddings/
+vectors/
+*.npy
+*.npz
+
+# ================================
+# LOGS & MONITORING
+# ================================
+
+# Log files
+logs/
+*.log
+*.log.*
+log_*
+application.log
+error.log
+debug.log
+access.log
+
+# Monitoring data
+metrics/
+traces/
+spans/
+monitoring_data/
+
+# Crash dumps
+*.dmp
+core.*
+
+# ================================
+# FRONTEND BUILD
+# ================================
+
+# React build
+frontend/build/
+frontend/dist/
+frontend/.next/
+frontend/out/
+
+# Static files
+static/
+public/build/
+
+# CSS and JS builds
+*.css.map
+*.js.map
+bundle.*
+
+# ================================
+# DOCKER & DEPLOYMENT
+# ================================
+
+# Docker
+.dockerignore.bak
+docker-compose.override.yml
+docker-compose.local.yml
+docker-compose.prod.yml.secret
+
+# Kubernetes
+k8s-secrets/
+*.kubeconfig
+
+# Deployment
+deployment/production/
+deployment/staging/
+deployment/secrets/
+
+# ================================
+# TESTING
+# ================================
+
+# Test reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Test data
+test_data/
+test_files/
+test_uploads/
+
+# ================================
+# IDE & EDITORS
+# ================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ================================
+# OPERATING SYSTEM
+# ================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ================================
+# CLOUD & SERVICES
+# ================================
+
+# AWS
+.aws/
+*.aws
+aws-credentials
+
+# Google Cloud
+.gcloud/
+gcloud-credentials.json
+service-account.json
+
+# Azure
+.azure/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+
+# ================================
+# TEMPORARY & CACHE
+# ================================
+
+# Cache directories
+.cache/
+cache/
+.tmp/
+tmp/
+temp/
+
+# Session files
+.session
+sessions/
+
+# PID files
+*.pid
+
+# Lock files
+*.lock
+.lock
+
+# ================================
+# PROJECT SPECIFIC
+# ================================
+
+# brAIn specific
+brain_data/
+processed_documents/
+knowledge_graph/
+embeddings_cache/
+
+# Development databases
+dev.db
+development.sqlite
+test.sqlite
+
+# Local configuration overrides
+local_config.*
+dev_config.*
+
+# Export files
+exports/
+downloaded/
+
+# User uploads
+user_uploads/
+user_data/
+
+# AI model files
+models/
+*.model
+*.pkl
+*.joblib
+
+# Performance profiling
+*.prof
+profiling/
+
+# ================================
+# SECURITY SCANNING EXCLUSIONS
+# ================================
+
+# Security scan results (but track the configurations)
+security_scan_results/
+vulnerability_reports/
+*.sarif
+
+# Dependency check results
+dependency-check-report.*
+
+# ================================
+# KEEP THESE FILES (EXPLICITLY)
+# ================================
+
+# Keep example configs but not real ones
+!config/example.env
+!config/example_config.yaml
+!docker-compose.example.yml
+!deployment/example/
+
+# Keep security configurations
+!security/
+!.github/
+!tests/
+
+# Keep documentation
+!docs/
+!README.md
+!SECURITY.md
+!CHANGELOG.md

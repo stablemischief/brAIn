@@ -8,7 +8,7 @@ import secrets
 from functools import lru_cache
 from typing import List, Optional, Literal, Any, Dict
 
-from pydantic import Field, validator, AnyUrl
+from pydantic import Field, field_validator, model_validator, AnyUrl
 from pydantic_core import Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -191,53 +191,59 @@ class Settings(BaseSettings):
     # VALIDATORS
     # ========================================
     
-    @validator("environment")
+    @field_validator("environment")
+    @classmethod
     def validate_environment(cls, v):
         """Ensure environment is valid."""
         valid_envs = ["development", "staging", "production"]
         if v not in valid_envs:
             raise ValueError(f"Environment must be one of: {valid_envs}")
         return v
-    
-    @validator("openai_temperature")
+
+    @field_validator("openai_temperature")
+    @classmethod
     def validate_temperature(cls, v):
         """Ensure temperature is between 0 and 2."""
         if not 0 <= v <= 2:
             raise ValueError("Temperature must be between 0 and 2")
         return v
-    
-    @validator("similarity_threshold")
+
+    @field_validator("similarity_threshold")
+    @classmethod
     def validate_similarity_threshold(cls, v):
         """Ensure similarity threshold is between 0 and 1."""
         if not 0 <= v <= 1:
             raise ValueError("Similarity threshold must be between 0 and 1")
         return v
-    
-    @validator("cost_alert_threshold")
+
+    @field_validator("cost_alert_threshold")
+    @classmethod
     def validate_cost_alert_threshold(cls, v):
         """Ensure cost alert threshold is between 0 and 1."""
         if not 0 <= v <= 1:
             raise ValueError("Cost alert threshold must be between 0 and 1")
         return v
-    
-    @root_validator
+
+    @model_validator(mode='before')
+    @classmethod
     def validate_production_requirements(cls, values):
         """Validate production-specific requirements."""
-        environment = values.get("environment")
-        
-        if environment == "production":
-            required_fields = [
-                "database_url",
-                "supabase_url",
-                "supabase_service_key",
-                "openai_api_key",
-                "secret_key"
-            ]
-            
-            for field in required_fields:
-                if not values.get(field):
-                    raise ValueError(f"{field} is required in production environment")
-        
+        if isinstance(values, dict):
+            environment = values.get("environment")
+
+            if environment == "production":
+                required_fields = [
+                    "database_url",
+                    "supabase_url",
+                    "supabase_service_key",
+                    "openai_api_key",
+                    "secret_key"
+                ]
+
+                for field in required_fields:
+                    if not values.get(field):
+                        raise ValueError(f"{field} is required in production environment")
+
         return values
     
     # ========================================
