@@ -1,0 +1,82 @@
+# Prometheus Configuration for brAIn v2.0 Production Monitoring
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'brain-prod'
+    environment: 'production'
+
+# Alerting configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Rule files configuration
+rule_files:
+  - '/etc/prometheus/alerts/*.yml'
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+
+  # FastAPI application metrics
+  - job_name: 'brain-api'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['brain-app:8000']
+        labels:
+          service: 'brain-api'
+          component: 'backend'
+    scrape_interval: 10s
+
+  # PostgreSQL exporter
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+        labels:
+          service: 'postgres'
+          component: 'database'
+
+  # Redis exporter
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+        labels:
+          service: 'redis'
+          component: 'cache'
+
+  # Node exporter for host metrics
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          service: 'node-exporter'
+          component: 'infrastructure'
+
+  # Caddy metrics
+  - job_name: 'caddy'
+    static_configs:
+      - targets: ['caddy:2019']
+        labels:
+          service: 'caddy'
+          component: 'proxy'
+
+  # Container metrics via cAdvisor
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+        labels:
+          service: 'cadvisor'
+          component: 'containers'
+
+# Metric relabeling for cost tracking
+metric_relabel_configs:
+  - source_labels: [__name__]
+    regex: 'brain_llm_tokens_total|brain_processing_cost_total|brain_api_requests_total'
+    action: keep

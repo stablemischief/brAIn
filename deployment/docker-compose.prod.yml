@@ -1,0 +1,268 @@
+# Production Docker Compose Configuration for brAIn v2.0
+# Includes all services, monitoring, SSL, and production optimizations
+version: '3.8'
+
+services:
+  # ==================== Core Application ====================
+  brain-app:
+    build:
+      context: ..
+      dockerfile: deployment/production/Dockerfile
+      args:
+        - BUILD_ENV=production
+    image: brain-app:production
+    container_name: brain-app-prod
+    restart: always
+    ports:
+      - "127.0.0.1:8000:8000"  # Only expose to localhost for reverse proxy
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=info
+      - WORKERS=4
+    env_file:
+      - ./secrets/.env.production
+    volumes:
+      - ../data:/app/data:rw
+      - ../logs:/app/logs:rw
+      - ./secrets:/app/secrets:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
+  # ==================== Database ====================
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: brain-postgres-prod
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_NAME:-brain_prod}
+      - POSTGRES_USER=${DB_USER:-brain_user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_HOST_AUTH_METHOD=scram-sha-256
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+    env_file:
+      - ./secrets/.env.production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backup/postgres:/backup
+      - ./production/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "127.0.0.1:5432:5432"  # Only expose to localhost
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-brain_user} -d ${DB_NAME:-brain_prod}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+
+  # ==================== Cache ====================
+  redis:
+    image: redis:7-alpine
+    container_name: brain-redis-prod
+    restart: always
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    ports:
+      - "127.0.0.1:6379:6379"  # Only expose to localhost
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==================== Reverse Proxy & SSL ====================
+  caddy:
+    image: caddy:2-alpine
+    container_name: brain-caddy-prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"  # HTTP/3
+    volumes:
+      - ./ssl/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - ../frontend/dist:/srv/static:ro
+    depends_on:
+      - brain-app
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  # ==================== Monitoring Stack ====================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: brain-prometheus-prod
+    restart: always
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "127.0.0.1:9090:9090"
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: brain-grafana-prod
+    restart: always
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - GF_SERVER_ROOT_URL=https://${DOMAIN_NAME}/grafana
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    env_file:
+      - ./secrets/.env.production
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/datasources:/etc/grafana/provisioning/datasources:ro
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==================== Log Aggregation ====================
+  loki:
+    image: grafana/loki:latest
+    container_name: brain-loki-prod
+    restart: always
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "127.0.0.1:3100:3100"
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: brain-promtail-prod
+    restart: always
+    volumes:
+      - ../logs:/var/log/brain:ro
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+
+  # ==================== Backup Service ====================
+  postgres-backup:
+    image: postgres:16-alpine
+    container_name: brain-backup-prod
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - ./secrets/.env.production
+    volumes:
+      - ./backup:/backup
+      - ./backup/scripts:/scripts:ro
+    entrypoint: ["/scripts/backup-entrypoint.sh"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - brain-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+
+# ==================== Networks ====================
+networks:
+  brain-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+# ==================== Volumes ====================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  loki_data:
+    driver: local
