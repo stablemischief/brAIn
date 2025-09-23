@@ -2,14 +2,14 @@
 # Generated from pyproject.toml for environments without Poetry
 
 # Core FastAPI dependencies
-fastapi>=0.104.1
-uvicorn[standard]>=0.24.0
-websockets>=12.0
+fastapi>=0.104.1,<1.0.0
+uvicorn[standard]>=0.24.0,<1.0.0
+websockets>=12.0,<13.0.0
 starlette==0.27.0
 
 # Pydantic for data validation
 pydantic>=2.5.0,<3.0
-pydantic-ai>=0.0.13
+pydantic-ai>=0.0.13,<1.0.0
 pydantic-settings==2.1.0
 
 # Database dependencies
@@ -19,11 +19,11 @@ alembic==1.13.0
 pgvector==0.2.4
 
 # Supabase and real-time
-supabase>=2.3.4
+supabase>=2.3.4,<3.0.0
 
 # OpenAI and AI services
-openai>=1.6.1
-langfuse>=2.21.0
+openai>=1.6.1,<2.0.0
+langfuse>=2.21.0,<3.0.0
 tiktoken==0.5.2
 
 # Google Drive integration
@@ -47,7 +47,7 @@ redis==5.0.1
 aioredis==2.0.1
 
 # HTTP client and file handling
-httpx>=0.24.0
+httpx>=0.24.0,<1.0.0
 aiofiles==23.2.1
 
 # Utilities
