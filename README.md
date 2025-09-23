@@ -44,8 +44,8 @@ brAIn v2.0 is an intelligent RAG (Retrieval-Augmented Generation) pipeline manag
 ### 1️⃣ Setup Environment
 ```bash
 # Clone repository
-git clone https://github.com/stablemischief/brain-rag-v2
-cd brain-rag-v2
+git clone https://github.com/stablemischief/brAIn.git
+cd brAIn
 
 # Copy environment template
 cp .env.example .env
@@ -173,8 +173,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 - **Documentation**: [Full documentation](./docs/)
-- **Issues**: [GitHub Issues](https://github.com/stablemischief/brain-rag-v2/issues)
-- **Community**: [Discussions](https://github.com/stablemischief/brain-rag-v2/discussions)
+- **Issues**: [GitHub Issues](https://github.com/stablemischief/brAIn/issues)
+- **Community**: [Discussions](https://github.com/stablemischief/brAIn/discussions)
 
 ## 🗺️ Roadmap
 

@@ -138,7 +138,7 @@ mkdir -p /opt/brain
 cd /opt/brain
 
 # Clone the repository
-git clone https://github.com/stablemischief/brain-rag-v2 .
+git clone https://github.com/stablemischief/brAIn.git .
 
 # Verify files downloaded
 ls -la

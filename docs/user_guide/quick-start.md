@@ -22,8 +22,8 @@ Before starting, ensure you have:
 
 ```bash
 # Clone the repository
-git clone https://github.com/stablemischief/brain-rag-v2
-cd brain-rag-v2
+git clone https://github.com/stablemischief/brAIn.git
+cd brAIn
 
 # Check Docker is running
 docker --version

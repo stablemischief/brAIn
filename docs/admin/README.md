@@ -79,7 +79,7 @@ cd /opt/brain
 #### 2. Environment Configuration
 ```bash
 # Clone repository
-git clone https://github.com/stablemischief/brain-rag-v2 .
+git clone https://github.com/stablemischief/brAIn.git .
 
 # Copy production configuration
 cp .env.production.example .env.production
