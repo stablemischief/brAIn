@@ -9,7 +9,7 @@ starlette==0.27.0
 
 # Pydantic for data validation
 pydantic==2.5.0
-pydantic-ai==0.0.13
+pydantic-ai>=0.0.13
 pydantic-settings==2.1.0
 
 # Database dependencies
@@ -22,8 +22,8 @@ pgvector==0.2.4
 supabase==2.3.4
 
 # OpenAI and AI services
-openai==1.6.1
-langfuse==2.21.0
+openai>=1.6.1
+langfuse>=2.21.0
 tiktoken==0.5.2
 
 # Google Drive integration
@@ -47,7 +47,7 @@ redis==5.0.1
 aioredis==2.0.1
 
 # HTTP client and file handling
-httpx==0.25.2
+httpx==0.27.2
 aiofiles==23.2.1
 
 # Utilities
