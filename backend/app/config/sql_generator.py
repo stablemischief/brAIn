@@ -40,7 +40,7 @@ class SQLScriptGenerator:
             self._generate_functions(),
             self._generate_triggers(),
             self._generate_initial_data(),
-            self._generate_permissions()
+            self._generate_permissions(),
         ]
 
         return "\n\n".join(filter(None, scripts))
@@ -433,8 +433,7 @@ INSERT INTO folders (
 ) ON CONFLICT (google_id) DO NOTHING;
 
 \\echo 'Initial data inserted successfully'""".format(
-            environment=self.config.environment,
-            timestamp=datetime.utcnow().isoformat()
+            environment=self.config.environment, timestamp=datetime.utcnow().isoformat()
         )
 
     def _generate_permissions(self) -> str:

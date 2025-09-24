@@ -26,7 +26,7 @@ from config.models import (
     LangfuseConfig,
     SecurityConfig,
     CostManagementConfig,
-    ProcessingConfig
+    ProcessingConfig,
 )
 from config.validators import ConfigurationValidator
 from config.templates import ConfigurationTemplates
@@ -59,9 +59,9 @@ class ConfigurationWizard:
         Returns:
             Validated system configuration
         """
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("🚀 brAIn Configuration Wizard")
-        print("="*60)
+        print("=" * 60)
 
         # Step 1: Template selection
         config_dict = await self._select_template()
@@ -155,10 +155,13 @@ class ConfigurationWizard:
 
         # Check for environment variables first
         if os.getenv("DATABASE_URL"):
-            use_env = input("Use DATABASE_URL from environment? (y/n) [y]: ").strip().lower()
-            if use_env != 'n':
+            use_env = (
+                input("Use DATABASE_URL from environment? (y/n) [y]: ").strip().lower()
+            )
+            if use_env != "n":
                 # Parse DATABASE_URL
                 from urllib.parse import urlparse
+
                 url = urlparse(os.getenv("DATABASE_URL"))
                 db["host"] = url.hostname or "localhost"
                 db["port"] = url.port or 5432
@@ -170,18 +173,35 @@ class ConfigurationWizard:
                 return config
 
         # Manual configuration
-        db["host"] = input(f"Host [{db.get('host', 'localhost')}]: ").strip() or db.get('host', 'localhost')
-        db["port"] = int(input(f"Port [{db.get('port', 5432)}]: ").strip() or db.get('port', 5432))
-        db["database"] = input(f"Database [{db.get('database', 'brain_db')}]: ").strip() or db.get('database', 'brain_db')
-        db["username"] = input(f"Username [{db.get('username', 'postgres')}]: ").strip() or db.get('username', 'postgres')
+        db["host"] = input(f"Host [{db.get('host', 'localhost')}]: ").strip() or db.get(
+            "host", "localhost"
+        )
+        db["port"] = int(
+            input(f"Port [{db.get('port', 5432)}]: ").strip() or db.get("port", 5432)
+        )
+        db["database"] = input(
+            f"Database [{db.get('database', 'brain_db')}]: "
+        ).strip() or db.get("database", "brain_db")
+        db["username"] = input(
+            f"Username [{db.get('username', 'postgres')}]: "
+        ).strip() or db.get("username", "postgres")
 
         # Password input (hidden)
         import getpass
-        db["password"] = getpass.getpass("Password: ") or db.get('password', '')
 
-        db["schema"] = input(f"Schema [{db.get('schema', 'public')}]: ").strip() or db.get('schema', 'public')
-        db["pool_size"] = int(input(f"Pool size [{db.get('pool_size', 10)}]: ").strip() or db.get('pool_size', 10))
-        db["max_overflow"] = int(input(f"Max overflow [{db.get('max_overflow', 5)}]: ").strip() or db.get('max_overflow', 5))
+        db["password"] = getpass.getpass("Password: ") or db.get("password", "")
+
+        db["schema"] = input(
+            f"Schema [{db.get('schema', 'public')}]: "
+        ).strip() or db.get("schema", "public")
+        db["pool_size"] = int(
+            input(f"Pool size [{db.get('pool_size', 10)}]: ").strip()
+            or db.get("pool_size", 10)
+        )
+        db["max_overflow"] = int(
+            input(f"Max overflow [{db.get('max_overflow', 5)}]: ").strip()
+            or db.get("max_overflow", 5)
+        )
 
         config["database"] = db
         print("✅ Database configuration complete")
@@ -194,7 +214,7 @@ class ConfigurationWizard:
 
         # OpenAI configuration
         configure_openai = input("Configure OpenAI? (y/n) [y]: ").strip().lower()
-        if configure_openai != 'n':
+        if configure_openai != "n":
             if "openai" not in config:
                 config["openai"] = {}
 
@@ -203,28 +223,50 @@ class ConfigurationWizard:
             # Check for environment variable
             api_key = os.getenv("OPENAI_API_KEY")
             if api_key:
-                use_env = input("Use OPENAI_API_KEY from environment? (y/n) [y]: ").strip().lower()
-                if use_env != 'n':
+                use_env = (
+                    input("Use OPENAI_API_KEY from environment? (y/n) [y]: ")
+                    .strip()
+                    .lower()
+                )
+                if use_env != "n":
                     openai_cfg["api_key"] = api_key
                 else:
                     import getpass
+
                     openai_cfg["api_key"] = getpass.getpass("OpenAI API Key: ")
             else:
                 import getpass
+
                 openai_cfg["api_key"] = getpass.getpass("OpenAI API Key: ")
 
-            openai_cfg["model"] = input(f"Model [{openai_cfg.get('model', 'gpt-4o-mini')}]: ").strip() or openai_cfg.get('model', 'gpt-4o-mini')
-            openai_cfg["temperature"] = float(input(f"Temperature [{openai_cfg.get('temperature', 0.7)}]: ").strip() or openai_cfg.get('temperature', 0.7))
-            openai_cfg["max_tokens"] = int(input(f"Max tokens [{openai_cfg.get('max_tokens', 4000)}]: ").strip() or openai_cfg.get('max_tokens', 4000))
-            openai_cfg["timeout"] = int(input(f"Timeout (seconds) [{openai_cfg.get('timeout', 30)}]: ").strip() or openai_cfg.get('timeout', 30))
-            openai_cfg["max_retries"] = int(input(f"Max retries [{openai_cfg.get('max_retries', 3)}]: ").strip() or openai_cfg.get('max_retries', 3))
+            openai_cfg["model"] = input(
+                f"Model [{openai_cfg.get('model', 'gpt-4o-mini')}]: "
+            ).strip() or openai_cfg.get("model", "gpt-4o-mini")
+            openai_cfg["temperature"] = float(
+                input(f"Temperature [{openai_cfg.get('temperature', 0.7)}]: ").strip()
+                or openai_cfg.get("temperature", 0.7)
+            )
+            openai_cfg["max_tokens"] = int(
+                input(f"Max tokens [{openai_cfg.get('max_tokens', 4000)}]: ").strip()
+                or openai_cfg.get("max_tokens", 4000)
+            )
+            openai_cfg["timeout"] = int(
+                input(f"Timeout (seconds) [{openai_cfg.get('timeout', 30)}]: ").strip()
+                or openai_cfg.get("timeout", 30)
+            )
+            openai_cfg["max_retries"] = int(
+                input(f"Max retries [{openai_cfg.get('max_retries', 3)}]: ").strip()
+                or openai_cfg.get("max_retries", 3)
+            )
 
             config["openai"] = openai_cfg
             print("✅ OpenAI configuration complete")
 
         # Anthropic configuration
-        configure_anthropic = input("\nConfigure Anthropic Claude? (y/n) [n]: ").strip().lower()
-        if configure_anthropic == 'y':
+        configure_anthropic = (
+            input("\nConfigure Anthropic Claude? (y/n) [n]: ").strip().lower()
+        )
+        if configure_anthropic == "y":
             if "anthropic" not in config:
                 config["anthropic"] = {}
 
@@ -233,20 +275,41 @@ class ConfigurationWizard:
             # Check for environment variable
             api_key = os.getenv("ANTHROPIC_API_KEY")
             if api_key:
-                use_env = input("Use ANTHROPIC_API_KEY from environment? (y/n) [y]: ").strip().lower()
-                if use_env != 'n':
+                use_env = (
+                    input("Use ANTHROPIC_API_KEY from environment? (y/n) [y]: ")
+                    .strip()
+                    .lower()
+                )
+                if use_env != "n":
                     anthropic_cfg["api_key"] = api_key
                 else:
                     import getpass
+
                     anthropic_cfg["api_key"] = getpass.getpass("Anthropic API Key: ")
             else:
                 import getpass
+
                 anthropic_cfg["api_key"] = getpass.getpass("Anthropic API Key: ")
 
-            anthropic_cfg["model"] = input(f"Model [{anthropic_cfg.get('model', 'claude-3-5-sonnet-20241022')}]: ").strip() or anthropic_cfg.get('model', 'claude-3-5-sonnet-20241022')
-            anthropic_cfg["max_tokens"] = int(input(f"Max tokens [{anthropic_cfg.get('max_tokens', 4000)}]: ").strip() or anthropic_cfg.get('max_tokens', 4000))
-            anthropic_cfg["temperature"] = float(input(f"Temperature [{anthropic_cfg.get('temperature', 0.7)}]: ").strip() or anthropic_cfg.get('temperature', 0.7))
-            anthropic_cfg["timeout"] = int(input(f"Timeout (seconds) [{anthropic_cfg.get('timeout', 60)}]: ").strip() or anthropic_cfg.get('timeout', 60))
+            anthropic_cfg["model"] = input(
+                f"Model [{anthropic_cfg.get('model', 'claude-3-5-sonnet-20241022')}]: "
+            ).strip() or anthropic_cfg.get("model", "claude-3-5-sonnet-20241022")
+            anthropic_cfg["max_tokens"] = int(
+                input(f"Max tokens [{anthropic_cfg.get('max_tokens', 4000)}]: ").strip()
+                or anthropic_cfg.get("max_tokens", 4000)
+            )
+            anthropic_cfg["temperature"] = float(
+                input(
+                    f"Temperature [{anthropic_cfg.get('temperature', 0.7)}]: "
+                ).strip()
+                or anthropic_cfg.get("temperature", 0.7)
+            )
+            anthropic_cfg["timeout"] = int(
+                input(
+                    f"Timeout (seconds) [{anthropic_cfg.get('timeout', 60)}]: "
+                ).strip()
+                or anthropic_cfg.get("timeout", 60)
+            )
 
             config["anthropic"] = anthropic_cfg
             print("✅ Anthropic configuration complete")
@@ -268,8 +331,12 @@ class ConfigurationWizard:
         anon_key = os.getenv("SUPABASE_ANON_KEY")
 
         if url and anon_key:
-            use_env = input("Use Supabase settings from environment? (y/n) [y]: ").strip().lower()
-            if use_env != 'n':
+            use_env = (
+                input("Use Supabase settings from environment? (y/n) [y]: ")
+                .strip()
+                .lower()
+            )
+            if use_env != "n":
                 supabase["url"] = url
                 supabase["anon_key"] = anon_key
                 supabase["service_key"] = os.getenv("SUPABASE_SERVICE_KEY")
@@ -279,13 +346,18 @@ class ConfigurationWizard:
                 return config
 
         # Manual configuration
-        supabase["url"] = input(f"Supabase URL [{supabase.get('url', '')}]: ").strip() or supabase.get('url', '')
+        supabase["url"] = input(
+            f"Supabase URL [{supabase.get('url', '')}]: "
+        ).strip() or supabase.get("url", "")
 
         import getpass
-        supabase["anon_key"] = getpass.getpass("Anon Key: ") or supabase.get('anon_key', '')
+
+        supabase["anon_key"] = getpass.getpass("Anon Key: ") or supabase.get(
+            "anon_key", ""
+        )
 
         configure_service = input("Configure service key? (y/n) [n]: ").strip().lower()
-        if configure_service == 'y':
+        if configure_service == "y":
             supabase["service_key"] = getpass.getpass("Service Key: ") or None
             supabase["jwt_secret"] = getpass.getpass("JWT Secret: ") or None
 
@@ -305,35 +377,65 @@ class ConfigurationWizard:
         is_production = config.get("environment") == "production"
 
         # JWT configuration
-        sec["jwt_enabled"] = is_production or input(f"Enable JWT? (y/n) [{sec.get('jwt_enabled', True)}]: ").strip().lower() != 'n'
+        sec["jwt_enabled"] = (
+            is_production
+            or input(f"Enable JWT? (y/n) [{sec.get('jwt_enabled', True)}]: ")
+            .strip()
+            .lower()
+            != "n"
+        )
 
         if sec["jwt_enabled"]:
             import getpass
+
             jwt_secret = os.getenv("JWT_SECRET")
             if jwt_secret:
-                use_env = input("Use JWT_SECRET from environment? (y/n) [y]: ").strip().lower()
-                if use_env != 'n':
+                use_env = (
+                    input("Use JWT_SECRET from environment? (y/n) [y]: ")
+                    .strip()
+                    .lower()
+                )
+                if use_env != "n":
                     sec["jwt_secret"] = jwt_secret
                 else:
                     sec["jwt_secret"] = getpass.getpass("JWT Secret (min 32 chars): ")
             else:
                 sec["jwt_secret"] = getpass.getpass("JWT Secret (min 32 chars): ")
 
-            sec["jwt_algorithm"] = input(f"JWT Algorithm [{sec.get('jwt_algorithm', 'HS256')}]: ").strip() or sec.get('jwt_algorithm', 'HS256')
-            sec["jwt_expiry_hours"] = int(input(f"JWT Expiry (hours) [{sec.get('jwt_expiry_hours', 24)}]: ").strip() or sec.get('jwt_expiry_hours', 24))
+            sec["jwt_algorithm"] = input(
+                f"JWT Algorithm [{sec.get('jwt_algorithm', 'HS256')}]: "
+            ).strip() or sec.get("jwt_algorithm", "HS256")
+            sec["jwt_expiry_hours"] = int(
+                input(
+                    f"JWT Expiry (hours) [{sec.get('jwt_expiry_hours', 24)}]: "
+                ).strip()
+                or sec.get("jwt_expiry_hours", 24)
+            )
 
         # CORS configuration
         sec["cors_enabled"] = True
-        origins_input = input(f"CORS Origins (comma-separated) [{','.join(sec.get('cors_origins', ['http://localhost:3000']))}]: ").strip()
+        origins_input = input(
+            f"CORS Origins (comma-separated) [{','.join(sec.get('cors_origins', ['http://localhost:3000']))}]: "
+        ).strip()
         if origins_input:
-            sec["cors_origins"] = [origin.strip() for origin in origins_input.split(',')]
+            sec["cors_origins"] = [
+                origin.strip() for origin in origins_input.split(",")
+            ]
         else:
-            sec["cors_origins"] = sec.get('cors_origins', ['http://localhost:3000'])
+            sec["cors_origins"] = sec.get("cors_origins", ["http://localhost:3000"])
 
         # Rate limiting
-        sec["rate_limit_enabled"] = is_production or input("Enable rate limiting? (y/n) [y]: ").strip().lower() != 'n'
+        sec["rate_limit_enabled"] = (
+            is_production
+            or input("Enable rate limiting? (y/n) [y]: ").strip().lower() != "n"
+        )
         if sec["rate_limit_enabled"]:
-            sec["rate_limit_requests"] = int(input(f"Requests per minute [{sec.get('rate_limit_requests', 100)}]: ").strip() or sec.get('rate_limit_requests', 100))
+            sec["rate_limit_requests"] = int(
+                input(
+                    f"Requests per minute [{sec.get('rate_limit_requests', 100)}]: "
+                ).strip()
+                or sec.get("rate_limit_requests", 100)
+            )
 
         # Protection flags
         sec["input_validation_strict"] = True
@@ -344,7 +446,9 @@ class ConfigurationWizard:
         print("✅ Security configuration complete")
         return config
 
-    async def _configure_cost_management(self, config: Dict[str, Any]) -> Dict[str, Any]:
+    async def _configure_cost_management(
+        self, config: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Configure cost management settings."""
         print("\n💰 Cost Management Configuration")
         print("-" * 40)
@@ -354,12 +458,28 @@ class ConfigurationWizard:
 
         cost = config["cost_management"]
 
-        cost["daily_budget"] = float(input(f"Daily budget (USD) [{cost.get('daily_budget', 50.0)}]: ").strip() or cost.get('daily_budget', 50.0))
-        cost["monthly_budget"] = float(input(f"Monthly budget (USD) [{cost.get('monthly_budget', 1000.0)}]: ").strip() or cost.get('monthly_budget', 1000.0))
-        cost["alert_threshold_percent"] = int(input(f"Alert threshold (%) [{cost.get('alert_threshold_percent', 80)}]: ").strip() or cost.get('alert_threshold_percent', 80))
+        cost["daily_budget"] = float(
+            input(f"Daily budget (USD) [{cost.get('daily_budget', 50.0)}]: ").strip()
+            or cost.get("daily_budget", 50.0)
+        )
+        cost["monthly_budget"] = float(
+            input(
+                f"Monthly budget (USD) [{cost.get('monthly_budget', 1000.0)}]: "
+            ).strip()
+            or cost.get("monthly_budget", 1000.0)
+        )
+        cost["alert_threshold_percent"] = int(
+            input(
+                f"Alert threshold (%) [{cost.get('alert_threshold_percent', 80)}]: "
+            ).strip()
+            or cost.get("alert_threshold_percent", 80)
+        )
 
         is_production = config.get("environment") == "production"
-        cost["hard_limit_enabled"] = is_production or input("Enable hard budget limits? (y/n) [y]: ").strip().lower() != 'n'
+        cost["hard_limit_enabled"] = (
+            is_production
+            or input("Enable hard budget limits? (y/n) [y]: ").strip().lower() != "n"
+        )
 
         # Keep default cost per token values
         if "cost_per_1k_tokens" not in cost:
@@ -367,7 +487,7 @@ class ConfigurationWizard:
                 "gpt-4o-mini": 0.00015,
                 "gpt-4o": 0.005,
                 "claude-3-5-sonnet-20241022": 0.003,
-                "text-embedding-3-small": 0.00002
+                "text-embedding-3-small": 0.00002,
             }
 
         config["cost_management"] = cost
@@ -384,17 +504,50 @@ class ConfigurationWizard:
 
         proc = config["processing"]
 
-        proc["batch_size"] = int(input(f"Batch size [{proc.get('batch_size', 10)}]: ").strip() or proc.get('batch_size', 10))
-        proc["parallel_workers"] = int(input(f"Parallel workers [{proc.get('parallel_workers', 4)}]: ").strip() or proc.get('parallel_workers', 4))
-        proc["chunk_size"] = int(input(f"Text chunk size [{proc.get('chunk_size', 1000)}]: ").strip() or proc.get('chunk_size', 1000))
-        proc["chunk_overlap"] = int(input(f"Chunk overlap [{proc.get('chunk_overlap', 200)}]: ").strip() or proc.get('chunk_overlap', 200))
-        proc["quality_threshold"] = float(input(f"Quality threshold (0-1) [{proc.get('quality_threshold', 0.7)}]: ").strip() or proc.get('quality_threshold', 0.7))
-        proc["duplicate_threshold"] = float(input(f"Duplicate threshold (0-1) [{proc.get('duplicate_threshold', 0.95)}]: ").strip() or proc.get('duplicate_threshold', 0.95))
-        proc["max_file_size_mb"] = int(input(f"Max file size (MB) [{proc.get('max_file_size_mb', 100)}]: ").strip() or proc.get('max_file_size_mb', 100))
+        proc["batch_size"] = int(
+            input(f"Batch size [{proc.get('batch_size', 10)}]: ").strip()
+            or proc.get("batch_size", 10)
+        )
+        proc["parallel_workers"] = int(
+            input(f"Parallel workers [{proc.get('parallel_workers', 4)}]: ").strip()
+            or proc.get("parallel_workers", 4)
+        )
+        proc["chunk_size"] = int(
+            input(f"Text chunk size [{proc.get('chunk_size', 1000)}]: ").strip()
+            or proc.get("chunk_size", 1000)
+        )
+        proc["chunk_overlap"] = int(
+            input(f"Chunk overlap [{proc.get('chunk_overlap', 200)}]: ").strip()
+            or proc.get("chunk_overlap", 200)
+        )
+        proc["quality_threshold"] = float(
+            input(
+                f"Quality threshold (0-1) [{proc.get('quality_threshold', 0.7)}]: "
+            ).strip()
+            or proc.get("quality_threshold", 0.7)
+        )
+        proc["duplicate_threshold"] = float(
+            input(
+                f"Duplicate threshold (0-1) [{proc.get('duplicate_threshold', 0.95)}]: "
+            ).strip()
+            or proc.get("duplicate_threshold", 0.95)
+        )
+        proc["max_file_size_mb"] = int(
+            input(f"Max file size (MB) [{proc.get('max_file_size_mb', 100)}]: ").strip()
+            or proc.get("max_file_size_mb", 100)
+        )
 
         # Keep default supported formats
         if "supported_formats" not in proc:
-            proc["supported_formats"] = ["pdf", "docx", "txt", "md", "html", "json", "csv"]
+            proc["supported_formats"] = [
+                "pdf",
+                "docx",
+                "txt",
+                "md",
+                "html",
+                "json",
+                "csv",
+            ]
 
         config["processing"] = proc
         print("✅ Processing configuration complete")
@@ -405,8 +558,10 @@ class ConfigurationWizard:
         print("\n📊 Monitoring Configuration (Optional)")
         print("-" * 40)
 
-        configure_langfuse = input("Configure Langfuse monitoring? (y/n) [n]: ").strip().lower()
-        if configure_langfuse == 'y':
+        configure_langfuse = (
+            input("Configure Langfuse monitoring? (y/n) [n]: ").strip().lower()
+        )
+        if configure_langfuse == "y":
             if "langfuse" not in config:
                 config["langfuse"] = {}
 
@@ -417,20 +572,28 @@ class ConfigurationWizard:
             secret_key = os.getenv("LANGFUSE_SECRET_KEY")
 
             if public_key and secret_key:
-                use_env = input("Use Langfuse keys from environment? (y/n) [y]: ").strip().lower()
-                if use_env != 'n':
+                use_env = (
+                    input("Use Langfuse keys from environment? (y/n) [y]: ")
+                    .strip()
+                    .lower()
+                )
+                if use_env != "n":
                     langfuse["public_key"] = public_key
                     langfuse["secret_key"] = secret_key
                 else:
                     langfuse["public_key"] = input("Langfuse public key: ").strip()
                     import getpass
+
                     langfuse["secret_key"] = getpass.getpass("Langfuse secret key: ")
             else:
                 langfuse["public_key"] = input("Langfuse public key: ").strip()
                 import getpass
+
                 langfuse["secret_key"] = getpass.getpass("Langfuse secret key: ")
 
-            custom_host = input("Custom Langfuse host (leave empty for cloud): ").strip()
+            custom_host = input(
+                "Custom Langfuse host (leave empty for cloud): "
+            ).strip()
             if custom_host:
                 langfuse["host"] = custom_host
 
@@ -461,27 +624,35 @@ class ConfigurationWizard:
 
             # Run comprehensive validation
             print("\n🧪 Running validation tests...")
-            validation_result = await self.validator.validate_complete_config(system_config)
+            validation_result = await self.validator.validate_complete_config(
+                system_config
+            )
 
             # Display validation results
             self._display_validation_results(validation_result)
 
             if not validation_result.valid:
                 print("\n⚠️ Configuration has errors that need to be fixed.")
-                retry = input("Would you like to retry configuration? (y/n): ").strip().lower()
-                if retry == 'y':
+                retry = (
+                    input("Would you like to retry configuration? (y/n): ")
+                    .strip()
+                    .lower()
+                )
+                if retry == "y":
                     return await self.start_wizard()
                 else:
                     raise ValueError("Configuration validation failed")
 
             # Save configuration
             save = input("\n💾 Save configuration? (y/n) [y]: ").strip().lower()
-            if save != 'n':
+            if save != "n":
                 await self.save_configuration(system_config)
 
             # Generate SQL scripts
-            generate_sql = input("\n📝 Generate SQL setup scripts? (y/n) [y]: ").strip().lower()
-            if generate_sql != 'n':
+            generate_sql = (
+                input("\n📝 Generate SQL setup scripts? (y/n) [y]: ").strip().lower()
+            )
+            if generate_sql != "n":
                 await self._generate_sql_scripts(system_config)
 
             print("\n✅ Configuration wizard complete!")
@@ -524,21 +695,13 @@ class ConfigurationWizard:
             config: System configuration to save
         """
         # Create export
-        export = ConfigurationExport(
-            version="1.0.0",
-            config=config
-        )
+        export = ConfigurationExport(version="1.0.0", config=config)
         export.checksum = export.calculate_checksum()
 
         # Save to file
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.config_path, 'w') as f:
-            json.dump(
-                export.model_dump(mode='json'),
-                f,
-                indent=2,
-                default=str
-            )
+        with open(self.config_path, "w") as f:
+            json.dump(export.model_dump(mode="json"), f, indent=2, default=str)
 
         print(f"✅ Configuration saved to {self.config_path}")
 
@@ -559,27 +722,41 @@ class ConfigurationWizard:
         env_content.append(f"DATABASE_PORT={config.database.port}")
         env_content.append(f"DATABASE_NAME={config.database.database}")
         env_content.append(f"DATABASE_USER={config.database.username}")
-        env_content.append(f"DATABASE_PASSWORD={config.database.password.get_secret_value()}")
+        env_content.append(
+            f"DATABASE_PASSWORD={config.database.password.get_secret_value()}"
+        )
         env_content.append("")
 
         # LLM Providers
         if config.openai:
-            env_content.append(f"OPENAI_API_KEY={config.openai.api_key.get_secret_value()}")
+            env_content.append(
+                f"OPENAI_API_KEY={config.openai.api_key.get_secret_value()}"
+            )
         if config.anthropic:
-            env_content.append(f"ANTHROPIC_API_KEY={config.anthropic.api_key.get_secret_value()}")
+            env_content.append(
+                f"ANTHROPIC_API_KEY={config.anthropic.api_key.get_secret_value()}"
+            )
         env_content.append("")
 
         # Supabase
         env_content.append(f"SUPABASE_URL={config.supabase.url}")
-        env_content.append(f"SUPABASE_ANON_KEY={config.supabase.anon_key.get_secret_value()}")
+        env_content.append(
+            f"SUPABASE_ANON_KEY={config.supabase.anon_key.get_secret_value()}"
+        )
         if config.supabase.service_key:
-            env_content.append(f"SUPABASE_SERVICE_KEY={config.supabase.service_key.get_secret_value()}")
+            env_content.append(
+                f"SUPABASE_SERVICE_KEY={config.supabase.service_key.get_secret_value()}"
+            )
         if config.supabase.jwt_secret:
-            env_content.append(f"SUPABASE_JWT_SECRET={config.supabase.jwt_secret.get_secret_value()}")
+            env_content.append(
+                f"SUPABASE_JWT_SECRET={config.supabase.jwt_secret.get_secret_value()}"
+            )
         env_content.append("")
 
         # Security
-        env_content.append(f"JWT_SECRET={config.security.jwt_secret.get_secret_value()}")
+        env_content.append(
+            f"JWT_SECRET={config.security.jwt_secret.get_secret_value()}"
+        )
         env_content.append(f"JWT_ALGORITHM={config.security.jwt_algorithm}")
         env_content.append("")
 
@@ -587,11 +764,13 @@ class ConfigurationWizard:
         if config.langfuse and config.langfuse.enabled:
             env_content.append(f"LANGFUSE_PUBLIC_KEY={config.langfuse.public_key}")
             if config.langfuse.secret_key:
-                env_content.append(f"LANGFUSE_SECRET_KEY={config.langfuse.secret_key.get_secret_value()}")
+                env_content.append(
+                    f"LANGFUSE_SECRET_KEY={config.langfuse.secret_key.get_secret_value()}"
+                )
             if config.langfuse.host:
                 env_content.append(f"LANGFUSE_HOST={config.langfuse.host}")
 
-        with open(env_path, 'w') as f:
+        with open(env_path, "w") as f:
             f.write("\n".join(env_content))
 
         print(f"✅ Environment variables saved to {env_path}")
@@ -605,7 +784,7 @@ class ConfigurationWizard:
         setup_path = Path("config/sql/setup.sql")
         setup_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(setup_path, 'w') as f:
+        with open(setup_path, "w") as f:
             f.write(setup_script)
 
         print(f"✅ SQL setup script saved to {setup_path}")
@@ -614,7 +793,7 @@ class ConfigurationWizard:
         rollback_script = generator.generate_rollback_script()
         rollback_path = Path("config/sql/rollback.sql")
 
-        with open(rollback_path, 'w') as f:
+        with open(rollback_path, "w") as f:
             f.write(rollback_script)
 
         print(f"✅ SQL rollback script saved to {rollback_path}")
@@ -631,7 +810,7 @@ class ConfigurationWizard:
         """
         path = path or self.config_path
 
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             export_dict = json.load(f)
 
         export = ConfigurationExport(**export_dict)
@@ -651,7 +830,7 @@ class ConfigurationWizard:
             "supabase": {},
             "security": {},
             "cost_management": {},
-            "processing": {}
+            "processing": {},
         }
 
 
@@ -662,16 +841,20 @@ async def main():
     # Check for existing configuration
     if wizard.config_path.exists():
         print(f"\n📋 Existing configuration found at {wizard.config_path}")
-        load_existing = input("Load existing configuration? (y/n) [y]: ").strip().lower()
+        load_existing = (
+            input("Load existing configuration? (y/n) [y]: ").strip().lower()
+        )
 
-        if load_existing != 'n':
+        if load_existing != "n":
             try:
                 config = await wizard.load_configuration()
                 print("✅ Configuration loaded successfully")
 
                 # Optionally re-validate
-                revalidate = input("Re-validate configuration? (y/n) [y]: ").strip().lower()
-                if revalidate != 'n':
+                revalidate = (
+                    input("Re-validate configuration? (y/n) [y]: ").strip().lower()
+                )
+                if revalidate != "n":
                     validator = ConfigurationValidator()
                     result = await validator.validate_complete_config(config)
                     wizard._display_validation_results(result)

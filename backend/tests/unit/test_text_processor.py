@@ -1,6 +1,7 @@
 """
 Unit tests for the TextProcessor module.
 """
+
 import pytest
 from unittest.mock import MagicMock, patch, AsyncMock
 from pathlib import Path
@@ -11,7 +12,7 @@ from core.text_processor import (
     ProcessingResult,
     ProcessingConfig,
     FileType,
-    ProcessingError
+    ProcessingError,
 )
 
 
@@ -27,8 +28,8 @@ class TestTextProcessor:
             config=ProcessingConfig(
                 max_tokens=4000,
                 embedding_model="text-embedding-ada-002",
-                chat_model="gpt-4"
-            )
+                chat_model="gpt-4",
+            ),
         )
 
     @pytest.fixture
@@ -183,10 +184,7 @@ class TestTextProcessor:
     @pytest.mark.asyncio
     async def test_process_with_quality_assessment(self, processor, sample_text):
         """Test processing with quality assessment."""
-        result = await processor.process_text(
-            sample_text,
-            assess_quality=True
-        )
+        result = await processor.process_text(sample_text, assess_quality=True)
 
         assert result.success is True
         assert "quality_score" in result.metadata
@@ -195,11 +193,7 @@ class TestTextProcessor:
     @pytest.mark.asyncio
     async def test_batch_process_texts(self, processor):
         """Test batch processing of multiple texts."""
-        texts = [
-            "First document",
-            "Second document",
-            "Third document"
-        ]
+        texts = ["First document", "Second document", "Third document"]
 
         results = await processor.batch_process_texts(texts)
 

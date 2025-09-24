@@ -1,6 +1,7 @@
 """
 Unit tests for the DatabaseHandler module.
 """
+
 import pytest
 from unittest.mock import MagicMock, AsyncMock, patch
 from datetime import datetime
@@ -11,7 +12,7 @@ from core.database_handler import (
     Document,
     DatabaseError,
     DuplicateError,
-    ConnectionPool
+    ConnectionPool,
 )
 
 
@@ -24,7 +25,7 @@ class TestDatabaseHandler:
         """Create DatabaseHandler instance with mocked dependencies."""
         handler = DatabaseHandler(
             supabase_client=mock_supabase_client,
-            database_url="postgresql://test:test@localhost/test"
+            database_url="postgresql://test:test@localhost/test",
         )
         return handler
 
@@ -42,7 +43,7 @@ class TestDatabaseHandler:
             "token_count": 10,
             "processing_cost": 0.001,
             "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat()
+            "updated_at": datetime.utcnow().isoformat(),
         }
 
     def test_handler_initialization(self, db_handler):
@@ -105,8 +106,7 @@ class TestDatabaseHandler:
         ]
 
         updated = await db_handler.update_document(
-            sample_document_dict["id"],
-            {"title": "Updated Title"}
+            sample_document_dict["id"], {"title": "Updated Title"}
         )
 
         assert updated is True
@@ -129,10 +129,7 @@ class TestDatabaseHandler:
             {**sample_document_dict, "similarity": 0.95}
         ]
 
-        results = await db_handler.search_documents(
-            query="test query",
-            limit=10
-        )
+        results = await db_handler.search_documents(query="test query", limit=10)
 
         assert len(results) == 1
         assert results[0]["similarity"] == 0.95
@@ -147,7 +144,7 @@ class TestDatabaseHandler:
             query="test query",
             folder_id="folder-123",
             date_from=datetime(2024, 1, 1),
-            limit=5
+            limit=5,
         )
 
         assert results == []
@@ -158,7 +155,7 @@ class TestDatabaseHandler:
         """Test batch document creation."""
         docs = [
             {"title": "Doc 1", "content": "Content 1"},
-            {"title": "Doc 2", "content": "Content 2"}
+            {"title": "Doc 2", "content": "Content 2"},
         ]
 
         db_handler.supabase_client.table().insert().execute.return_value.data = docs
@@ -229,10 +226,7 @@ class TestDatabaseHandler:
             {"id": "doc-123"}
         ]
 
-        updated = await db_handler.update_document_embedding(
-            "doc-123",
-            new_embedding
-        )
+        updated = await db_handler.update_document_embedding("doc-123", new_embedding)
 
         assert updated is True
 
@@ -252,13 +246,10 @@ class TestDatabaseHandler:
         # Simulate error during transaction
         db_handler.supabase_client.table().insert().execute.side_effect = [
             MagicMock(data=[{"id": "doc-1"}]),  # First insert succeeds
-            Exception("Constraint violation")    # Second insert fails
+            Exception("Constraint violation"),  # Second insert fails
         ]
 
-        docs = [
-            {"title": "Doc 1"},
-            {"title": "Doc 2"}
-        ]
+        docs = [{"title": "Doc 1"}, {"title": "Doc 2"}]
 
         with pytest.raises(DatabaseError):
             await db_handler.batch_create_documents(docs, transaction=True)
@@ -280,7 +271,7 @@ class TestDatabaseHandler:
             "total_documents": 100,
             "total_tokens": 50000,
             "total_cost": 5.50,
-            "average_quality_score": 0.92
+            "average_quality_score": 0.92,
         }
 
         db_handler.supabase_client.rpc().execute.return_value.data = [stats]

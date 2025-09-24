@@ -32,7 +32,7 @@ class TestAuthenticationSecurity:
             "email": "test@example.com",
             "role": "user",
             "exp": datetime.now(timezone.utc) + timedelta(hours=1),
-            "iat": datetime.now(timezone.utc)
+            "iat": datetime.now(timezone.utc),
         }
         return jwt.encode(payload, "test-secret", algorithm="HS256")
 
@@ -44,7 +44,7 @@ class TestAuthenticationSecurity:
             "email": "test@example.com",
             "role": "user",
             "exp": datetime.now(timezone.utc) - timedelta(hours=1),
-            "iat": datetime.now(timezone.utc) - timedelta(hours=2)
+            "iat": datetime.now(timezone.utc) - timedelta(hours=2),
         }
         return jwt.encode(payload, "test-secret", algorithm="HS256")
 
@@ -63,14 +63,13 @@ class TestAuthenticationSecurity:
             "sub": "attacker-user",
             "email": "attacker@evil.com",
             "role": "admin",
-            "exp": datetime.now(timezone.utc) + timedelta(hours=1)
+            "exp": datetime.now(timezone.utc) + timedelta(hours=1),
         }
         fake_token = jwt.encode(fake_payload, "wrong-secret", algorithm="HS256")
 
         # This should fail but currently passes due to disabled signature verification
         response = client.get(
-            "/api/auth/me",
-            headers={"Authorization": f"Bearer {fake_token}"}
+            "/api/auth/me", headers={"Authorization": f"Bearer {fake_token}"}
         )
 
         # VULNERABILITY: This test will pass, showing the bypass
@@ -89,8 +88,7 @@ class TestAuthenticationSecurity:
         random_token = "any.random.token"
 
         response = client.get(
-            "/api/auth/me",
-            headers={"Authorization": f"Bearer {random_token}"}
+            "/api/auth/me", headers={"Authorization": f"Bearer {random_token}"}
         )
 
         # VULNERABILITY: Mock authentication accepts any token
@@ -106,18 +104,19 @@ class TestAuthenticationSecurity:
             "/api/folders",
             "/api/processing",
             "/api/search",
-            "/api/analytics"
+            "/api/analytics",
         ]
 
         for endpoint in protected_endpoints:
             response = client.get(endpoint)
-            assert response.status_code == 401, f"Endpoint {endpoint} should require authentication"
+            assert (
+                response.status_code == 401
+            ), f"Endpoint {endpoint} should require authentication"
 
     def test_token_expiration_handling(self, client, expired_token):
         """Test handling of expired tokens."""
         response = client.get(
-            "/api/auth/me",
-            headers={"Authorization": f"Bearer {expired_token}"}
+            "/api/auth/me", headers={"Authorization": f"Bearer {expired_token}"}
         )
 
         # Should reject expired tokens (but currently may not due to disabled validation)
@@ -128,8 +127,7 @@ class TestAuthenticationSecurity:
     def test_malformed_token_handling(self, client, malformed_token):
         """Test handling of malformed tokens."""
         response = client.get(
-            "/api/auth/me",
-            headers={"Authorization": f"Bearer {malformed_token}"}
+            "/api/auth/me", headers={"Authorization": f"Bearer {malformed_token}"}
         )
 
         assert response.status_code == 401
@@ -152,8 +150,7 @@ class TestAuthenticationSecurity:
 
         for invalid_auth in invalid_formats:
             response = client.get(
-                "/api/auth/me",
-                headers={"Authorization": invalid_auth}
+                "/api/auth/me", headers={"Authorization": invalid_auth}
             )
             assert response.status_code == 401
 
@@ -164,7 +161,7 @@ class TestAuthenticationSecurity:
             "sub": "user-123",
             "email": "user@example.com",
             "role": "user",
-            "exp": datetime.now(timezone.utc) + timedelta(hours=1)
+            "exp": datetime.now(timezone.utc) + timedelta(hours=1),
         }
         user_token = jwt.encode(user_payload, "test-secret", algorithm="HS256")
 
@@ -172,7 +169,7 @@ class TestAuthenticationSecurity:
             "sub": "admin-123",
             "email": "admin@example.com",
             "role": "admin",
-            "exp": datetime.now(timezone.utc) + timedelta(hours=1)
+            "exp": datetime.now(timezone.utc) + timedelta(hours=1),
         }
         admin_token = jwt.encode(admin_payload, "test-secret", algorithm="HS256")
 
@@ -192,8 +189,7 @@ class TestAuthenticationSecurity:
         responses = []
         for _ in range(5):
             response = client.get(
-                "/api/auth/me",
-                headers={"Authorization": f"Bearer {valid_token}"}
+                "/api/auth/me", headers={"Authorization": f"Bearer {valid_token}"}
             )
             responses.append(response)
 
@@ -205,8 +201,7 @@ class TestAuthenticationSecurity:
         """Test that tokens are not leaked in application logs."""
         with caplog.at_level("DEBUG"):
             client.get(
-                "/api/auth/me",
-                headers={"Authorization": f"Bearer {valid_token}"}
+                "/api/auth/me", headers={"Authorization": f"Bearer {valid_token}"}
             )
 
         # Check that token is not in logs
@@ -215,15 +210,14 @@ class TestAuthenticationSecurity:
 
     def test_password_exposure_in_requests(self, client):
         """Test that passwords are not exposed in error messages or logs."""
-        login_data = {
-            "email": "test@example.com",
-            "password": "sensitive_password_123"
-        }
+        login_data = {"email": "test@example.com", "password": "sensitive_password_123"}
 
         # This would fail in current mock implementation
-        with patch('api.auth.get_supabase_client') as mock_supabase:
+        with patch("api.auth.get_supabase_client") as mock_supabase:
             mock_client = MagicMock()
-            mock_client.auth.sign_in_with_password.side_effect = Exception("Auth failed")
+            mock_client.auth.sign_in_with_password.side_effect = Exception(
+                "Auth failed"
+            )
             mock_supabase.return_value = mock_client
 
             response = client.post("/api/auth/login", json=login_data)
@@ -283,8 +277,8 @@ class TestCORSSecurity:
             headers={
                 "Origin": malicious_origin,
                 "Access-Control-Request-Method": "POST",
-                "Access-Control-Request-Headers": "Content-Type,Authorization"
-            }
+                "Access-Control-Request-Headers": "Content-Type,Authorization",
+            },
         )
 
         # VULNERABILITY: Should not allow arbitrary origins
@@ -312,8 +306,8 @@ class TestCORSSecurity:
                 "/api/health",
                 headers={
                     "Origin": "https://example.com",
-                    "Access-Control-Request-Method": method
-                }
+                    "Access-Control-Request-Method": method,
+                },
             )
 
             allowed_methods = response.headers.get("Access-Control-Allow-Methods", "")
@@ -341,22 +335,27 @@ class TestInputValidationSecurity:
             "'; DROP TABLE users; --",
             "' OR '1'='1",
             "' UNION SELECT * FROM sensitive_table --",
-            "'; INSERT INTO users (email) VALUES ('hacked@evil.com'); --"
+            "'; INSERT INTO users (email) VALUES ('hacked@evil.com'); --",
         ]
 
         # Test on search endpoint (if it exists)
         for payload in sql_payloads:
             response = client.get(
                 f"/api/search?query={payload}",
-                headers={"Authorization": f"Bearer {valid_token}"}
+                headers={"Authorization": f"Bearer {valid_token}"},
             )
 
             # Should not execute SQL injection
             if response.status_code == 500:
                 # Check if error suggests SQL injection was attempted
                 error_detail = response.json().get("detail", "")
-                if "syntax error" in error_detail.lower() or "sql" in error_detail.lower():
-                    pytest.fail(f"VULNERABILITY: SQL injection possible with payload: {payload}")
+                if (
+                    "syntax error" in error_detail.lower()
+                    or "sql" in error_detail.lower()
+                ):
+                    pytest.fail(
+                        f"VULNERABILITY: SQL injection possible with payload: {payload}"
+                    )
 
     def test_xss_vulnerability(self, client, valid_token):
         """Test for Cross-Site Scripting (XSS) vulnerabilities."""
@@ -364,14 +363,14 @@ class TestInputValidationSecurity:
             "<script>alert('XSS')</script>",
             "javascript:alert('XSS')",
             "<img src=x onerror=alert('XSS')>",
-            "';alert('XSS');//"
+            "';alert('XSS');//",
         ]
 
         for payload in xss_payloads:
             # Test on endpoints that might reflect user input
             response = client.get(
                 f"/api/search?query={payload}",
-                headers={"Authorization": f"Bearer {valid_token}"}
+                headers={"Authorization": f"Bearer {valid_token}"},
             )
 
             # Response should not contain unescaped payload
@@ -385,7 +384,7 @@ class TestInputValidationSecurity:
             "| cat /etc/passwd",
             "&& whoami",
             "`id`",
-            "$(uname -a)"
+            "$(uname -a)",
         ]
 
         for payload in command_payloads:
@@ -393,14 +392,16 @@ class TestInputValidationSecurity:
             response = client.post(
                 "/api/processing/start",
                 json={"input": payload},
-                headers={"Authorization": f"Bearer {valid_token}"}
+                headers={"Authorization": f"Bearer {valid_token}"},
             )
 
             # Should not execute commands
             if response.status_code == 500:
                 error_detail = response.json().get("detail", "")
                 if "command not found" in error_detail.lower():
-                    pytest.fail(f"VULNERABILITY: Command injection possible with payload: {payload}")
+                    pytest.fail(
+                        f"VULNERABILITY: Command injection possible with payload: {payload}"
+                    )
 
     def test_path_traversal_vulnerability(self, client, valid_token):
         """Test for path traversal vulnerabilities."""
@@ -408,14 +409,14 @@ class TestInputValidationSecurity:
             "../../../etc/passwd",
             "..\\..\\..\\windows\\system32\\config\\sam",
             "%2e%2e%2f%2e%2e%2f%2e%2e%2f%65%74%63%2f%70%61%73%73%77%64",
-            "....//....//....//etc/passwd"
+            "....//....//....//etc/passwd",
         ]
 
         for payload in path_payloads:
             # Test on file-related endpoints
             response = client.get(
                 f"/api/folders/{payload}",
-                headers={"Authorization": f"Bearer {valid_token}"}
+                headers={"Authorization": f"Bearer {valid_token}"},
             )
 
             # Should not allow path traversal
@@ -424,7 +425,9 @@ class TestInputValidationSecurity:
                 sensitive_patterns = ["root:", "bin/bash", "Administrator"]
                 content = response.text.lower()
                 if any(pattern.lower() in content for pattern in sensitive_patterns):
-                    pytest.fail(f"VULNERABILITY: Path traversal possible with payload: {payload}")
+                    pytest.fail(
+                        f"VULNERABILITY: Path traversal possible with payload: {payload}"
+                    )
 
 
 class TestSessionSecurity:
@@ -473,7 +476,7 @@ class TestSecurityIntegration:
             "X-Frame-Options": "DENY",
             "X-XSS-Protection": "1; mode=block",
             "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-            "Content-Security-Policy": None  # Should exist
+            "Content-Security-Policy": None,  # Should exist
         }
 
         missing_headers = []
@@ -514,9 +517,11 @@ class TestSecurityIntegration:
                 "c:\\",
                 "python",
                 "django",
-                "fastapi"
+                "fastapi",
             ]
 
             for pattern in sensitive_patterns:
                 if pattern in error_text:
-                    pytest.fail(f"VULNERABILITY: Information disclosure in error: {pattern}")
+                    pytest.fail(
+                        f"VULNERABILITY: Information disclosure in error: {pattern}"
+                    )

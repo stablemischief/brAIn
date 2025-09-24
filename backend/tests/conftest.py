@@ -1,6 +1,7 @@
 """
 Pytest configuration and shared fixtures for the test suite.
 """
+
 import os
 import sys
 import asyncio
@@ -63,7 +64,9 @@ def mock_supabase_client():
     table_mock = MagicMock()
     table_mock.select.return_value.execute.return_value.data = []
     table_mock.insert.return_value.execute.return_value.data = [{"id": "test-id"}]
-    table_mock.update.return_value.eq.return_value.execute.return_value.data = [{"id": "test-id"}]
+    table_mock.update.return_value.eq.return_value.execute.return_value.data = [
+        {"id": "test-id"}
+    ]
     table_mock.delete.return_value.eq.return_value.execute.return_value.data = []
 
     client.table.return_value = table_mock
@@ -87,13 +90,10 @@ def sample_document():
         "title": "Test Document",
         "content": "This is test content for our document.",
         "folder_id": "folder-789",
-        "metadata": {
-            "author": "Test Author",
-            "created_at": "2024-01-01T00:00:00Z"
-        },
+        "metadata": {"author": "Test Author", "created_at": "2024-01-01T00:00:00Z"},
         "embedding": [0.1] * 1536,
         "token_count": 10,
-        "processing_cost": 0.001
+        "processing_cost": 0.001,
     }
 
 
@@ -112,7 +112,7 @@ def sample_config():
         "cost_limit_daily": 50.0,
         "cost_limit_monthly": 1000.0,
         "batch_size": 10,
-        "max_workers": 4
+        "max_workers": 4,
     }
 
 
@@ -180,11 +180,11 @@ def sample_processing_result():
         "metadata": {
             "extraction_method": "ai",
             "quality_score": 0.95,
-            "token_count": 100
+            "token_count": 100,
         },
         "embedding": [0.1] * 1536,
         "cost": 0.002,
-        "processing_time": 1.5
+        "processing_time": 1.5,
     }
 
 

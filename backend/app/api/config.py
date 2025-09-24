@@ -16,7 +16,7 @@ from models.api import (
     ConfigurationValidationResponse,
     ConfigurationTemplateResponse,
     SystemConfigurationResponse,
-    ConfigurationUpdateRequest
+    ConfigurationUpdateRequest,
 )
 from database.connection import get_database_session
 from api.auth import get_current_user
@@ -42,7 +42,7 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "required": True,
                         "placeholder": "postgresql://user:password@localhost:5432/brain_db",
                         "validation_pattern": r"postgresql://.*",
-                        "help_text": "PostgreSQL connection string with credentials"
+                        "help_text": "PostgreSQL connection string with credentials",
                     },
                     {
                         "name": "enable_ssl",
@@ -50,12 +50,12 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "type": "boolean",
                         "required": False,
                         "default": True,
-                        "help_text": "Enable SSL for database connection"
-                    }
+                        "help_text": "Enable SSL for database connection",
+                    },
                 ],
                 is_completed=True,  # Would check actual configuration
                 validation_status="valid",
-                next_step=2
+                next_step=2,
             ),
             ConfigurationWizardStep(
                 step_number=2,
@@ -69,7 +69,7 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "required": True,
                         "placeholder": "sk-...",
                         "validation_pattern": r"sk-[A-Za-z0-9]{48}",
-                        "help_text": "Your OpenAI API key for embeddings and completions"
+                        "help_text": "Your OpenAI API key for embeddings and completions",
                     },
                     {
                         "name": "openai_model",
@@ -78,21 +78,25 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "required": True,
                         "options": ["gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"],
                         "default": "gpt-4",
-                        "help_text": "Default OpenAI model for processing"
+                        "help_text": "Default OpenAI model for processing",
                     },
                     {
                         "name": "embedding_model",
                         "label": "Embedding Model",
                         "type": "select",
                         "required": True,
-                        "options": ["text-embedding-ada-002", "text-embedding-3-small", "text-embedding-3-large"],
+                        "options": [
+                            "text-embedding-ada-002",
+                            "text-embedding-3-small",
+                            "text-embedding-3-large",
+                        ],
                         "default": "text-embedding-ada-002",
-                        "help_text": "Model for generating document embeddings"
-                    }
+                        "help_text": "Model for generating document embeddings",
+                    },
                 ],
                 is_completed=False,
                 validation_status="pending",
-                next_step=3
+                next_step=3,
             ),
             ConfigurationWizardStep(
                 step_number=3,
@@ -105,7 +109,7 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "type": "textarea",
                         "required": True,
                         "placeholder": "Paste your Google Service Account JSON key here...",
-                        "help_text": "Google Cloud service account key with Drive API access"
+                        "help_text": "Google Cloud service account key with Drive API access",
                     },
                     {
                         "name": "google_scopes",
@@ -115,15 +119,15 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "options": [
                             "https://www.googleapis.com/auth/drive.readonly",
                             "https://www.googleapis.com/auth/drive.file",
-                            "https://www.googleapis.com/auth/drive"
+                            "https://www.googleapis.com/auth/drive",
                         ],
                         "default": ["https://www.googleapis.com/auth/drive.readonly"],
-                        "help_text": "Google Drive API permissions required"
-                    }
+                        "help_text": "Google Drive API permissions required",
+                    },
                 ],
                 is_completed=False,
                 validation_status="pending",
-                next_step=4
+                next_step=4,
             ),
             ConfigurationWizardStep(
                 step_number=4,
@@ -137,7 +141,7 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "required": True,
                         "placeholder": "https://your-project.supabase.co",
                         "validation_pattern": r"https://.*\.supabase\.co",
-                        "help_text": "Your Supabase project URL"
+                        "help_text": "Your Supabase project URL",
                     },
                     {
                         "name": "supabase_anon_key",
@@ -145,7 +149,7 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "type": "password",
                         "required": True,
                         "placeholder": "eyJ...",
-                        "help_text": "Supabase anonymous/public API key"
+                        "help_text": "Supabase anonymous/public API key",
                     },
                     {
                         "name": "supabase_service_role_key",
@@ -153,12 +157,12 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "type": "password",
                         "required": False,
                         "placeholder": "eyJ...",
-                        "help_text": "Supabase service role key (for admin operations)"
-                    }
+                        "help_text": "Supabase service role key (for admin operations)",
+                    },
                 ],
                 is_completed=False,
                 validation_status="pending",
-                next_step=5
+                next_step=5,
             ),
             ConfigurationWizardStep(
                 step_number=5,
@@ -171,7 +175,7 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "type": "text",
                         "required": False,
                         "placeholder": "pk-lf-...",
-                        "help_text": "Langfuse public key for LLM observability"
+                        "help_text": "Langfuse public key for LLM observability",
                     },
                     {
                         "name": "langfuse_secret_key",
@@ -179,7 +183,7 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "type": "password",
                         "required": False,
                         "placeholder": "sk-lf-...",
-                        "help_text": "Langfuse secret key"
+                        "help_text": "Langfuse secret key",
                     },
                     {
                         "name": "langfuse_host",
@@ -187,20 +191,20 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
                         "type": "text",
                         "required": False,
                         "default": "https://cloud.langfuse.com",
-                        "help_text": "Langfuse instance URL"
-                    }
+                        "help_text": "Langfuse instance URL",
+                    },
                 ],
                 is_completed=False,
                 validation_status="pending",
-                next_step=None
-            )
+                next_step=None,
+            ),
         ]
-        
+
         return steps
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to get wizard steps: {str(e)}"
+            detail=f"Failed to get wizard steps: {str(e)}",
         )
 
 
@@ -208,13 +212,13 @@ async def get_wizard_steps(current_user: dict = Depends(get_current_user)):
 async def validate_configuration(
     step_number: int,
     configuration_data: Dict[str, Any],
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Validate configuration data for a specific wizard step."""
     try:
         validation_results = {}
         overall_valid = True
-        
+
         if step_number == 1:  # Database
             # Validate database connection
             database_url = configuration_data.get("database_url")
@@ -223,15 +227,15 @@ async def validate_configuration(
                     # Would test actual database connection
                     validation_results["database_url"] = {
                         "valid": True,
-                        "message": "Database connection successful"
+                        "message": "Database connection successful",
                     }
                 except Exception as e:
                     validation_results["database_url"] = {
                         "valid": False,
-                        "message": f"Database connection failed: {str(e)}"
+                        "message": f"Database connection failed: {str(e)}",
                     }
                     overall_valid = False
-            
+
         elif step_number == 2:  # AI Services
             # Validate OpenAI API key
             openai_key = configuration_data.get("openai_api_key")
@@ -239,62 +243,67 @@ async def validate_configuration(
                 if openai_key.startswith("sk-") and len(openai_key) > 20:
                     validation_results["openai_api_key"] = {
                         "valid": True,
-                        "message": "OpenAI API key format is valid"
+                        "message": "OpenAI API key format is valid",
                     }
                 else:
                     validation_results["openai_api_key"] = {
                         "valid": False,
-                        "message": "Invalid OpenAI API key format"
+                        "message": "Invalid OpenAI API key format",
                     }
                     overall_valid = False
-            
+
         elif step_number == 3:  # Google Drive
             # Validate Google service account
             service_account = configuration_data.get("google_service_account_key")
             if service_account:
                 try:
                     import json
+
                     json.loads(service_account)
                     validation_results["google_service_account_key"] = {
                         "valid": True,
-                        "message": "Valid JSON service account key"
+                        "message": "Valid JSON service account key",
                     }
                 except json.JSONDecodeError:
                     validation_results["google_service_account_key"] = {
                         "valid": False,
-                        "message": "Invalid JSON format"
+                        "message": "Invalid JSON format",
                     }
                     overall_valid = False
-            
+
         elif step_number == 4:  # Supabase
             # Validate Supabase URL
             supabase_url = configuration_data.get("supabase_url")
             if supabase_url and supabase_url.endswith(".supabase.co"):
                 validation_results["supabase_url"] = {
                     "valid": True,
-                    "message": "Valid Supabase URL format"
+                    "message": "Valid Supabase URL format",
                 }
             else:
                 validation_results["supabase_url"] = {
                     "valid": False,
-                    "message": "Invalid Supabase URL format"
+                    "message": "Invalid Supabase URL format",
                 }
                 overall_valid = False
-        
+
         return ConfigurationValidationResponse(
             step_number=step_number,
             is_valid=overall_valid,
             validation_results=validation_results,
-            suggestions=[
-                "Ensure all required fields are filled",
-                "Test connections before proceeding",
-                "Keep sensitive keys secure"
-            ] if not overall_valid else ["Configuration looks good!"]
+            suggestions=(
+                [
+                    "Ensure all required fields are filled",
+                    "Test connections before proceeding",
+                    "Keep sensitive keys secure",
+                ]
+                if not overall_valid
+                else ["Configuration looks good!"]
+            ),
         )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Configuration validation failed: {str(e)}"
+            detail=f"Configuration validation failed: {str(e)}",
         )
 
 
@@ -315,7 +324,7 @@ async def get_configuration_templates():
                     "embedding_model": "text-embedding-ada-002",
                     "langfuse_host": "https://cloud.langfuse.com",
                     "debug": True,
-                    "environment": "development"
+                    "environment": "development",
                 },
                 required_secrets=["openai_api_key", "google_service_account_key"],
                 estimated_monthly_cost=25.00,
@@ -323,8 +332,8 @@ async def get_configuration_templates():
                     "Local PostgreSQL database",
                     "Cost-optimized AI models",
                     "Development debugging enabled",
-                    "Basic monitoring"
-                ]
+                    "Basic monitoring",
+                ],
             ),
             ConfigurationTemplateResponse(
                 id="production",
@@ -338,7 +347,7 @@ async def get_configuration_templates():
                     "environment": "production",
                     "debug": False,
                     "rate_limiting": True,
-                    "security_headers": True
+                    "security_headers": True,
                 },
                 required_secrets=[
                     "database_url",
@@ -347,7 +356,7 @@ async def get_configuration_templates():
                     "supabase_url",
                     "supabase_anon_key",
                     "langfuse_public_key",
-                    "langfuse_secret_key"
+                    "langfuse_secret_key",
                 ],
                 estimated_monthly_cost=150.00,
                 features=[
@@ -356,8 +365,8 @@ async def get_configuration_templates():
                     "Full LLM observability",
                     "Production security",
                     "Real-time monitoring",
-                    "Auto-scaling support"
-                ]
+                    "Auto-scaling support",
+                ],
             ),
             ConfigurationTemplateResponse(
                 id="enterprise",
@@ -374,7 +383,7 @@ async def get_configuration_templates():
                     "security_headers": True,
                     "audit_logging": True,
                     "data_retention_days": 365,
-                    "backup_enabled": True
+                    "backup_enabled": True,
                 },
                 required_secrets=[
                     "database_url",
@@ -383,7 +392,7 @@ async def get_configuration_templates():
                     "supabase_url",
                     "supabase_service_role_key",
                     "langfuse_public_key",
-                    "langfuse_secret_key"
+                    "langfuse_secret_key",
                 ],
                 estimated_monthly_cost=500.00,
                 features=[
@@ -393,16 +402,16 @@ async def get_configuration_templates():
                     "Audit logging",
                     "Data retention policies",
                     "Automated backups",
-                    "24/7 support"
-                ]
-            )
+                    "24/7 support",
+                ],
+            ),
         ]
-        
+
         return templates
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to get configuration templates: {str(e)}"
+            detail=f"Failed to get configuration templates: {str(e)}",
         )
 
 
@@ -411,66 +420,72 @@ async def get_current_configuration(current_user: dict = Depends(get_current_use
     """Get current system configuration status."""
     try:
         settings = get_settings()
-        
+
         # Mask sensitive information
         configuration = {
             "database_configured": bool(settings.database_url),
             "openai_configured": bool(settings.openai_api_key),
             "google_drive_configured": bool(settings.google_service_account_json),
-            "supabase_configured": bool(settings.supabase_url and settings.supabase_anon_key),
+            "supabase_configured": bool(
+                settings.supabase_url and settings.supabase_anon_key
+            ),
             "langfuse_configured": bool(settings.langfuse_public_key),
             "environment": settings.environment,
             "debug_mode": settings.debug,
-            "ssl_enabled": bool(settings.ssl_certfile and settings.ssl_keyfile)
+            "ssl_enabled": bool(settings.ssl_certfile and settings.ssl_keyfile),
         }
-        
+
         # Calculate configuration completeness
         required_configs = ["database_configured", "openai_configured"]
-        completed_configs = sum(1 for key in required_configs if configuration.get(key, False))
+        completed_configs = sum(
+            1 for key in required_configs if configuration.get(key, False)
+        )
         completeness_percentage = (completed_configs / len(required_configs)) * 100
-        
+
         return SystemConfigurationResponse(
             configuration=configuration,
             configuration_complete=completeness_percentage >= 100,
             completeness_percentage=completeness_percentage,
             missing_configurations=[
-                key for key in required_configs 
-                if not configuration.get(key, False)
+                key for key in required_configs if not configuration.get(key, False)
             ],
             last_updated=datetime.now(timezone.utc),
-            warnings=[
-                "Google Drive not configured - document import limited",
-                "Langfuse not configured - LLM monitoring disabled"
-            ] if completeness_percentage < 100 else []
+            warnings=(
+                [
+                    "Google Drive not configured - document import limited",
+                    "Langfuse not configured - LLM monitoring disabled",
+                ]
+                if completeness_percentage < 100
+                else []
+            ),
         )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to get current configuration: {str(e)}"
+            detail=f"Failed to get current configuration: {str(e)}",
         )
 
 
 @router.put("/update", response_model=SystemConfigurationResponse)
 async def update_configuration(
-    request: ConfigurationUpdateRequest,
-    current_user: dict = Depends(get_current_user)
+    request: ConfigurationUpdateRequest, current_user: dict = Depends(get_current_user)
 ):
     """Update system configuration settings."""
     try:
         # In a real implementation, this would update the configuration
         # For security, sensitive values should be stored in a secure manner
-        
+
         # Validate the configuration update
         if request.configuration:
             # Apply configuration updates
             # This would typically update environment variables or a secure config store
             pass
-        
+
         return await get_current_configuration(current_user)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to update configuration: {str(e)}"
+            detail=f"Failed to update configuration: {str(e)}",
         )
 
 
@@ -478,7 +493,7 @@ async def update_configuration(
 async def test_service_connection(
     service: str,
     configuration: Dict[str, Any],
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
 ):
     """Test connection to a specific service with given configuration."""
     try:
@@ -490,17 +505,17 @@ async def test_service_connection(
             return {"status": "success", "message": "OpenAI API connection successful"}
         elif service == "google_drive":
             # Test Google Drive API
-            return {"status": "success", "message": "Google Drive API connection successful"}
+            return {
+                "status": "success",
+                "message": "Google Drive API connection successful",
+            }
         elif service == "supabase":
             # Test Supabase connection
             return {"status": "success", "message": "Supabase connection successful"}
         else:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Unknown service: {service}"
+                detail=f"Unknown service: {service}",
             )
     except Exception as e:
-        return {
-            "status": "error",
-            "message": f"Connection test failed: {str(e)}"
-        }
+        return {"status": "error", "message": f"Connection test failed: {str(e)}"}

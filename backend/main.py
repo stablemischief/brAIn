@@ -35,8 +35,7 @@ from app.database.connection import initialize_database, cleanup_database
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -48,12 +47,12 @@ security = HTTPBearer(auto_error=False)
 async def lifespan(app: FastAPI):
     """Application lifespan manager for startup and shutdown events."""
     settings = get_settings()
-    
+
     # Startup
     logger.info("🧠 brAIn v2.0 starting up...")
     logger.info(f"Environment: {settings.environment}")
     logger.info(f"Debug mode: {settings.debug}")
-    
+
     # Initialize database connections
     try:
         await initialize_database()
@@ -61,16 +60,16 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"❌ Database initialization failed: {e}")
         raise
-    
+
     # Initialize monitoring
     try:
         # Langfuse/monitoring initialization would go here
         logger.info("✅ Monitoring systems initialized")
     except Exception as e:
         logger.warning(f"⚠️ Monitoring initialization failed: {e}")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("🧠 brAIn v2.0 shutting down...")
     await cleanup_database()
@@ -79,7 +78,7 @@ async def lifespan(app: FastAPI):
 def create_application() -> FastAPI:
     """Create and configure the FastAPI application."""
     settings = get_settings()
-    
+
     app = FastAPI(
         title="brAIn v2.0 - RAG Pipeline Management System",
         description="AI-enhanced RAG pipeline management with real-time monitoring, cost optimization, and knowledge graph capabilities",
@@ -87,15 +86,22 @@ def create_application() -> FastAPI:
         docs_url="/docs" if settings.debug else None,
         redoc_url="/redoc" if settings.debug else None,
         openapi_url="/openapi.json" if settings.debug else None,
-        lifespan=lifespan
+        lifespan=lifespan,
     )
-    
+
     # CORS Configuration - Security Hardened
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
         allow_credentials=True,
-        allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],  # Explicit methods only
+        allow_methods=[
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH",
+            "OPTIONS",
+        ],  # Explicit methods only
         allow_headers=[
             "Accept",
             "Accept-Language",
@@ -104,23 +110,24 @@ def create_application() -> FastAPI:
             "Authorization",
             "X-Requested-With",
             "X-API-Key",
-            "Cache-Control"
+            "Cache-Control",
         ],  # Explicit headers only - no wildcards
-        expose_headers=["X-Total-Count", "X-User-ID", "X-User-Email"],  # Safe response headers
+        expose_headers=[
+            "X-Total-Count",
+            "X-User-ID",
+            "X-User-Email",
+        ],  # Safe response headers
         max_age=86400,  # Cache preflight responses for 24 hours
     )
-    
+
     # Trusted Host Middleware
-    app.add_middleware(
-        TrustedHostMiddleware,
-        allowed_hosts=settings.allowed_hosts
-    )
-    
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
+
     # Session Middleware
     app.add_middleware(
         SessionMiddleware,
         secret_key=settings.secret_key,
-        max_age=settings.session_max_age
+        max_age=settings.session_max_age,
     )
 
     # Security Middleware (MUST be before authentication)
@@ -128,17 +135,17 @@ def create_application() -> FastAPI:
 
     # Authentication Middleware
     app.add_middleware(AuthenticationMiddleware)
-    
+
     # Rate Limiting Middleware
     if settings.rate_limiting_enabled:
         app.add_middleware(RateLimitingMiddleware)
-    
+
     # IP Whitelist Middleware for admin endpoints
     app.add_middleware(IPWhitelistMiddleware)
-    
+
     # Set up error handlers
     setup_error_handlers(app)
-    
+
     # Include routers
     app.include_router(health_router, prefix="/api/health", tags=["Health"])
     app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
@@ -148,7 +155,7 @@ def create_application() -> FastAPI:
     app.include_router(analytics_router, prefix="/api/analytics", tags=["Analytics"])
     app.include_router(config_router, prefix="/api/config", tags=["Configuration"])
     app.include_router(websocket_router, prefix="/ws", tags=["WebSocket"])
-    
+
     return app
 
 
@@ -168,11 +175,11 @@ async def root():
         "status": "healthy",
         "features": [
             "Real-time monitoring",
-            "Cost optimization", 
+            "Cost optimization",
             "Knowledge graph",
             "Semantic search",
-            "AI-powered validation"
-        ]
+            "AI-powered validation",
+        ],
     }
 
 
@@ -183,13 +190,13 @@ async def health_check():
         status="healthy",
         timestamp=None,  # Will be auto-generated by model
         version="2.0.0",
-        environment=get_settings().environment
+        environment=get_settings().environment,
     )
 
 
 if __name__ == "__main__":
     settings = get_settings()
-    
+
     # Configure uvicorn
     uvicorn_config = {
         "app": "main:app",
@@ -200,13 +207,15 @@ if __name__ == "__main__":
         "access_log": True,
         "use_colors": True,
     }
-    
+
     if settings.environment == "production":
-        uvicorn_config.update({
-            "workers": settings.workers,
-            "ssl_keyfile": settings.ssl_keyfile,
-            "ssl_certfile": settings.ssl_certfile,
-        })
-    
+        uvicorn_config.update(
+            {
+                "workers": settings.workers,
+                "ssl_keyfile": settings.ssl_keyfile,
+                "ssl_certfile": settings.ssl_certfile,
+            }
+        )
+
     logger.info(f"🚀 Starting brAIn v2.0 server on {settings.host}:{settings.port}")
     uvicorn.run(**uvicorn_config)

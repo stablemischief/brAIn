@@ -17,7 +17,7 @@ from config.models import (
     LangfuseConfig,
     SecurityConfig,
     CostManagementConfig,
-    ProcessingConfig
+    ProcessingConfig,
 )
 
 
@@ -46,7 +46,7 @@ class ConfigurationTemplates:
                     "password": "dev_password_change_me",
                     "schema": "public",
                     "pool_size": 5,
-                    "max_overflow": 2
+                    "max_overflow": 2,
                 },
                 "openai": {
                     "api_key": "sk-your-openai-key-here",
@@ -54,19 +54,19 @@ class ConfigurationTemplates:
                     "temperature": 0.7,
                     "max_tokens": 4000,
                     "timeout": 30,
-                    "max_retries": 3
+                    "max_retries": 3,
                 },
                 "supabase": {
                     "url": "https://your-project.supabase.co",
                     "anon_key": "your-anon-key-here",
                     "service_key": None,
-                    "jwt_secret": None
+                    "jwt_secret": None,
                 },
                 "langfuse": {
                     "enabled": False,
                     "public_key": None,
                     "secret_key": None,
-                    "host": None
+                    "host": None,
                 },
                 "security": {
                     "jwt_enabled": False,
@@ -79,7 +79,7 @@ class ConfigurationTemplates:
                     "rate_limit_requests": 1000,
                     "input_validation_strict": False,
                     "sql_injection_protection": True,
-                    "xss_protection": True
+                    "xss_protection": True,
                 },
                 "cost_management": {
                     "daily_budget": 10.0,
@@ -90,8 +90,8 @@ class ConfigurationTemplates:
                         "gpt-4o-mini": 0.00015,
                         "gpt-4o": 0.005,
                         "claude-3-5-sonnet-20241022": 0.003,
-                        "text-embedding-3-small": 0.00002
-                    }
+                        "text-embedding-3-small": 0.00002,
+                    },
                 },
                 "processing": {
                     "batch_size": 10,
@@ -101,12 +101,12 @@ class ConfigurationTemplates:
                     "quality_threshold": 0.6,
                     "duplicate_threshold": 0.95,
                     "max_file_size_mb": 50,
-                    "supported_formats": ["pdf", "docx", "txt", "md", "html"]
-                }
+                    "supported_formats": ["pdf", "docx", "txt", "md", "html"],
+                },
             },
             tags=["development", "local", "testing"],
             recommended_for=["Local development", "Testing", "Prototyping"],
-            is_official=True
+            is_official=True,
         )
 
     @staticmethod
@@ -131,7 +131,7 @@ class ConfigurationTemplates:
                     "password": "${DATABASE_PASSWORD}",
                     "schema": "public",
                     "pool_size": 20,
-                    "max_overflow": 10
+                    "max_overflow": 10,
                 },
                 "openai": {
                     "api_key": "${OPENAI_API_KEY}",
@@ -139,26 +139,26 @@ class ConfigurationTemplates:
                     "temperature": 0.7,
                     "max_tokens": 4000,
                     "timeout": 60,
-                    "max_retries": 5
+                    "max_retries": 5,
                 },
                 "anthropic": {
                     "api_key": "${ANTHROPIC_API_KEY}",
                     "model": "claude-3-5-sonnet-20241022",
                     "max_tokens": 4000,
                     "temperature": 0.7,
-                    "timeout": 60
+                    "timeout": 60,
                 },
                 "supabase": {
                     "url": "${SUPABASE_URL}",
                     "anon_key": "${SUPABASE_ANON_KEY}",
                     "service_key": "${SUPABASE_SERVICE_KEY}",
-                    "jwt_secret": "${SUPABASE_JWT_SECRET}"
+                    "jwt_secret": "${SUPABASE_JWT_SECRET}",
                 },
                 "langfuse": {
                     "enabled": True,
                     "public_key": "${LANGFUSE_PUBLIC_KEY}",
                     "secret_key": "${LANGFUSE_SECRET_KEY}",
-                    "host": None
+                    "host": None,
                 },
                 "security": {
                     "jwt_enabled": True,
@@ -171,7 +171,7 @@ class ConfigurationTemplates:
                     "rate_limit_requests": 100,
                     "input_validation_strict": True,
                     "sql_injection_protection": True,
-                    "xss_protection": True
+                    "xss_protection": True,
                 },
                 "cost_management": {
                     "daily_budget": 50.0,
@@ -182,8 +182,8 @@ class ConfigurationTemplates:
                         "gpt-4o-mini": 0.00015,
                         "gpt-4o": 0.005,
                         "claude-3-5-sonnet-20241022": 0.003,
-                        "text-embedding-3-small": 0.00002
-                    }
+                        "text-embedding-3-small": 0.00002,
+                    },
                 },
                 "processing": {
                     "batch_size": 20,
@@ -193,12 +193,24 @@ class ConfigurationTemplates:
                     "quality_threshold": 0.8,
                     "duplicate_threshold": 0.95,
                     "max_file_size_mb": 100,
-                    "supported_formats": ["pdf", "docx", "txt", "md", "html", "json", "csv"]
-                }
+                    "supported_formats": [
+                        "pdf",
+                        "docx",
+                        "txt",
+                        "md",
+                        "html",
+                        "json",
+                        "csv",
+                    ],
+                },
             },
             tags=["production", "secure", "enterprise"],
-            recommended_for=["Enterprise deployment", "High-security environments", "Compliance-focused"],
-            is_official=True
+            recommended_for=[
+                "Enterprise deployment",
+                "High-security environments",
+                "Compliance-focused",
+            ],
+            is_official=True,
         )
 
     @staticmethod
@@ -223,7 +235,7 @@ class ConfigurationTemplates:
                     "password": "${DATABASE_PASSWORD}",
                     "schema": "public",
                     "pool_size": 10,
-                    "max_overflow": 5
+                    "max_overflow": 5,
                 },
                 "openai": {
                     "api_key": "${OPENAI_API_KEY}",
@@ -231,19 +243,19 @@ class ConfigurationTemplates:
                     "temperature": 0.5,  # Lower temperature for consistency
                     "max_tokens": 2000,  # Lower token limit
                     "timeout": 30,
-                    "max_retries": 2
+                    "max_retries": 2,
                 },
                 "supabase": {
                     "url": "${SUPABASE_URL}",
                     "anon_key": "${SUPABASE_ANON_KEY}",
                     "service_key": None,  # Skip service key to save on API calls
-                    "jwt_secret": None
+                    "jwt_secret": None,
                 },
                 "langfuse": {
                     "enabled": False,  # Disable to save on monitoring costs
                     "public_key": None,
                     "secret_key": None,
-                    "host": None
+                    "host": None,
                 },
                 "security": {
                     "jwt_enabled": True,
@@ -256,7 +268,7 @@ class ConfigurationTemplates:
                     "rate_limit_requests": 50,  # Stricter rate limiting
                     "input_validation_strict": True,
                     "sql_injection_protection": True,
-                    "xss_protection": True
+                    "xss_protection": True,
                 },
                 "cost_management": {
                     "daily_budget": 5.0,  # Very low daily budget
@@ -267,8 +279,8 @@ class ConfigurationTemplates:
                         "gpt-4o-mini": 0.00015,
                         "gpt-4o": 0.005,
                         "claude-3-5-sonnet-20241022": 0.003,
-                        "text-embedding-3-small": 0.00002
-                    }
+                        "text-embedding-3-small": 0.00002,
+                    },
                 },
                 "processing": {
                     "batch_size": 5,  # Smaller batches
@@ -278,12 +290,16 @@ class ConfigurationTemplates:
                     "quality_threshold": 0.7,
                     "duplicate_threshold": 0.98,  # Stricter duplicate detection
                     "max_file_size_mb": 25,  # Lower file size limit
-                    "supported_formats": ["pdf", "docx", "txt", "md"]  # Fewer formats
-                }
+                    "supported_formats": ["pdf", "docx", "txt", "md"],  # Fewer formats
+                },
             },
             tags=["cost-optimized", "budget", "economical"],
-            recommended_for=["Startups", "Personal projects", "Budget-limited deployments"],
-            is_official=True
+            recommended_for=[
+                "Startups",
+                "Personal projects",
+                "Budget-limited deployments",
+            ],
+            is_official=True,
         )
 
     @staticmethod
@@ -308,7 +324,7 @@ class ConfigurationTemplates:
                     "password": "${DATABASE_PASSWORD}",
                     "schema": "public",
                     "pool_size": 50,  # Large pool
-                    "max_overflow": 20  # High overflow
+                    "max_overflow": 20,  # High overflow
                 },
                 "openai": {
                     "api_key": "${OPENAI_API_KEY}",
@@ -316,26 +332,26 @@ class ConfigurationTemplates:
                     "temperature": 0.7,
                     "max_tokens": 8000,  # High token limit
                     "timeout": 120,  # Long timeout
-                    "max_retries": 5
+                    "max_retries": 5,
                 },
                 "anthropic": {
                     "api_key": "${ANTHROPIC_API_KEY}",
                     "model": "claude-3-5-sonnet-20241022",
                     "max_tokens": 8000,
                     "temperature": 0.7,
-                    "timeout": 120
+                    "timeout": 120,
                 },
                 "supabase": {
                     "url": "${SUPABASE_URL}",
                     "anon_key": "${SUPABASE_ANON_KEY}",
                     "service_key": "${SUPABASE_SERVICE_KEY}",
-                    "jwt_secret": "${SUPABASE_JWT_SECRET}"
+                    "jwt_secret": "${SUPABASE_JWT_SECRET}",
                 },
                 "langfuse": {
                     "enabled": True,
                     "public_key": "${LANGFUSE_PUBLIC_KEY}",
                     "secret_key": "${LANGFUSE_SECRET_KEY}",
-                    "host": None
+                    "host": None,
                 },
                 "security": {
                     "jwt_enabled": True,
@@ -348,7 +364,7 @@ class ConfigurationTemplates:
                     "rate_limit_requests": 1000,  # High rate limit
                     "input_validation_strict": True,
                     "sql_injection_protection": True,
-                    "xss_protection": True
+                    "xss_protection": True,
                 },
                 "cost_management": {
                     "daily_budget": 500.0,  # High budget
@@ -359,8 +375,8 @@ class ConfigurationTemplates:
                         "gpt-4o-mini": 0.00015,
                         "gpt-4o": 0.005,
                         "claude-3-5-sonnet-20241022": 0.003,
-                        "text-embedding-3-small": 0.00002
-                    }
+                        "text-embedding-3-small": 0.00002,
+                    },
                 },
                 "processing": {
                     "batch_size": 50,  # Large batches
@@ -370,12 +386,26 @@ class ConfigurationTemplates:
                     "quality_threshold": 0.9,  # High quality requirement
                     "duplicate_threshold": 0.99,  # Precise duplicate detection
                     "max_file_size_mb": 500,  # Very large files
-                    "supported_formats": ["pdf", "docx", "txt", "md", "html", "json", "csv", "xml", "rtf"]
-                }
+                    "supported_formats": [
+                        "pdf",
+                        "docx",
+                        "txt",
+                        "md",
+                        "html",
+                        "json",
+                        "csv",
+                        "xml",
+                        "rtf",
+                    ],
+                },
             },
             tags=["high-performance", "enterprise", "scalable"],
-            recommended_for=["Enterprise", "High-volume processing", "Mission-critical applications"],
-            is_official=True
+            recommended_for=[
+                "Enterprise",
+                "High-volume processing",
+                "Mission-critical applications",
+            ],
+            is_official=True,
         )
 
     @staticmethod
@@ -390,7 +420,7 @@ class ConfigurationTemplates:
             ConfigurationTemplates.get_development_template(),
             ConfigurationTemplates.get_production_secure_template(),
             ConfigurationTemplates.get_cost_optimized_template(),
-            ConfigurationTemplates.get_high_performance_template()
+            ConfigurationTemplates.get_high_performance_template(),
         ]
 
     @staticmethod
@@ -411,7 +441,9 @@ class ConfigurationTemplates:
         return None
 
     @staticmethod
-    def apply_template(template: ConfigurationTemplate, overrides: Dict[str, Any] = None) -> Dict[str, Any]:
+    def apply_template(
+        template: ConfigurationTemplate, overrides: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """
         Apply a template with optional overrides.
 
@@ -428,7 +460,11 @@ class ConfigurationTemplates:
             # Deep merge overrides into config
             def deep_merge(base: dict, override: dict):
                 for key, value in override.items():
-                    if key in base and isinstance(base[key], dict) and isinstance(value, dict):
+                    if (
+                        key in base
+                        and isinstance(base[key], dict)
+                        and isinstance(value, dict)
+                    ):
                         deep_merge(base[key], value)
                     else:
                         base[key] = value

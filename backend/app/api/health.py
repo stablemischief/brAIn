@@ -13,11 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
 from config.settings import get_settings
-from models.api import (
-    HealthResponse,
-    SystemMetricsResponse,
-    ServiceStatusResponse
-)
+from models.api import HealthResponse, SystemMetricsResponse, ServiceStatusResponse
 from database.connection import get_database_session
 
 router = APIRouter()
@@ -27,9 +23,7 @@ router = APIRouter()
 async def health_check():
     """Basic health check endpoint."""
     return HealthResponse(
-        status="healthy",
-        version="2.0.0",
-        environment=get_settings().environment
+        status="healthy", version="2.0.0", environment=get_settings().environment
     )
 
 
@@ -42,53 +36,50 @@ async def detailed_health_check(db: AsyncSession = Depends(get_database_session)
         "timestamp": datetime.now(timezone.utc),
         "version": "2.0.0",
         "environment": settings.environment,
-        "services": {}
+        "services": {},
     }
-    
+
     # Database health check
     try:
         result = await db.execute(text("SELECT 1"))
         health_data["services"]["database"] = {
             "status": "healthy",
             "response_time_ms": 0,  # Would measure actual response time
-            "type": "postgresql"
+            "type": "postgresql",
         }
     except Exception as e:
         health_data["services"]["database"] = {
             "status": "unhealthy",
             "error": str(e),
-            "type": "postgresql"
+            "type": "postgresql",
         }
         health_data["status"] = "degraded"
-    
+
     # Check OpenAI API (if configured)
     if settings.openai_api_key:
         try:
             # Would test OpenAI connection here
             health_data["services"]["openai"] = {
                 "status": "healthy",
-                "model": settings.openai_model
+                "model": settings.openai_model,
             }
         except Exception as e:
-            health_data["services"]["openai"] = {
-                "status": "unhealthy",
-                "error": str(e)
-            }
-    
+            health_data["services"]["openai"] = {"status": "unhealthy", "error": str(e)}
+
     # Check Supabase connection
     if settings.supabase_url:
         try:
             # Would test Supabase connection here
             health_data["services"]["supabase"] = {
                 "status": "healthy",
-                "url": settings.supabase_url
+                "url": settings.supabase_url,
             }
         except Exception as e:
             health_data["services"]["supabase"] = {
                 "status": "unhealthy",
-                "error": str(e)
+                "error": str(e),
             }
-    
+
     return health_data
 
 
@@ -97,8 +88,8 @@ async def system_metrics():
     """Get current system performance metrics."""
     cpu_percent = psutil.cpu_percent(interval=1)
     memory = psutil.virtual_memory()
-    disk = psutil.disk_usage('/')
-    
+    disk = psutil.disk_usage("/")
+
     return SystemMetricsResponse(
         cpu_usage_percent=cpu_percent,
         memory_usage_percent=memory.percent,
@@ -107,7 +98,7 @@ async def system_metrics():
         disk_usage_percent=disk.percent,
         disk_total_gb=disk.total / (1024**3),
         disk_free_gb=disk.free / (1024**3),
-        uptime_seconds=0  # Would calculate actual uptime
+        uptime_seconds=0,  # Would calculate actual uptime
     )
 
 
@@ -120,9 +111,9 @@ async def service_status():
             "database": {"status": "connected", "type": "postgresql"},
             "websocket": {"status": "running", "connections": 0},
             "langfuse": {"status": "connected", "tracking": True},
-            "supabase": {"status": "connected", "realtime": True}
+            "supabase": {"status": "connected", "realtime": True},
         },
-        overall_status="healthy"
+        overall_status="healthy",
     )
 
 

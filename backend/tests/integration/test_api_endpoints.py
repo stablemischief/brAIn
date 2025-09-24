@@ -1,6 +1,7 @@
 """
 Integration tests for FastAPI endpoints.
 """
+
 import pytest
 from httpx import AsyncClient
 from unittest.mock import MagicMock, patch
@@ -16,6 +17,7 @@ class TestAPIEndpoints:
     async def client(self):
         """Create async test client."""
         from main import app
+
         async with AsyncClient(app=app, base_url="http://test") as ac:
             yield ac
 
@@ -57,19 +59,14 @@ class TestAPIEndpoints:
             "title": "Test Document",
             "content": "Test content",
             "folder_id": "folder-123",
-            "metadata": {"author": "Test User"}
+            "metadata": {"author": "Test User"},
         }
 
         with patch("api.folders.create_document") as mock_create:
-            mock_create.return_value = {
-                "id": "doc-123",
-                **document_data
-            }
+            mock_create.return_value = {"id": "doc-123", **document_data}
 
             response = await client.post(
-                "/api/documents",
-                json=document_data,
-                headers=auth_headers
+                "/api/documents", json=document_data, headers=auth_headers
             )
 
             assert response.status_code == 201
@@ -84,13 +81,10 @@ class TestAPIEndpoints:
             mock_get.return_value = {
                 "id": "doc-123",
                 "title": "Test Document",
-                "content": "Test content"
+                "content": "Test content",
             }
 
-            response = await client.get(
-                "/api/documents/doc-123",
-                headers=auth_headers
-            )
+            response = await client.get("/api/documents/doc-123", headers=auth_headers)
 
             assert response.status_code == 200
             data = response.json()
@@ -103,8 +97,7 @@ class TestAPIEndpoints:
             mock_get.return_value = None
 
             response = await client.get(
-                "/api/documents/nonexistent",
-                headers=auth_headers
+                "/api/documents/nonexistent", headers=auth_headers
             )
 
             assert response.status_code == 404
@@ -112,18 +105,13 @@ class TestAPIEndpoints:
     @pytest.mark.asyncio
     async def test_update_document(self, client, auth_headers):
         """Test document update endpoint."""
-        update_data = {
-            "title": "Updated Title",
-            "metadata": {"updated": True}
-        }
+        update_data = {"title": "Updated Title", "metadata": {"updated": True}}
 
         with patch("api.folders.update_document") as mock_update:
             mock_update.return_value = True
 
             response = await client.patch(
-                "/api/documents/doc-123",
-                json=update_data,
-                headers=auth_headers
+                "/api/documents/doc-123", json=update_data, headers=auth_headers
             )
 
             assert response.status_code == 200
@@ -135,8 +123,7 @@ class TestAPIEndpoints:
             mock_delete.return_value = True
 
             response = await client.delete(
-                "/api/documents/doc-123",
-                headers=auth_headers
+                "/api/documents/doc-123", headers=auth_headers
             )
 
             assert response.status_code == 204
@@ -150,15 +137,15 @@ class TestAPIEndpoints:
             mock_search.return_value = {
                 "results": [
                     {"id": "doc-1", "title": "Result 1", "score": 0.95},
-                    {"id": "doc-2", "title": "Result 2", "score": 0.85}
+                    {"id": "doc-2", "title": "Result 2", "score": 0.85},
                 ],
-                "total": 2
+                "total": 2,
             }
 
             response = await client.post(
                 "/api/search",
                 json={"query": "test query", "limit": 10},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             assert response.status_code == 200
@@ -174,16 +161,14 @@ class TestAPIEndpoints:
             "folder_id": "folder-123",
             "date_from": "2024-01-01",
             "date_to": "2024-12-31",
-            "limit": 5
+            "limit": 5,
         }
 
         with patch("api.search.search_documents") as mock_search:
             mock_search.return_value = {"results": [], "total": 0}
 
             response = await client.post(
-                "/api/search",
-                json=search_params,
-                headers=auth_headers
+                "/api/search", json=search_params, headers=auth_headers
             )
 
             assert response.status_code == 200
@@ -196,19 +181,14 @@ class TestAPIEndpoints:
         processing_request = {
             "document_id": "doc-123",
             "processing_type": "full",
-            "options": {"extract_entities": True}
+            "options": {"extract_entities": True},
         }
 
         with patch("api.processing.start_processing") as mock_process:
-            mock_process.return_value = {
-                "job_id": "job-456",
-                "status": "processing"
-            }
+            mock_process.return_value = {"job_id": "job-456", "status": "processing"}
 
             response = await client.post(
-                "/api/processing/start",
-                json=processing_request,
-                headers=auth_headers
+                "/api/processing/start", json=processing_request, headers=auth_headers
             )
 
             assert response.status_code == 202
@@ -223,12 +203,11 @@ class TestAPIEndpoints:
                 "job_id": "job-456",
                 "status": "completed",
                 "progress": 100,
-                "result": {"success": True}
+                "result": {"success": True},
             }
 
             response = await client.get(
-                "/api/processing/status/job-456",
-                headers=auth_headers
+                "/api/processing/status/job-456", headers=auth_headers
             )
 
             assert response.status_code == 200
@@ -245,16 +224,10 @@ class TestAPIEndpoints:
                 "total_documents": 100,
                 "total_tokens": 50000,
                 "total_cost": 5.50,
-                "processing_stats": {
-                    "success_rate": 0.95,
-                    "average_time": 2.5
-                }
+                "processing_stats": {"success_rate": 0.95, "average_time": 2.5},
             }
 
-            response = await client.get(
-                "/api/analytics",
-                headers=auth_headers
-            )
+            response = await client.get("/api/analytics", headers=auth_headers)
 
             assert response.status_code == 200
             data = response.json()
@@ -268,16 +241,10 @@ class TestAPIEndpoints:
             mock_costs.return_value = {
                 "daily": {"2024-01-01": 1.50},
                 "monthly": {"2024-01": 45.00},
-                "by_model": {
-                    "gpt-4": 30.00,
-                    "text-embedding-ada-002": 15.00
-                }
+                "by_model": {"gpt-4": 30.00, "text-embedding-ada-002": 15.00},
             }
 
-            response = await client.get(
-                "/api/analytics/costs",
-                headers=auth_headers
-            )
+            response = await client.get("/api/analytics/costs", headers=auth_headers)
 
             assert response.status_code == 200
             data = response.json()
@@ -293,16 +260,10 @@ class TestAPIEndpoints:
             mock_config.return_value = {
                 "max_tokens": 4000,
                 "embedding_model": "text-embedding-ada-002",
-                "cost_limits": {
-                    "daily": 50.0,
-                    "monthly": 1000.0
-                }
+                "cost_limits": {"daily": 50.0, "monthly": 1000.0},
             }
 
-            response = await client.get(
-                "/api/config",
-                headers=auth_headers
-            )
+            response = await client.get("/api/config", headers=auth_headers)
 
             assert response.status_code == 200
             data = response.json()
@@ -311,18 +272,13 @@ class TestAPIEndpoints:
     @pytest.mark.asyncio
     async def test_update_config(self, client, auth_headers):
         """Test configuration update endpoint."""
-        config_update = {
-            "max_tokens": 8000,
-            "cost_limits": {"daily": 100.0}
-        }
+        config_update = {"max_tokens": 8000, "cost_limits": {"daily": 100.0}}
 
         with patch("api.config.update_configuration") as mock_update:
             mock_update.return_value = True
 
             response = await client.patch(
-                "/api/config",
-                json=config_update,
-                headers=auth_headers
+                "/api/config", json=config_update, headers=auth_headers
             )
 
             assert response.status_code == 200
@@ -348,7 +304,7 @@ class TestAPIEndpoints:
         response = await client.post(
             "/api/documents",
             content="invalid json",
-            headers={**auth_headers, "Content-Type": "application/json"}
+            headers={**auth_headers, "Content-Type": "application/json"},
         )
 
         assert response.status_code == 422
@@ -365,10 +321,7 @@ class TestAPIEndpoints:
         """Test rate limiting."""
         # Send multiple requests quickly
         for _ in range(10):
-            response = await client.get(
-                "/api/documents",
-                headers=auth_headers
-            )
+            response = await client.get("/api/documents", headers=auth_headers)
 
         # Should eventually get rate limited
         # Note: Actual implementation depends on rate limiting configuration
@@ -380,19 +333,19 @@ class TestAPIEndpoints:
         """Test batch document creation."""
         documents = [
             {"title": "Doc 1", "content": "Content 1"},
-            {"title": "Doc 2", "content": "Content 2"}
+            {"title": "Doc 2", "content": "Content 2"},
         ]
 
         with patch("api.folders.batch_create_documents") as mock_batch:
             mock_batch.return_value = [
                 {"id": "doc-1", **documents[0]},
-                {"id": "doc-2", **documents[1]}
+                {"id": "doc-2", **documents[1]},
             ]
 
             response = await client.post(
                 "/api/documents/batch",
                 json={"documents": documents},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             assert response.status_code == 201
@@ -408,7 +361,7 @@ class TestAPIEndpoints:
             response = await client.post(
                 "/api/documents/batch/delete",
                 json={"ids": ["doc-1", "doc-2", "doc-3"]},
-                headers=auth_headers
+                headers=auth_headers,
             )
 
             assert response.status_code == 200

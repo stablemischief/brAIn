@@ -1,6 +1,7 @@
 """
 Simple unit tests for core modules to verify basic functionality.
 """
+
 import pytest
 from unittest.mock import MagicMock, patch
 import sys
@@ -17,30 +18,35 @@ class TestCoreModules:
     def test_text_processor_import(self):
         """Test that text_processor module can be imported."""
         from core import text_processor
+
         assert text_processor is not None
 
     def test_database_handler_import(self):
         """Test that database_handler module can be imported."""
         from core import database_handler
+
         assert database_handler is not None
 
     def test_quality_assessor_import(self):
         """Test that quality_assessor module can be imported."""
         from core import quality_assessor
+
         assert quality_assessor is not None
 
     def test_duplicate_detector_import(self):
         """Test that duplicate_detector module can be imported."""
         from core import duplicate_detector
+
         assert duplicate_detector is not None
 
     def test_processing_orchestrator_import(self):
         """Test that processing_orchestrator module can be imported."""
         from core import processing_orchestrator
+
         assert processing_orchestrator is not None
 
-    @patch('core.text_processor.OpenAI')
-    @patch('core.text_processor.tiktoken')
+    @patch("core.text_processor.OpenAI")
+    @patch("core.text_processor.tiktoken")
     def test_enhanced_text_processor_creation(self, mock_tiktoken, mock_openai):
         """Test creating an EnhancedTextProcessor instance."""
         from core.text_processor import EnhancedTextProcessor
@@ -59,9 +65,7 @@ class TestCoreModules:
         from core.text_processor import ProcessingConfig
 
         config = ProcessingConfig(
-            max_chunk_size=1000,
-            chunk_overlap=100,
-            extract_entities=True
+            max_chunk_size=1000, chunk_overlap=100, extract_entities=True
         )
 
         assert config.max_chunk_size == 1000
@@ -73,15 +77,13 @@ class TestCoreModules:
         from core.text_processor import ProcessingQuality
 
         quality = ProcessingQuality(
-            extraction_confidence=0.95,
-            language_quality=0.90,
-            completeness_score=0.88
+            extraction_confidence=0.95, language_quality=0.90, completeness_score=0.88
         )
 
         assert quality.extraction_confidence == 0.95
         assert quality.overall_score > 0
 
-    @patch('core.database_handler.supabase')
+    @patch("core.database_handler.supabase")
     def test_database_handler_creation(self, mock_supabase):
         """Test creating DatabaseHandler instance."""
         from core.database_handler import EnhancedDatabaseHandler
@@ -91,8 +93,7 @@ class TestCoreModules:
         mock_supabase.create_client.return_value = mock_client
 
         handler = EnhancedDatabaseHandler(
-            supabase_url="https://test.supabase.co",
-            supabase_key="test-key"
+            supabase_url="https://test.supabase.co", supabase_key="test-key"
         )
 
         assert handler is not None
@@ -113,15 +114,14 @@ class TestCoreModules:
         assessor = QualityAssessor()
         assert assessor is not None
 
-    @patch('core.processing_orchestrator.EnhancedTextProcessor')
-    @patch('core.processing_orchestrator.EnhancedDatabaseHandler')
+    @patch("core.processing_orchestrator.EnhancedTextProcessor")
+    @patch("core.processing_orchestrator.EnhancedDatabaseHandler")
     def test_orchestrator_creation(self, mock_db, mock_processor):
         """Test creating ProcessingOrchestrator instance."""
         from core.processing_orchestrator import ProcessingOrchestrator
 
         orchestrator = ProcessingOrchestrator(
-            text_processor=mock_processor,
-            database_handler=mock_db
+            text_processor=mock_processor, database_handler=mock_db
         )
 
         assert orchestrator is not None

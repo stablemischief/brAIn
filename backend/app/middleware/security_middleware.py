@@ -33,26 +33,43 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             r"(?i)(union\s+select|select.*from|drop\s+table|delete\s+from)",
             r"(?i)(insert\s+into|update.*set|alter\s+table|create\s+table)",
             r"(?i)('|\"|;|--|/\*|\*/|xp_|sp_)",
-            r"(?i)(or\s+1=1|and\s+1=1|or\s+'1'='1'|and\s+'1'='1')"
+            r"(?i)(or\s+1=1|and\s+1=1|or\s+'1'='1'|and\s+'1'='1')",
         ]
 
         self.xss_patterns = [
             r"(?i)(<script|</script|javascript:|onload=|onerror=)",
             r"(?i)(alert\(|confirm\(|prompt\(|document\.|window\.)",
-            r"(?i)(eval\(|setTimeout\(|setInterval\()"
+            r"(?i)(eval\(|setTimeout\(|setInterval\()",
         ]
 
         self.command_injection_patterns = [
             r"(?i)(;|\||&&|`|\$\(|>\s*/|<\s*/)",
             r"(?i)(cat\s|ls\s|pwd|whoami|id\s|ps\s|kill\s)",
-            r"(?i)(rm\s|mv\s|cp\s|chmod\s|chown\s|sudo\s)"
+            r"(?i)(rm\s|mv\s|cp\s|chmod\s|chown\s|sudo\s)",
         ]
 
         # File upload restrictions
         self.dangerous_extensions = {
-            '.exe', '.bat', '.cmd', '.com', '.pif', '.scr', '.vbs', '.js',
-            '.jar', '.jsp', '.php', '.asp', '.aspx', '.pl', '.py', '.sh',
-            '.ps1', '.rb', '.go', '.rs'
+            ".exe",
+            ".bat",
+            ".cmd",
+            ".com",
+            ".pif",
+            ".scr",
+            ".vbs",
+            ".js",
+            ".jar",
+            ".jsp",
+            ".php",
+            ".asp",
+            ".aspx",
+            ".pl",
+            ".py",
+            ".sh",
+            ".ps1",
+            ".rb",
+            ".go",
+            ".rs",
         }
 
     async def dispatch(self, request: Request, call_next) -> Response:
@@ -91,7 +108,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             self._log_security_incident(request, str(e), start_time)
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Security processing error"
+                detail="Security processing error",
             )
 
     def _add_security_context(self, request: Request):
@@ -101,7 +118,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             "ip_address": self._get_client_ip(request),
             "user_agent": request.headers.get("User-Agent", "Unknown"),
             "referer": request.headers.get("Referer"),
-            "processed_at": datetime.now(timezone.utc)
+            "processed_at": datetime.now(timezone.utc),
         }
 
     def _get_client_ip(self, request: Request) -> str:
@@ -128,12 +145,12 @@ class SecurityMiddleware(BaseHTTPMiddleware):
                 if size > max_size:
                     raise HTTPException(
                         status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-                        detail="Request too large"
+                        detail="Request too large",
                     )
             except ValueError:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Invalid Content-Length header"
+                    detail="Invalid Content-Length header",
                 )
 
         # Validate critical headers
@@ -146,7 +163,9 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         path = request.url.path
 
         # Skip validation for static files and health checks
-        if any(path.startswith(skip) for skip in ["/static/", "/health", "/docs", "/redoc"]):
+        if any(
+            path.startswith(skip) for skip in ["/static/", "/health", "/docs", "/redoc"]
+        ):
             return
 
         # Validate and sanitize query parameters
@@ -161,17 +180,17 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         """Validate query parameters for security issues."""
         for key, value in params.items():
             # Check parameter key
-            if not re.match(r'^[a-zA-Z0-9_\-\.]{1,50}$', key):
+            if not re.match(r"^[a-zA-Z0-9_\-\.]{1,50}$", key):
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=f"Invalid parameter name: {key}"
+                    detail=f"Invalid parameter name: {key}",
                 )
 
             # Check parameter value length
             if len(str(value)) > 1000:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Parameter value too long"
+                    detail="Parameter value too long",
                 )
 
             # Sanitize the value
@@ -185,7 +204,9 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             content_type = request.headers.get("Content-Type", "")
 
             # Skip binary content
-            if content_type.startswith(("image/", "video/", "audio/", "application/octet-stream")):
+            if content_type.startswith(
+                ("image/", "video/", "audio/", "application/octet-stream")
+            ):
                 return
 
             # Get body for validation (don't consume it)
@@ -197,24 +218,25 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             if len(body) > 10 * 1024 * 1024:  # 10MB for JSON/text
                 raise HTTPException(
                     status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-                    detail="Request body too large"
+                    detail="Request body too large",
                 )
 
             # For JSON content, perform additional validation
             if "application/json" in content_type:
                 try:
                     import json
-                    data = json.loads(body.decode('utf-8'))
+
+                    data = json.loads(body.decode("utf-8"))
                     self._validate_json_content(data)
                 except json.JSONDecodeError:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
-                        detail="Invalid JSON format"
+                        detail="Invalid JSON format",
                     )
                 except UnicodeDecodeError:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
-                        detail="Invalid character encoding"
+                        detail="Invalid character encoding",
                     )
 
         except HTTPException:
@@ -226,21 +248,19 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         """Recursively validate JSON content."""
         if depth > 10:  # Prevent deeply nested objects
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="JSON nesting too deep"
+                status_code=status.HTTP_400_BAD_REQUEST, detail="JSON nesting too deep"
             )
 
         if isinstance(data, dict):
             if len(data) > 100:  # Prevent too many keys
                 raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Too many JSON keys"
+                    status_code=status.HTTP_400_BAD_REQUEST, detail="Too many JSON keys"
                 )
             for key, value in data.items():
                 if not isinstance(key, str) or len(key) > 100:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
-                        detail="Invalid JSON key"
+                        detail="Invalid JSON key",
                     )
                 self._validate_json_content(value, depth + 1)
 
@@ -248,7 +268,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             if len(data) > 1000:  # Prevent huge arrays
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="JSON array too large"
+                    detail="JSON array too large",
                 )
             for item in data:
                 self._validate_json_content(item, depth + 1)
@@ -257,7 +277,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             if len(data) > 10000:  # Prevent huge strings
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="JSON string too long"
+                    detail="JSON string too long",
                 )
 
     def _detect_malicious_patterns(self, request: Request):
@@ -281,10 +301,12 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         # Check SQL injection patterns
         for pattern in self.sql_injection_patterns:
             if re.search(pattern, content_lower):
-                logger.warning(f"SQL injection attempt detected in {context}: {content}")
+                logger.warning(
+                    f"SQL injection attempt detected in {context}: {content}"
+                )
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Malicious content detected"
+                    detail="Malicious content detected",
                 )
 
         # Check XSS patterns
@@ -293,16 +315,18 @@ class SecurityMiddleware(BaseHTTPMiddleware):
                 logger.warning(f"XSS attempt detected in {context}: {content}")
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Malicious content detected"
+                    detail="Malicious content detected",
                 )
 
         # Check command injection patterns
         for pattern in self.command_injection_patterns:
             if re.search(pattern, content_lower):
-                logger.warning(f"Command injection attempt detected in {context}: {content}")
+                logger.warning(
+                    f"Command injection attempt detected in {context}: {content}"
+                )
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Malicious content detected"
+                    detail="Malicious content detected",
                 )
 
     def _add_security_headers(self, response: Response, request: Request):
@@ -332,7 +356,9 @@ class SecurityMiddleware(BaseHTTPMiddleware):
 
         # HTTPS enforcement in production
         if self.settings.environment == "production":
-            response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains; preload"
+            response.headers["Strict-Transport-Security"] = (
+                "max-age=31536000; includeSubDomains; preload"
+            )
 
         # Permission Policy (Feature Policy replacement)
         response.headers["Permissions-Policy"] = (
@@ -347,18 +373,27 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         )
 
         # Rate limiting headers (if applicable)
-        if hasattr(request.state, 'rate_limit_remaining'):
-            response.headers["X-RateLimit-Remaining"] = str(request.state.rate_limit_remaining)
+        if hasattr(request.state, "rate_limit_remaining"):
+            response.headers["X-RateLimit-Remaining"] = str(
+                request.state.rate_limit_remaining
+            )
             response.headers["X-RateLimit-Reset"] = str(request.state.rate_limit_reset)
 
-    def _log_security_event(self, request: Request, response: Response, start_time: datetime):
+    def _log_security_event(
+        self, request: Request, response: Response, start_time: datetime
+    ):
         """Log security events for monitoring."""
         processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
 
         # Log security-relevant requests
-        if (response.status_code >= 400 or
-            processing_time > 2.0 or
-            any(request.url.path.startswith(sensitive) for sensitive in ["/api/auth", "/api/admin"])):
+        if (
+            response.status_code >= 400
+            or processing_time > 2.0
+            or any(
+                request.url.path.startswith(sensitive)
+                for sensitive in ["/api/auth", "/api/admin"]
+            )
+        ):
 
             security_log = {
                 "timestamp": start_time.isoformat(),
@@ -368,15 +403,17 @@ class SecurityMiddleware(BaseHTTPMiddleware):
                 "status_code": response.status_code,
                 "processing_time": processing_time,
                 "user_agent": request.headers.get("User-Agent", "Unknown")[:200],
-                "referer": request.headers.get("Referer", "")[:200]
+                "referer": request.headers.get("Referer", "")[:200],
             }
 
-            if hasattr(request.state, 'user') and request.state.user:
+            if hasattr(request.state, "user") and request.state.user:
                 security_log["user_id"] = request.state.user.get("user_id")
 
             logger.info(f"Security event: {security_log}")
 
-    def _log_security_incident(self, request: Request, error: str, start_time: datetime):
+    def _log_security_incident(
+        self, request: Request, error: str, start_time: datetime
+    ):
         """Log security incidents for investigation."""
         incident = {
             "timestamp": start_time.isoformat(),
@@ -387,7 +424,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
             "path": request.url.path,
             "user_agent": request.headers.get("User-Agent", "Unknown")[:200],
             "query_params": dict(request.query_params),
-            "severity": "HIGH"
+            "severity": "HIGH",
         }
 
         logger.error(f"SECURITY INCIDENT: {incident}")
@@ -429,9 +466,26 @@ class InputSanitizationMixin:
         # Check file extension
         extension = "." + filename.split(".")[-1].lower() if "." in filename else ""
         dangerous_extensions = {
-            '.exe', '.bat', '.cmd', '.com', '.pif', '.scr', '.vbs', '.js',
-            '.jar', '.jsp', '.php', '.asp', '.aspx', '.pl', '.py', '.sh',
-            '.ps1', '.rb', '.go', '.rs'
+            ".exe",
+            ".bat",
+            ".cmd",
+            ".com",
+            ".pif",
+            ".scr",
+            ".vbs",
+            ".js",
+            ".jar",
+            ".jsp",
+            ".php",
+            ".asp",
+            ".aspx",
+            ".pl",
+            ".py",
+            ".sh",
+            ".ps1",
+            ".rb",
+            ".go",
+            ".rs",
         }
 
         return extension not in dangerous_extensions

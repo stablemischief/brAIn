@@ -18,9 +18,13 @@ from openai import OpenAI, AuthenticationError as OpenAIAuthError
 from supabase import create_client, Client
 
 from config.models import (
-    DatabaseConfig, OpenAIConfig, AnthropicConfig,
-    SupabaseConfig, SecurityConfig, SystemConfig,
-    ValidationResult
+    DatabaseConfig,
+    OpenAIConfig,
+    AnthropicConfig,
+    SupabaseConfig,
+    SecurityConfig,
+    SystemConfig,
+    ValidationResult,
 )
 
 
@@ -95,7 +99,7 @@ class ConfigurationValidator:
                 port=db_config.port,
                 database=db_config.database,
                 user=db_config.username,
-                password=db_config.password.get_secret_value()
+                password=db_config.password.get_secret_value(),
             )
 
             # Test basic query
@@ -104,18 +108,20 @@ class ConfigurationValidator:
             version = cursor.fetchone()[0]
 
             # Check for required extensions
-            cursor.execute("""
+            cursor.execute(
+                """
                 SELECT extname FROM pg_extension
                 WHERE extname IN ('pgvector', 'uuid-ossp');
-            """)
+            """
+            )
             extensions = [row[0] for row in cursor.fetchall()]
 
-            if 'pgvector' not in extensions:
+            if "pgvector" not in extensions:
                 self.validation_result.warnings.append(
                     "pgvector extension not installed - required for embeddings"
                 )
 
-            if 'uuid-ossp' not in extensions:
+            if "uuid-ossp" not in extensions:
                 self.validation_result.warnings.append(
                     "uuid-ossp extension not installed - recommended for UUID generation"
                 )
@@ -136,7 +142,9 @@ class ConfigurationValidator:
             return True
 
         except psycopg2.OperationalError as e:
-            self.validation_result.errors.append(f"Database connection failed: {str(e)}")
+            self.validation_result.errors.append(
+                f"Database connection failed: {str(e)}"
+            )
             return False
         except Exception as e:
             self.validation_result.errors.append(f"Database validation error: {str(e)}")
@@ -170,13 +178,15 @@ class ConfigurationValidator:
             test_response = client.chat.completions.create(
                 model=openai_config.model,
                 messages=[{"role": "user", "content": "Test"}],
-                max_tokens=10
+                max_tokens=10,
             )
 
             if test_response.choices:
                 return True
             else:
-                self.validation_result.errors.append("OpenAI API test failed - no response")
+                self.validation_result.errors.append(
+                    "OpenAI API test failed - no response"
+                )
                 return False
 
         except OpenAIAuthError:
@@ -204,20 +214,22 @@ class ConfigurationValidator:
                     headers={
                         "x-api-key": anthropic_config.api_key.get_secret_value(),
                         "anthropic-version": "2023-06-01",
-                        "content-type": "application/json"
+                        "content-type": "application/json",
                     },
                     json={
                         "model": anthropic_config.model,
                         "messages": [{"role": "user", "content": "Test"}],
-                        "max_tokens": 10
+                        "max_tokens": 10,
                     },
-                    timeout=anthropic_config.timeout
+                    timeout=anthropic_config.timeout,
                 )
 
                 if response.status_code == 200:
                     return True
                 elif response.status_code == 401:
-                    self.validation_result.errors.append("Anthropic API key authentication failed")
+                    self.validation_result.errors.append(
+                        "Anthropic API key authentication failed"
+                    )
                     return False
                 else:
                     self.validation_result.errors.append(
@@ -226,10 +238,14 @@ class ConfigurationValidator:
                     return False
 
         except httpx.TimeoutException:
-            self.validation_result.errors.append("Anthropic API timeout - check network connection")
+            self.validation_result.errors.append(
+                "Anthropic API timeout - check network connection"
+            )
             return False
         except Exception as e:
-            self.validation_result.errors.append(f"Anthropic validation error: {str(e)}")
+            self.validation_result.errors.append(
+                f"Anthropic validation error: {str(e)}"
+            )
             return False
 
     async def validate_supabase(self, supabase_config: SupabaseConfig) -> bool:
@@ -245,8 +261,7 @@ class ConfigurationValidator:
         try:
             # Create Supabase client
             supabase: Client = create_client(
-                str(supabase_config.url),
-                supabase_config.anon_key.get_secret_value()
+                str(supabase_config.url), supabase_config.anon_key.get_secret_value()
             )
 
             # Test basic connection by checking auth status
@@ -257,7 +272,7 @@ class ConfigurationValidator:
             if supabase_config.service_key:
                 service_client: Client = create_client(
                     str(supabase_config.url),
-                    supabase_config.service_key.get_secret_value()
+                    supabase_config.service_key.get_secret_value(),
                 )
                 # Service role key should allow listing users (admin operation)
                 try:
@@ -289,17 +304,17 @@ class ConfigurationValidator:
 
         try:
             # Test Langfuse connection
-            headers = {
-                "Authorization": f"Bearer {langfuse_config.public_key}"
-            }
+            headers = {"Authorization": f"Bearer {langfuse_config.public_key}"}
 
-            url = str(langfuse_config.host) if langfuse_config.host else "https://cloud.langfuse.com"
+            url = (
+                str(langfuse_config.host)
+                if langfuse_config.host
+                else "https://cloud.langfuse.com"
+            )
 
             async with httpx.AsyncClient() as client:
                 response = await client.get(
-                    f"{url}/api/public/health",
-                    headers=headers,
-                    timeout=10.0
+                    f"{url}/api/public/health", headers=headers, timeout=10.0
                 )
 
                 if response.status_code == 200:
@@ -311,10 +326,14 @@ class ConfigurationValidator:
                     return True  # Non-critical, just a warning
 
         except Exception as e:
-            self.validation_result.warnings.append(f"Langfuse validation warning: {str(e)}")
+            self.validation_result.warnings.append(
+                f"Langfuse validation warning: {str(e)}"
+            )
             return True  # Non-critical component
 
-    def validate_security(self, security_config: SecurityConfig, environment: str) -> bool:
+    def validate_security(
+        self, security_config: SecurityConfig, environment: str
+    ) -> bool:
         """
         Validate security configuration.
 
@@ -337,7 +356,7 @@ class ConfigurationValidator:
                 valid = False
 
             # Check for default or weak secrets
-            weak_patterns = ['secret', 'password', '123456', 'default']
+            weak_patterns = ["secret", "password", "123456", "default"]
             if any(pattern in secret.lower() for pattern in weak_patterns):
                 self.validation_result.errors.append(
                     "JWT secret appears to be weak or default"
@@ -383,14 +402,14 @@ class ConfigurationValidator:
             "DATABASE_URL": "Database connection string",
             "SUPABASE_URL": "Supabase project URL",
             "SUPABASE_ANON_KEY": "Supabase anonymous key",
-            "JWT_SECRET": "JWT signing secret"
+            "JWT_SECRET": "JWT signing secret",
         }
 
         optional_vars = {
             "OPENAI_API_KEY": "OpenAI API key",
             "ANTHROPIC_API_KEY": "Anthropic API key",
             "LANGFUSE_PUBLIC_KEY": "Langfuse public key",
-            "LANGFUSE_SECRET_KEY": "Langfuse secret key"
+            "LANGFUSE_SECRET_KEY": "Langfuse secret key",
         }
 
         results = {}

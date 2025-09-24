@@ -13,9 +13,15 @@ from unittest.mock import Mock, patch, AsyncMock, MagicMock
 from datetime import datetime
 
 from config.models import (
-    SystemConfig, DatabaseConfig, OpenAIConfig,
-    SupabaseConfig, SecurityConfig, CostManagementConfig,
-    ProcessingConfig, ConfigurationTemplate, ValidationResult
+    SystemConfig,
+    DatabaseConfig,
+    OpenAIConfig,
+    SupabaseConfig,
+    SecurityConfig,
+    CostManagementConfig,
+    ProcessingConfig,
+    ConfigurationTemplate,
+    ValidationResult,
 )
 from config.validators import ConfigurationValidator
 from config.templates import ConfigurationTemplates
@@ -34,7 +40,7 @@ def sample_database_config():
         password="test_password",
         schema="public",
         pool_size=10,
-        max_overflow=5
+        max_overflow=5,
     )
 
 
@@ -47,7 +53,7 @@ def sample_openai_config():
         temperature=0.7,
         max_tokens=4000,
         timeout=30,
-        max_retries=3
+        max_retries=3,
     )
 
 
@@ -58,7 +64,7 @@ def sample_supabase_config():
         url="https://test.supabase.co",
         anon_key="test-anon-key-with-sufficient-length-for-validation",
         service_key=None,
-        jwt_secret=None
+        jwt_secret=None,
     )
 
 
@@ -76,7 +82,7 @@ def sample_security_config():
         rate_limit_requests=100,
         input_validation_strict=True,
         sql_injection_protection=True,
-        xss_protection=True
+        xss_protection=True,
     )
 
 
@@ -87,7 +93,7 @@ def sample_cost_config():
         daily_budget=50.0,
         monthly_budget=1000.0,
         alert_threshold_percent=80,
-        hard_limit_enabled=True
+        hard_limit_enabled=True,
     )
 
 
@@ -101,7 +107,7 @@ def sample_processing_config():
         chunk_overlap=200,
         quality_threshold=0.7,
         duplicate_threshold=0.95,
-        max_file_size_mb=100
+        max_file_size_mb=100,
     )
 
 
@@ -112,7 +118,7 @@ def complete_system_config(
     sample_supabase_config,
     sample_security_config,
     sample_cost_config,
-    sample_processing_config
+    sample_processing_config,
 ):
     """Complete system configuration."""
     return SystemConfig(
@@ -124,7 +130,7 @@ def complete_system_config(
         langfuse=None,
         security=sample_security_config,
         cost_management=sample_cost_config,
-        processing=sample_processing_config
+        processing=sample_processing_config,
     )
 
 
@@ -141,7 +147,9 @@ class TestConfigurationModels:
         assert "***" in conn_str
         assert "localhost:5432" in conn_str
 
-        conn_str_full = sample_database_config.get_connection_string(hide_password=False)
+        conn_str_full = sample_database_config.get_connection_string(
+            hide_password=False
+        )
         assert "test_password" in conn_str_full
 
     def test_database_config_sql_injection_protection(self):
@@ -152,7 +160,7 @@ class TestConfigurationModels:
                 port=5432,
                 database="test'; DROP TABLE users; --",
                 username="test_user",
-                password="test_password"
+                password="test_password",
             )
 
     def test_openai_config_validation(self, sample_openai_config):
@@ -162,10 +170,7 @@ class TestConfigurationModels:
 
         # Test invalid API key
         with pytest.raises(ValueError, match="Invalid OpenAI API key"):
-            OpenAIConfig(
-                api_key="invalid-key",
-                model="gpt-4o-mini"
-            )
+            OpenAIConfig(api_key="invalid-key", model="gpt-4o-mini")
 
     def test_security_config_validation(self, sample_security_config):
         """Test security configuration validation."""
@@ -173,7 +178,9 @@ class TestConfigurationModels:
         assert len(sample_security_config.jwt_secret.get_secret_value()) >= 32
 
         # Test weak JWT secret
-        with pytest.raises(ValueError, match="JWT secret must be at least 32 characters"):
+        with pytest.raises(
+            ValueError, match="JWT secret must be at least 32 characters"
+        ):
             SecurityConfig(
                 jwt_enabled=True,
                 jwt_secret="short-secret",
@@ -182,7 +189,7 @@ class TestConfigurationModels:
                 cors_enabled=True,
                 cors_origins=["http://localhost:3000"],
                 rate_limit_enabled=True,
-                rate_limit_requests=100
+                rate_limit_requests=100,
             )
 
     def test_system_config_validation(self, complete_system_config):
@@ -236,12 +243,7 @@ class TestConfigurationTemplates:
     def test_apply_template_with_overrides(self):
         """Test applying template with overrides."""
         template = ConfigurationTemplates.get_development_template()
-        overrides = {
-            "database": {
-                "host": "custom-host",
-                "port": 5433
-            }
-        }
+        overrides = {"database": {"host": "custom-host", "port": 5433}}
 
         config = ConfigurationTemplates.apply_template(template, overrides)
         assert config["database"]["host"] == "custom-host"
@@ -281,15 +283,18 @@ class TestConfigurationValidator:
         validator = ConfigurationValidator()
 
         # Mock environment variables
-        with patch.dict('os.environ', {
-            'DATABASE_URL': 'postgresql://user:pass@localhost/db',
-            'SUPABASE_URL': 'https://test.supabase.co',
-            'SUPABASE_ANON_KEY': 'test-key',
-            'JWT_SECRET': 'test-secret'
-        }):
+        with patch.dict(
+            "os.environ",
+            {
+                "DATABASE_URL": "postgresql://user:pass@localhost/db",
+                "SUPABASE_URL": "https://test.supabase.co",
+                "SUPABASE_ANON_KEY": "test-key",
+                "JWT_SECRET": "test-secret",
+            },
+        ):
             results = validator.validate_environment_variables()
-            assert results['DATABASE_URL'] == True
-            assert results['SUPABASE_URL'] == True
+            assert results["DATABASE_URL"] == True
+            assert results["SUPABASE_URL"] == True
 
     @pytest.mark.asyncio
     async def test_validate_database_connection(self, sample_database_config):
@@ -297,14 +302,14 @@ class TestConfigurationValidator:
         validator = ConfigurationValidator()
 
         # Mock psycopg2
-        with patch('psycopg2.connect') as mock_connect:
+        with patch("psycopg2.connect") as mock_connect:
             mock_conn = MagicMock()
             mock_cursor = MagicMock()
             mock_cursor.fetchone.side_effect = [
-                ('PostgreSQL 14.0',),  # Version query
-                ('100',)  # max_connections
+                ("PostgreSQL 14.0",),  # Version query
+                ("100",),  # max_connections
             ]
-            mock_cursor.fetchall.return_value = [('pgvector',), ('uuid-ossp',)]
+            mock_cursor.fetchall.return_value = [("pgvector",), ("uuid-ossp",)]
             mock_conn.cursor.return_value = mock_cursor
             mock_connect.return_value = mock_conn
 
@@ -317,10 +322,10 @@ class TestConfigurationValidator:
         validator = ConfigurationValidator()
 
         # Mock OpenAI client
-        with patch('config.validators.OpenAI') as mock_openai:
+        with patch("config.validators.OpenAI") as mock_openai:
             mock_client = MagicMock()
             mock_models = MagicMock()
-            mock_models.data = [MagicMock(id='gpt-4o-mini')]
+            mock_models.data = [MagicMock(id="gpt-4o-mini")]
             mock_client.models.list.return_value = mock_models
 
             mock_completion = MagicMock()
@@ -371,7 +376,7 @@ class TestConfigurationWizard:
     async def test_generate_sql_scripts(self, wizard, complete_system_config, tmp_path):
         """Test SQL script generation."""
         # Mock Path to use tmp_path
-        with patch('config.wizard.Path') as mock_path:
+        with patch("config.wizard.Path") as mock_path:
             mock_path.return_value = tmp_path / "sql" / "setup.sql"
             mock_path.return_value.parent.mkdir(parents=True, exist_ok=True)
 
@@ -388,7 +393,7 @@ class TestConfigurationWizard:
     async def test_wizard_template_selection(self, wizard):
         """Test template selection in wizard."""
         # Mock input
-        with patch('builtins.input', return_value='1'):
+        with patch("builtins.input", return_value="1"):
             config = await wizard._select_template()
             assert config["environment"] == "development"
 
@@ -399,11 +404,11 @@ class TestConfigurationWizard:
             valid=False,
             errors=["Test error"],
             warnings=["Test warning"],
-            recommendations=["Test recommendation"]
+            recommendations=["Test recommendation"],
         )
 
         # Capture output
-        with patch('builtins.print') as mock_print:
+        with patch("builtins.print") as mock_print:
             wizard._display_validation_results(result)
 
             # Check that errors, warnings, and recommendations were printed
@@ -425,61 +430,67 @@ class TestIntegration:
 
         # Mock all user inputs
         inputs = [
-            '1',  # Select development template
-            '',   # Use default environment
-            'n',  # Don't use DATABASE_URL
-            '',   # Default host
-            '',   # Default port
-            '',   # Default database
-            '',   # Default username
-            'password',  # Password
-            '',   # Default schema
-            '',   # Default pool size
-            '',   # Default overflow
-            'y',  # Configure OpenAI
-            'n',  # Don't use env var
-            'sk-test-key-123456789012345678901234567890',  # API key
-            '',   # Default model
-            '',   # Default temperature
-            '',   # Default max tokens
-            '',   # Default timeout
-            '',   # Default retries
-            'n',  # Don't configure Anthropic
-            'https://test.supabase.co',  # Supabase URL
-            'test-anon-key-with-sufficient-length',  # Anon key
-            'n',  # No service key
-            'n',  # No JWT for dev
-            'test-jwt-secret-that-is-at-least-32-characters',  # JWT secret
-            '',   # Default algorithm
-            '',   # Default expiry
-            '',   # Default CORS
-            'n',  # No rate limiting for dev
-            '',   # Default daily budget
-            '',   # Default monthly budget
-            '',   # Default alert threshold
-            'n',  # No hard limits for dev
-            '',   # Default batch size
-            '',   # Default workers
-            '',   # Default chunk size
-            '',   # Default overlap
-            '',   # Default quality threshold
-            '',   # Default duplicate threshold
-            '',   # Default max file size
-            'n',  # No Langfuse
-            'y',  # Save configuration
-            'n'   # No SQL scripts
+            "1",  # Select development template
+            "",  # Use default environment
+            "n",  # Don't use DATABASE_URL
+            "",  # Default host
+            "",  # Default port
+            "",  # Default database
+            "",  # Default username
+            "password",  # Password
+            "",  # Default schema
+            "",  # Default pool size
+            "",  # Default overflow
+            "y",  # Configure OpenAI
+            "n",  # Don't use env var
+            "sk-test-key-123456789012345678901234567890",  # API key
+            "",  # Default model
+            "",  # Default temperature
+            "",  # Default max tokens
+            "",  # Default timeout
+            "",  # Default retries
+            "n",  # Don't configure Anthropic
+            "https://test.supabase.co",  # Supabase URL
+            "test-anon-key-with-sufficient-length",  # Anon key
+            "n",  # No service key
+            "n",  # No JWT for dev
+            "test-jwt-secret-that-is-at-least-32-characters",  # JWT secret
+            "",  # Default algorithm
+            "",  # Default expiry
+            "",  # Default CORS
+            "n",  # No rate limiting for dev
+            "",  # Default daily budget
+            "",  # Default monthly budget
+            "",  # Default alert threshold
+            "n",  # No hard limits for dev
+            "",  # Default batch size
+            "",  # Default workers
+            "",  # Default chunk size
+            "",  # Default overlap
+            "",  # Default quality threshold
+            "",  # Default duplicate threshold
+            "",  # Default max file size
+            "n",  # No Langfuse
+            "y",  # Save configuration
+            "n",  # No SQL scripts
         ]
 
-        with patch('builtins.input', side_effect=inputs):
-            with patch('getpass.getpass', side_effect=['password',
-                'sk-test-key-123456789012345678901234567890',
-                'test-anon-key-with-sufficient-length',
-                'test-jwt-secret-that-is-at-least-32-characters']):
+        with patch("builtins.input", side_effect=inputs):
+            with patch(
+                "getpass.getpass",
+                side_effect=[
+                    "password",
+                    "sk-test-key-123456789012345678901234567890",
+                    "test-anon-key-with-sufficient-length",
+                    "test-jwt-secret-that-is-at-least-32-characters",
+                ],
+            ):
                 # Mock validation to pass
-                with patch.object(ConfigurationValidator, 'validate_complete_config') as mock_validate:
+                with patch.object(
+                    ConfigurationValidator, "validate_complete_config"
+                ) as mock_validate:
                     mock_validate.return_value = ValidationResult(
-                        valid=True,
-                        tested_components={'database': True, 'openai': True}
+                        valid=True, tested_components={"database": True, "openai": True}
                     )
 
                     config = await wizard.start_wizard()
