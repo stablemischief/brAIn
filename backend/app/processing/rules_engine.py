@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Union, Tuple
 
 # Core imports
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from enum import Enum
 
 # =============================================================================
@@ -182,6 +182,7 @@ class ExtractionRulesEngine:
                         description=f"Regex pattern: {rule_def[:50]}...",
                         rule_type=RuleType.REGEX,
                         pattern=rule_def,
+                        replacement=None,
                     )
                 elif isinstance(rule_def, dict):
                     # Dictionary rule definition
@@ -323,6 +324,7 @@ class ExtractionRulesEngine:
                     matches_found=0,
                     execution_time=0.0,
                     error_message=str(e),
+                    transformed_content=None,
                 )
                 results.append(error_result)
 

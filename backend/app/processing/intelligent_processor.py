@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 # Core processing imports
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 from decimal import Decimal
 
 # AI and ML imports

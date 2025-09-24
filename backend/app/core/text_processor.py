@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 # Pydantic imports for validation
-from pydantic import BaseModel, Field, validator, ValidationError
+from pydantic import BaseModel, Field, ValidationError
 from pydantic import field_validator
 
 # Core dependencies

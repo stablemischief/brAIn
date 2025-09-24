@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 # Pydantic imports
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 # Database integration
 try:

@@ -17,7 +17,7 @@ from dataclasses import dataclass
 import numpy as np
 
 # Pydantic imports
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 # Local imports
 from .text_processor import FileProcessingResult, TextChunk, ProcessingQuality

@@ -5,10 +5,10 @@ This module provides pre-configured templates for different use cases,
 making it easy to get started with the AI Configuration Wizard.
 """
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from datetime import datetime
 
-from config.models import (
+from app.config.models import (
     ConfigurationTemplate,
     DatabaseConfig,
     OpenAIConfig,
