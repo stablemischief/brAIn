@@ -18,7 +18,8 @@ IMMEDIATE SEQUENCE:
 PROJECT HEALTH ASSESSMENT REQUIRED:
 □ Read CLAUDE.md for project constraints & architecture
 □ Check SESSION-HANDOFF.md for last session state
-□ Validate Archon MCP task status and synchronization
+□ Read BMAD-FIX-PLAN.md for implementation progress and next tasks
+□ SKIP Archon MCP (not needed for this pure implementation mission)
 □ Review recent git commits for compliance violations
 □ Check code against established patterns and standards
 □ Verify all tests passing and no technical debt introduced
@@ -57,7 +58,8 @@ IMMEDIATE SEQUENCE:
 PROJECT HEALTH ASSESSMENT REQUIRED:
 □ Read CLAUDE.md for project constraints & architecture
 □ Check SESSION-HANDOFF.md for last session state
-□ Validate Archon MCP task status and synchronization
+□ Read BMAD-FIX-PLAN.md for implementation progress and next tasks
+□ SKIP Archon MCP (not needed for this pure implementation mission)
 □ Review recent git commits for compliance violations
 □ Check code against established patterns and standards
 □ Verify all tests passing and no technical debt introduced

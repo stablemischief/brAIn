@@ -10,14 +10,14 @@ packages = [{include = "src"}]
 python = "^3.11"
 
 # FastAPI and web framework dependencies
-fastapi = "^0.104.1"
+fastapi = "^0.117.0"
 uvicorn = {extras = ["standard"], version = "^0.24.0"}
-websockets = "^12.0"
-starlette = "^0.27.0"
+websockets = "^13.0"
+starlette = "^0.45.3"
 
 # Pydantic for data validation
 pydantic = "^2.5.0"
-pydantic-ai = "^1.0.0"
+# pydantic-ai = "^1.0.0"  # Not used in codebase, removed for dependency resolution
 pydantic-settings = "^2.1.0"
 
 # Database dependencies
@@ -28,7 +28,7 @@ pgvector = "^0.2.4"
 
 # Supabase and real-time
 supabase = "^2.3.4"
-realtime = "^1.0.0"
+realtime = "^2.5.0"  # Updated for websockets 13+ compatibility
 
 # OpenAI and AI services
 openai = "^1.6.1"
@@ -56,7 +56,7 @@ redis = "^5.0.1"
 aioredis = "^2.0.1"
 
 # HTTP client
-httpx = "^0.27.2"
+httpx = "^0.28.1"
 aiofiles = "^23.2.1"
 
 # Utilities
@@ -82,7 +82,7 @@ pytest = "^7.4.3"
 pytest-asyncio = "^0.21.1"
 pytest-cov = "^4.1.0"
 pytest-mock = "^3.12.0"
-httpx = "^0.27.2"
+httpx = "^0.28.1"
 
 # Code quality
 black = "^23.11.0"

@@ -1,10 +1,10 @@
-# brAIn v2.0 - Minimal Requirements for CI/CD Fix
+# brAIn v2.0 - Minimal Requirements Updated for Dependency Resolution
 # Core dependencies only - let pip resolve versions
 
-fastapi
+fastapi>=0.117.0
 uvicorn[standard]
 pydantic>=2.5.0
-pydantic-ai>=1.0.0
+# pydantic-ai - removed (not used in codebase)
 pydantic-settings
 
 # Database
@@ -42,9 +42,10 @@ redis
 aioredis
 
 # HTTP
-httpx
+httpx>=0.28.1
 aiofiles
-websockets
+websockets>=13.0
+starlette>=0.45.3
 
 # Utils
 python-multipart
