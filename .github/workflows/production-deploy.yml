@@ -72,6 +72,7 @@ jobs:
         env:
           ENVIRONMENT: test
           DATABASE_URL: postgresql://test:test@localhost:5432/test
+          PYTHONPATH: ${{ github.workspace }}/backend
         run: |
           cd backend && pytest tests/ \
             --cov=app \

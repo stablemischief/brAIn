@@ -53,6 +53,7 @@ passlib[bcrypt]
 python-dotenv
 typer
 rich
+itsdangerous
 
 # Monitoring
 prometheus-client
