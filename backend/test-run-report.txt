@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-8.4.2, pluggy-1.6.0 -- /Users/james/Documents/Product-RD/brAIn/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/james/Documents/Product-RD/brAIn/backend
+configfile: pytest.ini
+plugins: asyncio-1.2.0, mock-3.15.0, anyio-4.10.0, cov-7.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 51 items / 18 errors
+
+=========================== short test summary info ============================
+ERROR tests/ai_validation/test_ai_performance.py
+ERROR tests/ai_validation/test_ai_quality_scoring.py
+ERROR tests/ai_validation/test_config_assistant.py
+ERROR tests/ai_validation/test_cost_calculations.py
+ERROR tests/ai_validation/test_graph_accuracy.py
+ERROR tests/ai_validation/test_search_relevance.py
+ERROR tests/security/test_authentication_security.py
+ERROR tests/security/test_input_validation.py
+ERROR tests/test_configuration_wizard.py
+ERROR tests/test_cost_minimal.py
+ERROR tests/test_cost_system.py
+ERROR tests/test_cost_system_basic.py
+ERROR tests/test_enhanced_pipeline.py
+ERROR tests/test_intelligent_processing/test_intelligent_processor.py
+ERROR tests/test_knowledge_graph/test_builder.py
+ERROR tests/test_langfuse_integration.py
+ERROR tests/unit/test_database_handler.py
+ERROR tests/unit/test_text_processor.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 18 errors during collection !!!!!!!!!!!!!!!!!!!
+============================== 18 errors in 0.32s ==============================

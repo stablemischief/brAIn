@@ -1,0 +1,289 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.5, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/james/Documents/Product-RD/brAIn/backend
+configfile: pytest.ini
+plugins: asyncio-1.2.0, mock-3.15.0, anyio-4.10.0, cov-7.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 51 items / 18 errors
+
+<Dir backend>
+  <Dir tests>
+    <Dir integration>
+      <Module test_api_endpoints.py>
+        <Class TestAPIEndpoints>
+          <Coroutine test_health_check>
+          <Coroutine test_readiness_check>
+          <Coroutine test_create_document>
+          <Coroutine test_get_document>
+          <Coroutine test_get_document_not_found>
+          <Coroutine test_update_document>
+          <Coroutine test_delete_document>
+          <Coroutine test_search_documents>
+          <Coroutine test_search_with_filters>
+          <Coroutine test_start_processing>
+          <Coroutine test_get_processing_status>
+          <Coroutine test_get_analytics>
+          <Coroutine test_get_cost_breakdown>
+          <Coroutine test_get_config>
+          <Coroutine test_update_config>
+          <Coroutine test_websocket_connection>
+          <Coroutine test_invalid_json>
+          <Coroutine test_missing_auth>
+          <Coroutine test_rate_limiting>
+          <Coroutine test_batch_create_documents>
+          <Coroutine test_batch_delete_documents>
+    <Dir security>
+      <Module test_comprehensive_security_validation.py>
+        <Class TestJWTAuthentication>
+          <Function test_jwt_signature_validation_enabled>
+          <Function test_jwt_expiration_validation>
+          <Function test_jwt_none_algorithm_attack_prevented>
+          <Function test_jwt_required_claims_validation>
+          <Function test_jwt_token_age_validation>
+        <Class TestCORSConfiguration>
+          <Function test_cors_wildcard_origins_removed>
+          <Function test_cors_specific_origins_configured>
+          <Function test_cors_headers_properly_configured>
+        <Class TestSecretsManagement>
+          <Function test_no_hardcoded_secrets_in_code>
+          <Function test_environment_variable_loading>
+          <Function test_gitignore_configured_properly>
+        <Class TestInputValidation>
+          <Function test_sql_injection_prevention>
+          <Function test_xss_prevention>
+          <Function test_command_injection_prevention>
+          <Function test_input_sanitization>
+        <Class TestSecurityHeaders>
+          <Function test_security_headers_present>
+          <Function test_content_security_policy>
+          <Function test_hsts_header_in_production>
+    <Dir unit>
+      <Module test_core_simple.py>
+        <Class TestCoreModules>
+          <Function test_text_processor_import>
+          <Function test_database_handler_import>
+          <Function test_quality_assessor_import>
+          <Function test_duplicate_detector_import>
+          <Function test_processing_orchestrator_import>
+          <Function test_enhanced_text_processor_creation>
+          <Function test_processing_config>
+          <Function test_processing_quality>
+          <Function test_database_handler_creation>
+          <Function test_duplicate_detector_creation>
+          <Function test_quality_assessor_creation>
+          <Function test_orchestrator_creation>
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/ai_validation/test_ai_performance.py __________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/ai_validation/test_ai_performance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/ai_validation/test_ai_performance.py:14: in <module>
+    from core.text_processor import EnhancedTextProcessor
+E   ModuleNotFoundError: No module named 'core'
+_______ ERROR collecting tests/ai_validation/test_ai_quality_scoring.py ________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/ai_validation/test_ai_quality_scoring.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/ai_validation/test_ai_quality_scoring.py:14: in <module>
+    from core.quality_assessor import QualityAssessmentEngine
+E   ModuleNotFoundError: No module named 'core'
+________ ERROR collecting tests/ai_validation/test_config_assistant.py _________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/ai_validation/test_config_assistant.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/ai_validation/test_config_assistant.py:13: in <module>
+    from api.config import ConfigurationAssistant, ConfigurationValidator
+E   ModuleNotFoundError: No module named 'api'
+________ ERROR collecting tests/ai_validation/test_cost_calculations.py ________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/ai_validation/test_cost_calculations.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/ai_validation/test_cost_calculations.py:14: in <module>
+    from src.cost.cost_calculator import (
+E   ModuleNotFoundError: No module named 'src'
+_________ ERROR collecting tests/ai_validation/test_graph_accuracy.py __________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/ai_validation/test_graph_accuracy.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/ai_validation/test_graph_accuracy.py:14: in <module>
+    from src.knowledge_graph.builder import KnowledgeGraphBuilder
+E   ModuleNotFoundError: No module named 'src'
+________ ERROR collecting tests/ai_validation/test_search_relevance.py _________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/ai_validation/test_search_relevance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/ai_validation/test_search_relevance.py:14: in <module>
+    from src.search.hybrid_search import HybridSearchEngine
+E   ModuleNotFoundError: No module named 'src'
+_______ ERROR collecting tests/security/test_authentication_security.py ________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/security/test_authentication_security.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/security/test_authentication_security.py:14: in <module>
+    from main import app
+main.py:21: in <module>
+    from app.models.api import HealthResponse
+app/models/api.py:23: in <module>
+    from .core import (
+app/models/core.py:11: in <module>
+    from validators.custom_validators import GoogleDriveIdValidator, ContentHashValidator
+E   ModuleNotFoundError: No module named 'validators'
+___________ ERROR collecting tests/security/test_input_validation.py ___________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/security/test_input_validation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/security/test_input_validation.py:13: in <module>
+    from main import app
+main.py:21: in <module>
+    from app.models.api import HealthResponse
+app/models/api.py:23: in <module>
+    from .core import (
+app/models/core.py:11: in <module>
+    from validators.custom_validators import GoogleDriveIdValidator, ContentHashValidator
+E   ModuleNotFoundError: No module named 'validators'
+_____________ ERROR collecting tests/test_configuration_wizard.py ______________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_configuration_wizard.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_configuration_wizard.py:15: in <module>
+    from config.models import (
+E   ModuleNotFoundError: No module named 'config'
+_________________ ERROR collecting tests/test_cost_minimal.py __________________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_cost_minimal.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_cost_minimal.py:15: in <module>
+    from src.cost.token_counter import TokenCounter, TokenCount, ModelProvider
+E   ModuleNotFoundError: No module named 'src'
+__________________ ERROR collecting tests/test_cost_system.py __________________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_cost_system.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_cost_system.py:15: in <module>
+    from src.cost.token_counter import TokenCounter, TokenCount, ModelProvider, ModelConfig
+E   ModuleNotFoundError: No module named 'src'
+_______________ ERROR collecting tests/test_cost_system_basic.py _______________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_cost_system_basic.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_cost_system_basic.py:18: in <module>
+    from src.cost.token_counter import TokenCounter, TokenCount, ModelProvider, ModelConfig
+E   ModuleNotFoundError: No module named 'src'
+_______________ ERROR collecting tests/test_enhanced_pipeline.py _______________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_enhanced_pipeline.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_enhanced_pipeline.py:20: in <module>
+    from core import (
+E   ModuleNotFoundError: No module named 'core'
+_ ERROR collecting tests/test_intelligent_processing/test_intelligent_processor.py _
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_intelligent_processing/test_intelligent_processor.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_intelligent_processing/test_intelligent_processor.py:23: in <module>
+    from src.processing.intelligent_processor import (
+E   ModuleNotFoundError: No module named 'src'
+_________ ERROR collecting tests/test_knowledge_graph/test_builder.py __________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_knowledge_graph/test_builder.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_knowledge_graph/test_builder.py:11: in <module>
+    from src.knowledge_graph.builder import (
+E   ModuleNotFoundError: No module named 'src'
+_____________ ERROR collecting tests/test_langfuse_integration.py ______________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/test_langfuse_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_langfuse_integration.py:13: in <module>
+    from monitoring.langfuse_client import (
+E   ModuleNotFoundError: No module named 'monitoring'
+_____________ ERROR collecting tests/unit/test_database_handler.py _____________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/unit/test_database_handler.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_database_handler.py:10: in <module>
+    from core.database_handler import (
+E   ModuleNotFoundError: No module named 'core'
+______________ ERROR collecting tests/unit/test_text_processor.py ______________
+ImportError while importing test module '/Users/james/Documents/Product-RD/brAIn/backend/tests/unit/test_text_processor.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/unit/test_text_processor.py:10: in <module>
+    from core.text_processor import (
+E   ModuleNotFoundError: No module named 'core'
+=========================== short test summary info ============================
+ERROR tests/ai_validation/test_ai_performance.py
+ERROR tests/ai_validation/test_ai_quality_scoring.py
+ERROR tests/ai_validation/test_config_assistant.py
+ERROR tests/ai_validation/test_cost_calculations.py
+ERROR tests/ai_validation/test_graph_accuracy.py
+ERROR tests/ai_validation/test_search_relevance.py
+ERROR tests/security/test_authentication_security.py
+ERROR tests/security/test_input_validation.py
+ERROR tests/test_configuration_wizard.py
+ERROR tests/test_cost_minimal.py
+ERROR tests/test_cost_system.py
+ERROR tests/test_cost_system_basic.py
+ERROR tests/test_enhanced_pipeline.py
+ERROR tests/test_intelligent_processing/test_intelligent_processor.py
+ERROR tests/test_knowledge_graph/test_builder.py
+ERROR tests/test_langfuse_integration.py
+ERROR tests/unit/test_database_handler.py
+ERROR tests/unit/test_text_processor.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 18 errors during collection !!!!!!!!!!!!!!!!!!!
+==================== 51 tests collected, 18 errors in 0.88s ====================

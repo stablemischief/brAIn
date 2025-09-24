@@ -1,0 +1,1352 @@
+app/config/templates.py: note: In member "get_template_by_name" of class "ConfigurationTemplates":
+app/config/templates.py:427: error: Name "Optional" is not defined  [name-defined]
+app/config/templates.py:427: note: Did you forget to import it from "typing"? (Suggestion: "from typing import Optional")
+app/config/templates.py: note: In member "apply_template" of class "ConfigurationTemplates":
+app/config/templates.py:445: error: Incompatible default for argument "overrides" (default has type "None", argument has type "dict[str, Any]")  [assignment]
+app/config/templates.py:445: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/config/templates.py:445: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/config/templates.py: note: In function "apply_template":
+app/config/templates.py:461: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/templates.py: note: In member "apply_template" of class "ConfigurationTemplates":
+app/config/templates.py:474: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/validators/custom_validators.py: note: In member "validate_cost" of class "CostValidator":
+app/validators/custom_validators.py:160: error: Statement is unreachable  [unreachable]
+app/validators/custom_validators.py: note: In member "validate_budget" of class "CostValidator":
+app/validators/custom_validators.py:196: error: Statement is unreachable  [unreachable]
+app/processing/rules_engine.py: note: In member "compile_rules" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:179: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:193: error: Statement is unreachable  [unreachable]
+app/processing/rules_engine.py:202: error: Missing named argument "domain" for "RuleSet"  [call-arg]
+app/processing/rules_engine.py: note: In member "extract_with_rules" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:236: error: Missing named argument "total_execution_time" for "ExtractionJob"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_ruleset" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:320: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_single_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:359: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_regex_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:386: error: Missing named argument "error_message" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:401: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_pattern_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:426: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:426: error: Missing named argument "error_message" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_conditional_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:471: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:471: error: Missing named argument "error_message" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_transformation_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:514: error: Missing named argument "error_message" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:524: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_validation_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:566: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:566: error: Missing named argument "error_message" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:581: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_json_path_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:626: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:626: error: Missing named argument "error_message" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:636: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_execute_xpath_rule" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:653: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py:663: error: Missing named argument "transformed_content" for "RuleExecutionResult"  [call-arg]
+app/processing/rules_engine.py: note: In member "_create_legal_ruleset" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:765: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:773: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:780: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py: note: In member "_create_medical_ruleset" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:801: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:808: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:815: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py: note: In member "_create_financial_ruleset" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:836: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:843: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:850: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py: note: In member "_create_technical_ruleset" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:871: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:878: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:885: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py: note: In member "_create_generic_ruleset" of class "ExtractionRulesEngine":
+app/processing/rules_engine.py:906: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:913: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:920: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/processing/rules_engine.py:927: error: Missing named argument "replacement" for "CustomRule"  [call-arg]
+app/models/base.py: note: In member "model_dump_camel" of class "BrainBaseModel":
+app/models/base.py:116: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/models/base.py: note: In member "model_dump_snake" of class "BrainBaseModel":
+app/models/base.py:120: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/models/base.py: note: In class "TimestampMixin":
+app/models/base.py:145: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In class "SoftDeleteMixin":
+app/models/base.py:180: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In class "ProcessingMixin":
+app/models/base.py:231: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py:241: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In class "QualityMixin":
+app/models/base.py:270: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In class "CostMixin":
+app/models/base.py:307: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In class "ValidationResult":
+app/models/base.py:363: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py:369: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In class "PaginationParams":
+app/models/base.py:396: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py:402: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In class "PaginatedResponse":
+app/models/base.py:420: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py:428: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py:434: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/base.py: note: In function "create_response_model":
+app/models/base.py:520: error: Variable "data_model" is not valid as a type  [valid-type]
+app/models/base.py:520: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#variables-vs-type-aliases
+app/models/base.py:523: error: Cannot assign multiple types to name "data_field_type" without an explicit "type[...]" annotation  [misc]
+app/models/base.py:523: error: Incompatible types in assignment (expression has type "type", variable has type "type[list[data_model?]]")  [assignment]
+app/models/base.py: note: In function "create_paginated_response_model":
+app/models/base.py:546: error: Variable "data_model" is not valid as a type  [valid-type]
+app/models/base.py:546: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#variables-vs-type-aliases
+app/models/monitoring.py: note: In class "LLMUsage":
+app/models/monitoring.py:150: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:156: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:164: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:172: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:180: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:189: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py: note: In member "validate_token_counts" of class "LLMUsage":
+app/models/monitoring.py:199: error: Returning Any from function declared to return "int"  [no-any-return]
+app/models/monitoring.py: note: In class "SystemHealth":
+app/models/monitoring.py:302: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:308: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:318: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py: note: In class "ProcessingAnalytics":
+app/models/monitoring.py:440: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:446: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:454: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:462: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:470: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:479: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py: note: In class "DailyCostSummary":
+app/models/monitoring.py:575: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:581: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:587: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:595: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:603: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:611: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:619: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:627: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py: note: In class "AlertRule":
+app/models/monitoring.py:737: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py: note: In member "can_trigger" of class "AlertRule":
+app/models/monitoring.py:748: error: Name "timedelta" is not defined  [name-defined]
+app/models/monitoring.py: note: In class "AlertRule":
+app/models/monitoring.py:756: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py: note: In member "next_trigger_available_at" of class "AlertRule":
+app/models/monitoring.py:763: error: Returning Any from function declared to return "datetime | None"  [no-any-return]
+app/models/monitoring.py:763: error: Name "timedelta" is not defined  [name-defined]
+app/models/monitoring.py: note: In class "AlertHistory":
+app/models/monitoring.py:846: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/monitoring.py:852: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py: note: In class "User":
+app/models/core.py:115: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:121: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:129: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py: note: In class "UserSession":
+app/models/core.py:190: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:196: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py: note: In class "Folder":
+app/models/core.py:299: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:307: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:313: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py: note: In member "validate_google_folder_id" of class "Folder":
+app/models/core.py:342: error: Returning Any from function declared to return "str"  [no-any-return]
+app/models/core.py: note: In class "Document":
+app/models/core.py:451: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:459: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:465: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:473: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:481: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py: note: In member "validate_google_file_id" of class "Document":
+app/models/core.py:496: error: Returning Any from function declared to return "str"  [no-any-return]
+app/models/core.py: note: In member "validate_content_hash" of class "Document":
+app/models/core.py:504: error: Returning Any from function declared to return "str | None"  [no-any-return]
+app/models/core.py: note: In class "ProcessingTask":
+app/models/core.py:600: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:609: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/core.py:617: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py:23: error: Module "app.models.core" has no attribute "SearchResult"  [attr-defined]
+app/models/api.py:23: error: Module "app.models.core" has no attribute "KnowledgeNode"  [attr-defined]
+app/models/api.py:23: error: Module "app.models.core" has no attribute "KnowledgeEdge"  [attr-defined]
+app/models/api.py: note: In class "DocumentsListResponse":
+app/models/api.py:355: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py: note: In member "total_size_bytes" of class "DocumentsListResponse":
+app/models/api.py:359: error: "Document" has no attribute "file_size"; maybe "file_size_mb"?  [attr-defined]
+app/models/api.py:359: error: Generator has incompatible item type "Any | int"; expected "bool"  [misc]
+app/models/api.py: note: In class "HybridSearchRequest":
+app/models/api.py:416: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py: note: In class "SearchResponse":
+app/models/api.py:440: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py:446: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py: note: In member "average_similarity_score" of class "SearchResponse":
+app/models/api.py:452: error: Returning Any from function declared to return "float | None"  [no-any-return]
+app/models/api.py: note: In class "ProcessingTasksListResponse":
+app/models/api.py:506: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py: note: In member "status_summary" of class "ProcessingTasksListResponse":
+app/models/api.py:510: error: Need type annotation for "summary" (hint: "summary: dict[<type>, <type>] = ...")  [var-annotated]
+app/models/api.py:512: error: "ProcessingTask" has no attribute "processing_status"  [attr-defined]
+app/models/api.py: note: In class "KnowledgeGraphResponse":
+app/models/api.py:574: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py:580: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py: note: In class "BulkOperationResponse":
+app/models/api.py:749: error: Decorators on top of @property are not supported  [prop-decorator]
+app/models/api.py:757: error: Decorators on top of @property are not supported  [prop-decorator]
+app/processing/format_optimization.py: note: In member "__init__" of class "FormatOptimizationEngine":
+app/processing/format_optimization.py:134: error: Need type annotation for "_optimization_cache" (hint: "_optimization_cache: dict[<type>, <type>] = ...")  [var-annotated]
+app/processing/format_optimization.py: note: In member "apply_optimizations" of class "FormatOptimizationEngine":
+app/processing/format_optimization.py:221: error: Returning Any from function declared to return "OptimizationResult"  [no-any-return]
+app/models/examples.py:21: error: Module "app.models.core" has no attribute "SearchResult"  [attr-defined]
+app/models/examples.py:21: error: Module "app.models.core" has no attribute "KnowledgeNode"  [attr-defined]
+app/models/examples.py:21: error: Module "app.models.core" has no attribute "KnowledgeEdge"  [attr-defined]
+app/models/examples.py: note: In function "create_example_user":
+app/models/examples.py:49: error: Unexpected keyword argument "full_name" for "User"  [call-arg]
+app/models/examples.py:49: error: Unexpected keyword argument "is_active" for "User"  [call-arg]
+app/models/examples.py:49: error: Unexpected keyword argument "is_verified" for "User"; did you mean "email_verified"?  [call-arg]
+app/models/examples.py:49: error: Unexpected keyword argument "timezone" for "User"  [call-arg]
+app/models/examples.py:49: error: Unexpected keyword argument "language_preference" for "User"  [call-arg]
+app/models/examples.py:49: error: Unexpected keyword argument "notification_preferences" for "User"  [call-arg]
+app/models/examples.py: note: In function "create_example_folder":
+app/models/examples.py:71: error: Unexpected keyword argument "name" for "Folder"  [call-arg]
+app/models/examples.py:71: error: Unexpected keyword argument "sync_frequency_hours" for "Folder"; did you mean "sync_frequency_minutes"?  [call-arg]
+app/models/examples.py:71: error: Unexpected keyword argument "document_count" for "Folder"  [call-arg]
+app/models/examples.py:79: error: Argument "sync_status" to "Folder" has incompatible type "str"; expected "ProcessingStatus"  [arg-type]
+app/models/examples.py: note: In function "create_example_document":
+app/models/examples.py:95: error: Unexpected keyword argument "title" for "Document"  [call-arg]
+app/models/examples.py:95: error: Unexpected keyword argument "filename" for "Document"; did you mean "file_name"?  [call-arg]
+app/models/examples.py:95: error: Unexpected keyword argument "file_extension" for "Document"  [call-arg]
+app/models/examples.py:95: error: Unexpected keyword argument "file_size" for "Document"  [call-arg]
+app/models/examples.py:95: error: Unexpected keyword argument "extracted_text" for "Document"  [call-arg]
+app/models/examples.py:95: error: Unexpected keyword argument "extracted_metadata" for "Document"  [call-arg]
+app/models/examples.py: note: In function "create_example_processing_task":
+app/models/examples.py:137: error: Unexpected keyword argument "processing_status" for "ProcessingTask"  [call-arg]
+app/models/examples.py:137: error: Unexpected keyword argument "processing_started_at" for "ProcessingTask"  [call-arg]
+app/models/examples.py:137: error: Unexpected keyword argument "configuration" for "ProcessingTask"  [call-arg]
+app/models/examples.py:137: error: Unexpected keyword argument "result_data" for "ProcessingTask"  [call-arg]
+app/models/examples.py:137: error: Unexpected keyword argument "processing_cost" for "ProcessingTask"  [call-arg]
+app/models/examples.py:137: error: Unexpected keyword argument "token_count" for "ProcessingTask"  [call-arg]
+app/models/examples.py:137: error: Unexpected keyword argument "metadata" for "ProcessingTask"  [call-arg]
+app/models/examples.py: note: In function "create_example_llm_usage":
+app/models/examples.py:293: error: Unexpected keyword argument "total_tokens" for "LLMUsage"  [call-arg]
+app/models/examples.py:293: error: Unexpected keyword argument "cost" for "LLMUsage"  [call-arg]
+app/models/examples.py:293: error: Unexpected keyword argument "processing_duration_ms" for "LLMUsage"  [call-arg]
+app/models/examples.py:293: error: Unexpected keyword argument "request_metadata" for "LLMUsage"  [call-arg]
+app/models/examples.py:293: error: Unexpected keyword argument "response_metadata" for "LLMUsage"  [call-arg]
+app/models/examples.py:296: error: Argument "operation_type" to "LLMUsage" has incompatible type "str"; expected "OperationType"  [arg-type]
+app/models/examples.py: note: In function "create_example_system_health":
+app/models/examples.py:319: error: Unexpected keyword argument "id" for "SystemHealth"  [call-arg]
+app/models/examples.py:319: error: Unexpected keyword argument "cpu_usage_percent" for "SystemHealth"; did you mean "disk_usage_percent" or "cpu_percent"?  [call-arg]
+app/models/examples.py:319: error: Unexpected keyword argument "memory_usage_percent" for "SystemHealth"  [call-arg]
+app/models/examples.py:319: error: Unexpected keyword argument "health_details" for "SystemHealth"  [call-arg]
+app/models/examples.py:319: error: Unexpected keyword argument "metadata" for "SystemHealth"  [call-arg]
+app/models/examples.py: note: In function "create_example_daily_cost_summary":
+app/models/examples.py:346: error: Unexpected keyword argument "id" for "DailyCostSummary"  [call-arg]
+app/models/examples.py:346: error: Unexpected keyword argument "total_cost" for "DailyCostSummary"  [call-arg]
+app/models/examples.py:346: error: Unexpected keyword argument "operation_costs" for "DailyCostSummary"; did you mean "completion_cost" or "other_operations_cost"?  [call-arg]
+app/models/examples.py:346: error: Unexpected keyword argument "total_tokens" for "DailyCostSummary"; did you mean "total_input_tokens" or "total_output_tokens"?  [call-arg]
+app/models/examples.py:346: error: Unexpected keyword argument "operation_counts" for "DailyCostSummary"  [call-arg]
+app/models/examples.py:346: error: Unexpected keyword argument "metadata" for "DailyCostSummary"  [call-arg]
+app/models/examples.py: note: In function "demonstrate_model_serialization":
+app/models/examples.py:498: error: Function is missing a return type annotation  [no-untyped-def]
+app/models/examples.py: note: In function "demonstrate_validation_examples":
+app/models/examples.py:515: error: Function is missing a return type annotation  [no-untyped-def]
+app/models/examples.py:531: error: Incompatible types in assignment (expression has type "str", target has type "dict[str, Any]")  [assignment]
+app/models/examples.py:542: error: Incompatible types in assignment (expression has type "str", target has type "dict[str, Any]")  [assignment]
+app/models/examples.py: note: In function "demonstrate_computed_fields":
+app/models/examples.py:547: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/wizard.py: note: In member "_select_template" of class "ConfigurationWizard":
+app/config/wizard.py:118: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/config/wizard.py: note: In member "_configure_database" of class "ConfigurationWizard":
+app/config/wizard.py:168: error: Argument 1 to "lstrip" of "bytes" has incompatible type "str"; expected "Buffer | None"  [arg-type]
+app/config/wizard.py: note: In member "_display_validation_results" of class "ConfigurationWizard":
+app/config/wizard.py:667: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/wizard.py: note: In member "save_configuration" of class "ConfigurationWizard":
+app/config/wizard.py:690: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/wizard.py: note: In member "_save_env_file" of class "ConfigurationWizard":
+app/config/wizard.py:711: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/wizard.py: note: In member "_generate_sql_scripts" of class "ConfigurationWizard":
+app/config/wizard.py:778: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/wizard.py: note: In function "main":
+app/config/wizard.py:837: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/hybrid_search.py: note: In member "__init__" of class "HybridSearchEngine":
+app/search/hybrid_search.py:125: error: Incompatible default for argument "config" (default has type "None", argument has type "HybridSearchConfig")  [assignment]
+app/search/hybrid_search.py:125: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/search/hybrid_search.py:125: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/search/hybrid_search.py: note: In member "_hybrid_search" of class "HybridSearchEngine":
+app/search/hybrid_search.py:621: error: Argument 1 to "_combine_search_results" of "HybridSearchEngine" has incompatible type "list[SearchResult] | BaseException"; expected "list[SearchResult]"  [arg-type]
+app/search/hybrid_search.py:621: error: Argument 2 to "_combine_search_results" of "HybridSearchEngine" has incompatible type "list[SearchResult] | BaseException"; expected "list[SearchResult]"  [arg-type]
+app/search/hybrid_search.py: note: In member "_reciprocal_rank_fusion" of class "HybridSearchEngine":
+app/search/hybrid_search.py:713: error: Need type annotation for "doc_scores" (hint: "doc_scores: dict[<type>, <type>] = ...")  [var-annotated]
+app/search/hybrid_search.py:751: error: Item "None" of "list[str] | None" has no attribute "extend"  [union-attr]
+app/search/hybrid_search.py:753: error: Unsupported target for indexed assignment ("dict[str, float] | None")  [index]
+app/search/hybrid_search.py: note: In member "_weighted_score_combination" of class "HybridSearchEngine":
+app/search/hybrid_search.py:802: error: Need type annotation for "doc_scores" (hint: "doc_scores: dict[<type>, <type>] = ...")  [var-annotated]
+app/search/hybrid_search.py:828: error: Item "None" of "list[str] | None" has no attribute "extend"  [union-attr]
+app/search/hybrid_search.py: note: In member "clear_cache" of class "HybridSearchEngine":
+app/search/hybrid_search.py:986: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/hybrid_search.py:986: note: Use "-> None" if function does not return a value
+app/search/hybrid_search.py: note: In member "update_config" of class "HybridSearchEngine":
+app/search/hybrid_search.py:990: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/settings.py: note: In member "validate_environment" of class "Settings":
+app/config/settings.py:259: error: Function is missing a type annotation  [no-untyped-def]
+app/config/settings.py: note: In member "validate_temperature" of class "Settings":
+app/config/settings.py:268: error: Function is missing a type annotation  [no-untyped-def]
+app/config/settings.py: note: In member "validate_similarity_threshold" of class "Settings":
+app/config/settings.py:276: error: Function is missing a type annotation  [no-untyped-def]
+app/config/settings.py: note: In member "validate_cost_alert_threshold" of class "Settings":
+app/config/settings.py:284: error: Function is missing a type annotation  [no-untyped-def]
+app/config/settings.py: note: In member "validate_production_requirements" of class "Settings":
+app/config/settings.py:292: error: Function is missing a type annotation  [no-untyped-def]
+app/config/models.py: note: In class "DatabaseConfig":
+app/config/models.py:31: error: Incompatible types in assignment (expression has type "str", base class "BaseModel" defined the type as "Callable[[bool, str], dict[str, Any]]")  [assignment]
+app/search/context_ranking.py: note: In member "rank_results" of class "ContextAwareRanker":
+app/search/context_ranking.py:145: error: Unexpected keyword argument "similarity_score" for "SearchResult"  [call-arg]
+app/search/context_ranking.py:145: error: Unexpected keyword argument "search_strategy" for "SearchResult"  [call-arg]
+app/search/context_ranking.py:149: error: "SearchResult" has no attribute "similarity_score"  [attr-defined]
+app/search/context_ranking.py:154: error: "SearchResult" has no attribute "search_strategy"  [attr-defined]
+app/search/context_ranking.py:160: error: Argument "key" to "sort" of "list" has incompatible type "Callable[[SearchResult], float | None]"; expected "Callable[[SearchResult], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/search/context_ranking.py: note: In function "rank_results":
+app/search/context_ranking.py:160: error: Incompatible return value type (got "float | None", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/search/context_ranking.py: note: In member "_calculate_ranking_score" of class "ContextAwareRanker":
+app/search/context_ranking.py:225: error: "SearchResult" has no attribute "similarity_score"  [attr-defined]
+app/search/context_ranking.py:229: error: Argument 1 to "_combine_scores" of "ContextAwareRanker" has incompatible type "dict[RankingFactor, float | None]"; expected "dict[RankingFactor, float]"  [arg-type]
+app/search/context_ranking.py: note: In member "_calculate_user_preference_score" of class "ContextAwareRanker":
+app/search/context_ranking.py:269: error: Item "None" of "dict[str, Any] | None" has no attribute "get"  [union-attr]
+app/search/context_ranking.py:277: error: Item "None" of "dict[str, Any] | None" has no attribute "get"  [union-attr]
+app/search/context_ranking.py: note: In member "_calculate_context_score" of class "ContextAwareRanker":
+app/search/context_ranking.py:352: error: Item "None" of "dict[str, Any] | None" has no attribute "get"  [union-attr]
+app/search/context_ranking.py:370: error: Item "None" of "dict[str, Any] | None" has no attribute "get"  [union-attr]
+app/search/context_ranking.py:379: error: "QueryAnalysis" has no attribute "intent_type"  [attr-defined]
+app/search/context_ranking.py:385: error: "QueryAnalysis" has no attribute "intent_type"  [attr-defined]
+app/search/context_ranking.py:388: error: "QueryAnalysis" has no attribute "intent_type"  [attr-defined]
+app/search/context_ranking.py: note: In member "update_document_metrics" of class "ContextAwareRanker":
+app/search/context_ranking.py:466: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/context_ranking.py: note: In member "update_user_context" of class "ContextAwareRanker":
+app/search/context_ranking.py:495: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/cost_calculator.py: note: In member "__init__" of class "CostCalculator":
+app/monitoring/cost_calculator.py:186: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/cost_calculator.py:186: note: Use "-> None" if function does not return a value
+app/monitoring/cost_calculator.py: note: In member "compare_model_costs" of class "CostCalculator":
+app/monitoring/cost_calculator.py:441: error: Argument "key" to "sorted" has incompatible type "Callable[[tuple[str, dict[str, object]]], object]"; expected "Callable[[tuple[str, dict[str, object]]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/monitoring/cost_calculator.py: note: In function "compare_model_costs":
+app/monitoring/cost_calculator.py:441: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/monitoring/cost_calculator.py: note: In member "compare_model_costs" of class "CostCalculator":
+app/monitoring/cost_calculator.py:446: error: Dict entry 2 has incompatible type "str": "str | None"; expected "str": "dict[str, Any]"  [dict-item]
+app/monitoring/cost_calculator.py:447: error: Argument "key" to "min" has incompatible type "Callable[[tuple[str, dict[str, object]]], object]"; expected "Callable[[tuple[str, dict[str, object]]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/monitoring/cost_calculator.py: note: In function "compare_model_costs":
+app/monitoring/cost_calculator.py:447: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/monitoring/cost_calculator.py: note: In member "compare_model_costs" of class "CostCalculator":
+app/monitoring/cost_calculator.py:451: error: Dict entry 3 has incompatible type "str": "str | None"; expected "str": "dict[str, Any]"  [dict-item]
+app/monitoring/cost_calculator.py:452: error: Argument "key" to "max" has incompatible type "Callable[[tuple[str, dict[str, object]]], object]"; expected "Callable[[tuple[str, dict[str, object]]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/monitoring/cost_calculator.py: note: In function "compare_model_costs":
+app/monitoring/cost_calculator.py:452: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/cost/token_counter.py: note: In member "__init__" of class "TokenCounter":
+app/cost/token_counter.py:58: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/token_counter.py:58: note: Use "-> None" if function does not return a value
+app/cost/token_counter.py: note: In member "get_encoding" of class "TokenCounter":
+app/cost/token_counter.py:189: error: Returning Any from function declared to return "Encoding"  [no-any-return]
+app/cost/token_counter.py: note: In member "add_custom_model" of class "TokenCounter":
+app/cost/token_counter.py:349: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_history.py: note: In member "add_interaction" of class "SearchQuery":
+app/search/search_history.py:93: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_history.py: note: In member "_create_tables" of class "SearchHistoryManager":
+app/search/search_history.py:191: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_history.py:191: note: Use "-> None" if function does not return a value
+app/search/search_history.py:193: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py: note: In member "record_search_query" of class "SearchHistoryManager":
+app/search/search_history.py:293: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py: note: In member "record_interaction" of class "SearchHistoryManager":
+app/search/search_history.py:358: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py: note: In member "get_user_search_history" of class "SearchHistoryManager":
+app/search/search_history.py:392: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py: note: In member "get_similar_queries" of class "SearchHistoryManager":
+app/search/search_history.py:480: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py:494: error: Argument 1 to "append" of "list" has incompatible type "int"; expected "str"  [arg-type]
+app/search/search_history.py: note: In member "analyze_search_patterns" of class "SearchHistoryManager":
+app/search/search_history.py:524: error: Need type annotation for "hour_distribution"  [var-annotated]
+app/search/search_history.py:525: error: Need type annotation for "day_distribution"  [var-annotated]
+app/search/search_history.py:530: error: Need type annotation for "intent_distribution"  [var-annotated]
+app/search/search_history.py: note: In member "get_query_suggestions" of class "SearchHistoryManager":
+app/search/search_history.py:626: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py:652: error: Argument 1 to "append" of "list" has incompatible type "int"; expected "str"  [arg-type]
+app/search/search_history.py: note: In member "_create_session" of class "SearchHistoryManager":
+app/search/search_history.py:671: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py: note: In member "_update_query_metrics" of class "SearchHistoryManager":
+app/search/search_history.py:686: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_history.py:689: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_history.py: note: In member "close" of class "SearchHistoryManager":
+app/search/search_history.py:722: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_history.py:722: note: Use "-> None" if function does not return a value
+app/monitoring/budget_manager.py: note: In member "__init__" of class "BudgetManager":
+app/monitoring/budget_manager.py:166: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/budget_manager.py:166: note: Use "-> None" if function does not return a value
+app/cost/cost_calculator.py: note: In member "__init__" of class "CostCalculator":
+app/cost/cost_calculator.py:111: error: Need type annotation for "_cost_cache" (hint: "_cost_cache: dict[<type>, <type>] = ...")  [var-annotated]
+app/cost/cost_calculator.py: note: In member "estimate_document_processing_cost" of class "CostCalculator":
+app/cost/cost_calculator.py:300: error: Need type annotation for "estimates" (hint: "estimates: dict[<type>, <type>] = ...")  [var-annotated]
+app/cost/cost_calculator.py: note: In member "optimize_model_selection" of class "CostCalculator":
+app/cost/cost_calculator.py:370: error: Argument "key" to "sort" of "list" has incompatible type "Callable[[dict[str, object]], object]"; expected "Callable[[dict[str, object]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/cost_calculator.py: note: In function "optimize_model_selection":
+app/cost/cost_calculator.py:370: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/cost/cost_calculator.py: note: In member "optimize_model_selection" of class "CostCalculator":
+app/cost/cost_calculator.py:375: error: Unsupported operand types for <= ("float" and "object")  [operator]
+app/cost/cost_calculator.py:378: error: Argument "key" to "min" has incompatible type "Callable[[dict[str, object]], object]"; expected "Callable[[dict[str, object]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/cost_calculator.py: note: In function "optimize_model_selection":
+app/cost/cost_calculator.py:378: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/cost/cost_calculator.py: note: In member "optimize_model_selection" of class "CostCalculator":
+app/cost/cost_calculator.py:379: error: Incompatible return value type (got "tuple[object, object, str]", expected "tuple[str, CostBreakdown, str]")  [return-value]
+app/cost/cost_calculator.py:382: error: Argument "key" to "min" has incompatible type "Callable[[dict[str, object]], object]"; expected "Callable[[dict[str, object]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/cost_calculator.py: note: In function "optimize_model_selection":
+app/cost/cost_calculator.py:382: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/cost/cost_calculator.py: note: In member "optimize_model_selection" of class "CostCalculator":
+app/cost/cost_calculator.py:383: error: Incompatible return value type (got "tuple[object, object, str]", expected "tuple[str, CostBreakdown, str]")  [return-value]
+app/cost/cost_calculator.py:386: error: Incompatible return value type (got "tuple[object, object, str]", expected "tuple[str, CostBreakdown, str]")  [return-value]
+app/cost/cost_calculator.py: note: In member "generate_cost_forecast" of class "CostCalculator":
+app/cost/cost_calculator.py:450: error: Need type annotation for "model_distribution" (hint: "model_distribution: dict[<type>, <type>] = ...")  [var-annotated]
+app/cost/cost_calculator.py:454: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/cost_calculator.py: note: In member "get_cost_analytics" of class "CostCalculator":
+app/cost/cost_calculator.py:502: error: Unsupported operand types for + ("object" and "Decimal")  [operator]
+app/cost/cost_calculator.py:503: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/cost/cost_calculator.py:504: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/cost/cost_calculator.py:512: error: Unsupported operand types for + ("object" and "Decimal")  [operator]
+app/cost/cost_calculator.py:513: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/cost/cost_calculator.py:531: error: Unsupported operand types for / ("Decimal" and "float")  [operator]
+app/cost/cost_calculator.py:531: note: Left operand is of type "Decimal | Literal[0]"
+app/cost/cost_calculator.py:536: error: Argument 1 to "float" has incompatible type "object"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+app/cost/cost_calculator.py:539: error: Unsupported operand types for / ("object" and "Decimal")  [operator]
+app/cost/cost_calculator.py:539: error: Unsupported operand types for / ("object" and "Literal[0]")  [operator]
+app/cost/cost_calculator.py:539: note: Right operand is of type "Decimal | Literal[0]"
+app/cost/cost_calculator.py:545: error: Argument 1 to "float" has incompatible type "object"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+app/cost/cost_calculator.py:547: error: Unsupported operand types for / ("object" and "Decimal")  [operator]
+app/cost/cost_calculator.py:547: error: Unsupported operand types for / ("object" and "Literal[0]")  [operator]
+app/cost/cost_calculator.py:547: note: Right operand is of type "Decimal | Literal[0]"
+app/cost/cost_calculator.py: note: In function "estimate_batch_cost":
+app/cost/cost_calculator.py:685: error: Incompatible return value type (got "tuple[list[CostBreakdown], Decimal | Literal[0]]", expected "tuple[list[CostBreakdown], Decimal]")  [return-value]
+app/search/document_suggestions.py: note: In member "_get_content_similar_suggestions" of class "DocumentSuggestionEngine":
+app/search/document_suggestions.py:209: error: Need type annotation for "suggestions" (hint: "suggestions: list[<type>] = ...")  [var-annotated]
+app/search/document_suggestions.py: note: In member "_get_collaborative_suggestions" of class "DocumentSuggestionEngine":
+app/search/document_suggestions.py:256: error: Need type annotation for "suggestions" (hint: "suggestions: list[<type>] = ...")  [var-annotated]
+app/search/document_suggestions.py:265: error: Need type annotation for "candidate_docs"  [var-annotated]
+app/search/document_suggestions.py: note: In member "_get_topic_based_suggestions" of class "DocumentSuggestionEngine":
+app/search/document_suggestions.py:415: error: Need type annotation for "suggestions" (hint: "suggestions: list[<type>] = ...")  [var-annotated]
+app/search/document_suggestions.py: note: In member "_get_author_based_suggestions" of class "DocumentSuggestionEngine":
+app/search/document_suggestions.py:454: error: Need type annotation for "suggestions" (hint: "suggestions: list[<type>] = ...")  [var-annotated]
+app/search/document_suggestions.py: note: In member "_update_trending_cache" of class "DocumentSuggestionEngine":
+app/search/document_suggestions.py:526: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/document_suggestions.py:526: note: Use "-> None" if function does not return a value
+app/search/document_suggestions.py: note: In member "_diversify_suggestions" of class "DocumentSuggestionEngine":
+app/search/document_suggestions.py:645: error: Need type annotation for "seen_types" (hint: "seen_types: set[<type>] = ...")  [var-annotated]
+app/search/document_suggestions.py:646: error: Need type annotation for "type_counts"  [var-annotated]
+app/search/document_suggestions.py: note: In member "track_suggestion_interaction" of class "DocumentSuggestionEngine":
+app/search/document_suggestions.py:668: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/optimizer.py: note: In member "__init__" of class "CostOptimizer":
+app/cost/optimizer.py:102: error: Need type annotation for "_optimization_cache" (hint: "_optimization_cache: dict[<type>, <type>] = ...")  [var-annotated]
+app/cost/optimizer.py:103: error: Need type annotation for "_model_performance_history"  [var-annotated]
+app/cost/optimizer.py:104: error: Need type annotation for "_seasonal_patterns" (hint: "_seasonal_patterns: dict[<type>, <type>] = ...")  [var-annotated]
+app/cost/optimizer.py: note: In member "optimize_operation" of class "CostOptimizer":
+app/cost/optimizer.py:199: error: Argument "key" to "sort" of "list" has incompatible type "Callable[[dict[str, object]], object]"; expected "Callable[[dict[str, object]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/optimizer.py: note: In function "optimize_operation":
+app/cost/optimizer.py:199: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/cost/optimizer.py: note: In member "optimize_operation" of class "CostOptimizer":
+app/cost/optimizer.py:205: error: Argument "key" to "max" has incompatible type "Callable[[dict[str, object]], object]"; expected "Callable[[dict[str, object]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/optimizer.py: note: In function "optimize_operation":
+app/cost/optimizer.py:205: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/cost/optimizer.py: note: In member "optimize_operation" of class "CostOptimizer":
+app/cost/optimizer.py:207: error: Unsupported left operand type for - ("object")  [operator]
+app/cost/optimizer.py:224: error: Argument "recommended_model" to "OptimizationRecommendation" has incompatible type "object"; expected "str"  [arg-type]
+app/cost/optimizer.py:225: error: Argument "estimated_cost" to "OptimizationRecommendation" has incompatible type "object"; expected "Decimal"  [arg-type]
+app/cost/optimizer.py:226: error: Argument "estimated_quality" to "OptimizationRecommendation" has incompatible type "object"; expected "float"  [arg-type]
+app/cost/optimizer.py:233: error: Argument 1 to "float" has incompatible type "object"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+app/cost/optimizer.py:236: error: Unsupported left operand type for - ("object")  [operator]
+app/cost/optimizer.py: note: In member "optimize_batch_processing" of class "CostOptimizer":
+app/cost/optimizer.py:312: error: Argument "original_cost" to "BatchOptimizationResult" has incompatible type "Decimal | Literal[0]"; expected "Decimal"  [arg-type]
+app/cost/optimizer.py:313: error: Argument "optimized_cost" to "BatchOptimizationResult" has incompatible type "Decimal | Literal[0]"; expected "Decimal"  [arg-type]
+app/cost/optimizer.py:314: error: Argument "savings" to "BatchOptimizationResult" has incompatible type "Decimal | int"; expected "Decimal"  [arg-type]
+app/cost/optimizer.py: note: In member "analyze_cost_trends" of class "CostOptimizer":
+app/cost/optimizer.py:413: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/optimizer.py:414: error: Argument "key" to "min" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/optimizer.py: note: In member "analyze_costs" of class "CostOptimizer":
+app/cost/optimizer.py:450: error: Need type annotation for "model_dist"  [var-annotated]
+app/cost/optimizer.py:451: error: Need type annotation for "model_costs"  [var-annotated]
+app/cost/optimizer.py: note: In member "get_optimization_insights" of class "CostOptimizer":
+app/cost/optimizer.py:550: error: Need type annotation for "model_usage"  [var-annotated]
+app/cost/optimizer.py:551: error: Need type annotation for "model_costs"  [var-annotated]
+app/cost/optimizer.py:578: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/optimizer.py:621: error: Dict entry 3 has incompatible type "str": "float"; expected "str": "str"  [dict-item]
+app/cost/optimizer.py: note: In member "_analyze_content_complexity" of class "CostOptimizer":
+app/cost/optimizer.py:664: error: Unsupported operand types for * ("SupportsDunderLT[Any]" and "float")  [operator]
+app/cost/optimizer.py:664: error: Unsupported operand types for * ("SupportsDunderGT[Any]" and "float")  [operator]
+app/cost/optimizer.py:664: note: Left operand is of type "SupportsDunderLT[Any] | SupportsDunderGT[Any]"
+app/cost/optimizer.py: note: In member "_calculate_optimization_score" of class "CostOptimizer":
+app/cost/optimizer.py:724: error: Statement is unreachable  [unreachable]
+app/cost/optimizer.py: note: In member "_prepare_time_series_data" of class "CostOptimizer":
+app/cost/optimizer.py:747: error: Need type annotation for "daily_costs"  [var-annotated]
+app/cost/optimizer.py: note: In member "_calculate_forecast_confidence" of class "CostOptimizer":
+app/cost/optimizer.py:820: error: Unsupported operand types for - ("float" and "object")  [operator]
+app/cost/optimizer.py: note: In member "_calculate_recommendation_confidence" of class "CostOptimizer":
+app/cost/optimizer.py:898: error: Returning Any from function declared to return "float"  [no-any-return]
+app/cost/optimizer.py: note: In member "_estimate_batch_processing_time" of class "CostOptimizer":
+app/cost/optimizer.py:930: error: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
+app/cost/optimizer.py: note: In member "_generate_batch_recommendation" of class "CostOptimizer":
+app/cost/optimizer.py:943: error: Need type annotation for "model_counts"  [var-annotated]
+app/cost/optimizer.py:947: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/optimizer.py: note: In member "_analyze_seasonal_patterns" of class "CostOptimizer":
+app/cost/optimizer.py:984: error: Incompatible types in assignment (expression has type "float", target has type "floating[Any]")  [assignment]
+app/cost/optimizer.py:986: error: Incompatible return value type (got "dict[str, floating[Any]]", expected "dict[str, float]")  [return-value]
+app/cost/budget_manager.py: note: In member "_init_database" of class "BudgetEnforcer":
+app/cost/budget_manager.py:134: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/budget_manager.py:134: note: Use "-> None" if function does not return a value
+app/cost/budget_manager.py: note: In member "_load_rules" of class "BudgetEnforcer":
+app/cost/budget_manager.py:535: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/budget_manager.py:535: note: Use "-> None" if function does not return a value
+app/cost/budget_manager.py: note: In member "_get_current_spending" of class "BudgetEnforcer":
+app/cost/budget_manager.py:597: error: Incompatible return value type (got "dict[str, Decimal | Literal[0]]", expected "dict[str, Decimal]")  [return-value]
+app/cost/budget_manager.py: note: In member "_store_violation" of class "BudgetEnforcer":
+app/cost/budget_manager.py:643: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/budget_manager.py: note: In member "_trigger_alerts" of class "BudgetEnforcer":
+app/cost/budget_manager.py:674: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/budget_manager.py: note: In function "get_budget_enforcer":
+app/cost/budget_manager.py:704: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/search/search_analytics.py: note: In member "_create_analytics_tables" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:195: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:195: note: Use "-> None" if function does not return a value
+app/search/search_analytics.py:197: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "record_search_event" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:277: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py: note: In member "record_user_interaction" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:312: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:325: error: Argument 4 to "_update_content_interaction" of "SearchAnalyticsEngine" has incompatible type "date"; expected "datetime"  [arg-type]
+app/search/search_analytics.py: note: In member "_generate_search_metrics" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:386: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_generate_engagement_metrics" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:444: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_generate_content_analytics" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:497: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_generate_system_metrics" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:544: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_generate_insights" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:608: error: "UserEngagementMetrics" has no attribute "bounce_rate"  [attr-defined]
+app/search/search_analytics.py: note: In member "_update_hourly_metrics" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:674: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:683: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_update_user_session" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:705: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py: note: In member "_record_content_impression" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:720: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:724: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_update_content_interaction" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:738: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:746: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_update_user_engagement" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:760: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:766: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "_real_time_metrics_updater" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:782: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:782: note: Use "-> None" if function does not return a value
+app/search/search_analytics.py: note: In member "_get_current_query_rate" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:806: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py:817: error: Returning Any from function declared to return "float"  [no-any-return]
+app/search/search_analytics.py: note: In member "_get_current_response_time" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:822: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/search/search_analytics.py: note: In member "close" of class "SearchAnalyticsEngine":
+app/search/search_analytics.py:848: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/search_analytics.py:848: note: Use "-> None" if function does not return a value
+app/cost/analytics.py: note: In member "generate_report" of class "CostAnalytics":
+app/cost/analytics.py:107: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/cost/analytics.py: note: In member "get_real_time_metrics" of class "CostAnalytics":
+app/cost/analytics.py:213: error: Need type annotation for "model_usage"  [var-annotated]
+app/cost/analytics.py: note: In member "detect_cost_anomalies" of class "CostAnalytics":
+app/cost/analytics.py:257: error: Need type annotation for "new_alerts" (hint: "new_alerts: list[<type>] = ...")  [var-annotated]
+app/cost/analytics.py:270: error: Need type annotation for "daily_costs"  [var-annotated]
+app/cost/analytics.py: note: In member "_generate_daily_summary" of class "CostAnalytics":
+app/cost/analytics.py:520: error: Need type annotation for "model_breakdown"  [var-annotated]
+app/cost/analytics.py:525: error: Need type annotation for "category_breakdown"  [var-annotated]
+app/cost/analytics.py:530: error: Need type annotation for "hourly_breakdown"  [var-annotated]
+app/cost/analytics.py:542: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/analytics.py:547: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[int], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/analytics.py:569: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/analytics.py:575: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[int], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/analytics.py: note: In member "_analyze_cost_period" of class "CostAnalytics":
+app/cost/analytics.py:678: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/analytics.py:681: error: Argument "key" to "min" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/cost/analytics.py: note: In member "_analyze_model_usage" of class "CostAnalytics":
+app/cost/analytics.py:691: error: Need type annotation for "model_stats"  [var-annotated]
+app/cost/analytics.py:697: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/cost/analytics.py:698: error: Unsupported operand types for + ("object" and "Decimal")  [operator]
+app/cost/analytics.py:699: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/cost/analytics.py:705: error: Unsupported left operand type for / ("object")  [operator]
+app/cost/analytics.py:706: error: Unsupported operand types for < ("int" and "object")  [operator]
+app/cost/analytics.py:710: error: Unsupported left operand type for / ("object")  [operator]
+app/cost/analytics.py:711: error: Unsupported operand types for < ("int" and "object")  [operator]
+app/cost/analytics.py:717: error: Argument 1 to "float" has incompatible type "object"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+app/cost/analytics.py: note: In member "_analyze_category_distribution" of class "CostAnalytics":
+app/cost/analytics.py:730: error: Need type annotation for "category_stats"  [var-annotated]
+app/cost/analytics.py:734: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/cost/analytics.py:735: error: Unsupported operand types for + ("object" and "Decimal")  [operator]
+app/cost/analytics.py:742: error: Unsupported operand types for / ("object" and "Decimal")  [operator]
+app/cost/analytics.py:742: error: Unsupported operand types for / ("object" and "Literal[0]")  [operator]
+app/cost/analytics.py:742: note: Right operand is of type "Decimal | Literal[0]"
+app/cost/analytics.py:747: error: Argument 1 to "float" has incompatible type "object"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+app/cost/analytics.py:750: error: Unsupported left operand type for / ("object")  [operator]
+app/cost/analytics.py:751: error: Unsupported operand types for < ("int" and "object")  [operator]
+app/cost/analytics.py: note: In member "_generate_actionable_recommendations" of class "CostAnalytics":
+app/cost/analytics.py:805: error: Need type annotation for "model_usage"  [var-annotated]
+app/cost/analytics.py:806: error: Need type annotation for "category_usage"  [var-annotated]
+app/cost/analytics.py:814: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/utils/error_handlers.py: note: In function "format_error_response":
+app/utils/error_handlers.py:183: error: Incompatible types in assignment (expression has type "dict[str, Any]", target has type "str")  [assignment]
+app/utils/error_handlers.py:191: error: Incompatible types in assignment (expression has type "dict[str, Any]", target has type "str")  [assignment]
+app/utils/error_handlers.py: note: In function "log_error":
+app/utils/error_handlers.py:218: error: Dict entry 2 has incompatible type "str": "str | None"; expected "str": "str"  [dict-item]
+app/utils/error_handlers.py:219: error: Dict entry 3 has incompatible type "str": "Any | None"; expected "str": "str"  [dict-item]
+app/utils/error_handlers.py: note: In function "setup_error_handlers":
+app/utils/error_handlers.py:367: error: Function is missing a type annotation  [no-untyped-def]
+app/utils/error_handlers.py: note: In function "raise_not_found":
+app/utils/error_handlers.py:395: error: Function is missing a return type annotation  [no-untyped-def]
+app/utils/error_handlers.py: note: In function "raise_validation_error":
+app/utils/error_handlers.py:405: error: Function is missing a return type annotation  [no-untyped-def]
+app/utils/error_handlers.py: note: In function "raise_processing_error":
+app/utils/error_handlers.py:414: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/semantic_search_engine.py:17: error: Module "app.search.hybrid_search" has no attribute "QueryProcessor"  [attr-defined]
+app/search/semantic_search_engine.py: note: In member "initialize" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:175: error: "HybridSearchEngine" has no attribute "initialize"  [attr-defined]
+app/search/semantic_search_engine.py: note: In member "search" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:229: error: Missing positional arguments "results", "total_results" in call to "SearchResponse"  [call-arg]
+app/search/semantic_search_engine.py:247: error: Argument "user_context" to "search" of "HybridSearchEngine" has incompatible type "UserContext | None"; expected "dict[str, Any] | None"  [arg-type]
+app/search/semantic_search_engine.py: note: In member "_analyze_query" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:437: error: Returning Any from function declared to return "QueryAnalysis"  [no-any-return]
+app/search/semantic_search_engine.py: note: In member "_determine_strategy" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:457: error: "QueryAnalysis" has no attribute "intent_type"  [attr-defined]
+app/search/semantic_search_engine.py:459: error: "QueryAnalysis" has no attribute "intent_type"  [attr-defined]
+app/search/semantic_search_engine.py:461: error: "QueryAnalysis" has no attribute "contains_entities"  [attr-defined]
+app/search/semantic_search_engine.py:461: error: "QueryAnalysis" has no attribute "keywords"  [attr-defined]
+app/search/semantic_search_engine.py: note: In member "_filter_results" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:475: error: Unsupported operand types for > ("float" and "None")  [operator]
+app/search/semantic_search_engine.py:475: note: Left operand is of type "float | None"
+app/search/semantic_search_engine.py: note: In member "_apply_filters" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:492: error: Item "None" of "dict[str, Any] | None" has no attribute "get"  [union-attr]
+app/search/semantic_search_engine.py:498: error: Item "None" of "dict[str, Any] | None" has no attribute "get"  [union-attr]
+app/search/semantic_search_engine.py: note: In member "_generate_suggestions" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:522: error: Argument 1 to "get_user_search_history" of "SearchHistoryManager" has incompatible type "str | None"; expected "str"  [arg-type]
+app/search/semantic_search_engine.py: note: In member "_generate_search_insights" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:547: error: "QueryAnalysis" has no attribute "keywords"  [attr-defined]
+app/search/semantic_search_engine.py:548: error: "QueryAnalysis" has no attribute "entities"  [attr-defined]
+app/search/semantic_search_engine.py:551: error: Item "None" of "dict[str, Any] | None" has no attribute "get"  [union-attr]
+app/search/semantic_search_engine.py:555: error: Unsupported operand types for < ("float" and "None")  [operator]
+app/search/semantic_search_engine.py:555: note: Left operand is of type "float | None"
+app/search/semantic_search_engine.py:557: error: Unsupported operand types for <= ("float" and "None")  [operator]
+app/search/semantic_search_engine.py:557: note: Right operand is of type "float | None"
+app/search/semantic_search_engine.py:557: error: Unsupported operand types for >= ("float" and "None")  [operator]
+app/search/semantic_search_engine.py:557: note: Left operand is of type "float | None"
+app/search/semantic_search_engine.py:559: error: Unsupported operand types for > ("float" and "None")  [operator]
+app/search/semantic_search_engine.py:559: note: Left operand is of type "float | None"
+app/search/semantic_search_engine.py: note: In member "_record_search_event" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:573: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/semantic_search_engine.py: note: In member "_cache_results" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:624: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/semantic_search_engine.py: note: In member "_update_performance_stats" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:648: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/semantic_search_engine.py: note: In member "_cleanup_cache_periodically" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:659: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/semantic_search_engine.py:659: note: Use "-> None" if function does not return a value
+app/search/semantic_search_engine.py: note: In member "health_check" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:708: error: Unsupported target for indexed assignment ("Collection[str]")  [index]
+app/search/semantic_search_engine.py:710: error: Unsupported target for indexed assignment ("Collection[str]")  [index]
+app/search/semantic_search_engine.py:718: error: Unsupported target for indexed assignment ("Collection[str]")  [index]
+app/search/semantic_search_engine.py:720: error: Unsupported target for indexed assignment ("Collection[str]")  [index]
+app/search/semantic_search_engine.py:724: error: Unsupported target for indexed assignment ("Collection[str]")  [index]
+app/search/semantic_search_engine.py: note: In member "close" of class "SemanticSearchEngine":
+app/search/semantic_search_engine.py:728: error: Function is missing a return type annotation  [no-untyped-def]
+app/search/semantic_search_engine.py:728: note: Use "-> None" if function does not return a value
+app/search/semantic_search_engine.py:738: error: "HybridSearchEngine" has no attribute "close"  [attr-defined]
+app/realtime/websocket_manager.py: note: In member "__init__" of class "WebSocketConnectionManager":
+app/realtime/websocket_manager.py:132: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/websocket_manager.py:132: note: Use "-> None" if function does not return a value
+app/realtime/websocket_manager.py: note: In member "_setup_default_handlers" of class "WebSocketConnectionManager":
+app/realtime/websocket_manager.py:178: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/websocket_manager.py:178: note: Use "-> None" if function does not return a value
+app/realtime/websocket_manager.py: note: In member "_start_health_monitoring" of class "WebSocketConnectionManager":
+app/realtime/websocket_manager.py:189: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/websocket_manager.py:189: note: Use "-> None" if function does not return a value
+app/realtime/websocket_manager.py: note: In member "_health_monitor_loop" of class "WebSocketConnectionManager":
+app/realtime/websocket_manager.py:194: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/websocket_manager.py:194: note: Use "-> None" if function does not return a value
+app/realtime/websocket_manager.py: note: In member "_check_connection_health" of class "WebSocketConnectionManager":
+app/realtime/websocket_manager.py:205: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/websocket_manager.py:205: note: Use "-> None" if function does not return a value
+app/realtime/websocket_manager.py: note: In member "_cleanup_connection_subscriptions" of class "WebSocketConnectionManager":
+app/realtime/websocket_manager.py:380: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/websocket_manager.py: note: In member "handle_message" of class "WebSocketConnectionManager":
+app/realtime/websocket_manager.py:643: error: Returning Any from function declared to return "bool"  [no-any-return]
+app/middleware/rate_limiting.py: note: In member "__init__" of class "RateLimitStore":
+app/middleware/rate_limiting.py:26: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/rate_limiting.py: note: In member "add_request" of class "RateLimitStore":
+app/middleware/rate_limiting.py:34: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/rate_limiting.py: note: In member "block_client" of class "RateLimitStore":
+app/middleware/rate_limiting.py:59: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/rate_limiting.py: note: In member "cleanup_old_data" of class "RateLimitStore":
+app/middleware/rate_limiting.py:64: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/rate_limiting.py: note: In member "__init__" of class "RateLimitingMiddleware":
+app/middleware/rate_limiting.py:113: error: Function is missing a type annotation  [no-untyped-def]
+app/middleware/rate_limiting.py: note: In member "_cleanup_if_needed" of class "RateLimitingMiddleware":
+app/middleware/rate_limiting.py:252: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/rate_limiting.py:252: note: Use "-> None" if function does not return a value
+app/middleware/rate_limiting.py: note: In member "dispatch" of class "RateLimitingMiddleware":
+app/middleware/rate_limiting.py:259: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/middleware/rate_limiting.py:263: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/rate_limiting.py:268: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/rate_limiting.py:312: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/rate_limiting.py: note: In member "__init__" of class "IPWhitelistMiddleware":
+app/middleware/rate_limiting.py:321: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/middleware/rate_limiting.py: note: In member "dispatch" of class "IPWhitelistMiddleware":
+app/middleware/rate_limiting.py:357: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/middleware/rate_limiting.py:362: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/rate_limiting.py:375: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/cost/cost_system.py: note: In member "__init__" of class "CostSystem":
+app/cost/cost_system.py:110: error: Incompatible types in assignment (expression has type "None", variable has type "BudgetEnforcer")  [assignment]
+app/cost/cost_system.py:121: error: Need type annotation for "_operation_cache"  [var-annotated]
+app/cost/cost_system.py:123: error: Need type annotation for "_optimization_cache" (hint: "_optimization_cache: dict[<type>, <type>] = ...")  [var-annotated]
+app/cost/cost_system.py: note: In member "get_cost_forecast" of class "CostSystem":
+app/cost/cost_system.py:423: error: Unexpected keyword argument "confidence_threshold" for "forecast_costs" of "CostOptimizer"  [call-arg]
+app/cost/optimizer.py:323: note: "forecast_costs" of "CostOptimizer" defined here
+app/cost/cost_system.py: note: In member "register_alert_callback" of class "CostSystem":
+app/cost/cost_system.py:439: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/cost_system.py: note: In member "cleanup_old_data" of class "CostSystem":
+app/cost/cost_system.py:445: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/cost_system.py: note: In member "_setup_default_budget_rules" of class "CostSystem":
+app/cost/cost_system.py:529: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/cost_system.py: note: In member "_handle_budget_alert" of class "CostSystem":
+app/cost/cost_system.py:538: error: Function is missing a return type annotation  [no-untyped-def]
+app/cost/cost_system.py: note: In function "process_document":
+app/cost/cost_system.py:578: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/cost/cost_system.py: note: In function "process_document_batch":
+app/cost/cost_system.py:595: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/cost/cost_system.py: note: In function "setup_cost_system":
+app/cost/cost_system.py:613: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/api/websocket_endpoints.py: note: In function "websocket_endpoint":
+app/api/websocket_endpoints.py:89: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/websocket_endpoints.py: note: In function "health_check":
+app/api/websocket_endpoints.py:571: error: "Collection[str]" has no attribute "values"  [attr-defined]
+app/api/websocket_endpoints.py:575: error: Incompatible return value type (got "JSONResponse", expected "dict[str, Any]")  [return-value]
+app/api/websocket_endpoints.py:579: error: Incompatible return value type (got "JSONResponse", expected "dict[str, Any]")  [return-value]
+app/api/search.py: note: In function "semantic_search":
+app/api/search.py:30: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/search.py:46: error: Need type annotation for "search_results" (hint: "search_results: list[<type>] = ...")  [var-annotated]
+app/api/search.py: note: In function "knowledge_graph_query":
+app/api/search.py:120: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/search.py: note: In function "get_search_history":
+app/api/search.py:179: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/search.py: note: In function "get_search_suggestions":
+app/api/search.py:210: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/search.py: note: In function "clear_search_history":
+app/api/search.py:239: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/search.py: note: In function "get_popular_searches":
+app/api/search.py:259: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "get_processing_status":
+app/api/processing.py:29: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "start_processing":
+app/api/processing.py:86: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "list_processing_jobs":
+app/api/processing.py:152: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "get_processing_job":
+app/api/processing.py:197: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "cancel_processing_job":
+app/api/processing.py:244: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "get_processing_stats":
+app/api/processing.py:292: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "get_processing_queue":
+app/api/processing.py:321: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/processing.py: note: In function "execute_processing_job":
+app/api/processing.py:359: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/health.py: note: In function "health_check":
+app/api/health.py:23: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/health.py: note: In function "detailed_health_check":
+app/api/health.py:31: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/health.py: note: In function "system_metrics":
+app/api/health.py:87: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/health.py: note: In function "service_status":
+app/api/health.py:106: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/health.py: note: In function "readiness_check":
+app/api/health.py:121: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/health.py: note: In function "liveness_check":
+app/api/health.py:132: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/folders.py: note: In function "list_folders":
+app/api/folders.py:28: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/folders.py: note: In function "create_folder":
+app/api/folders.py:81: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/folders.py: note: In function "get_folder":
+app/api/folders.py:144: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/folders.py: note: In function "update_folder":
+app/api/folders.py:182: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/folders.py: note: In function "delete_folder":
+app/api/folders.py:231: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/folders.py: note: In function "process_folder":
+app/api/folders.py:264: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/config.py: note: In function "get_wizard_steps":
+app/api/config.py:28: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/config.py: note: In function "validate_configuration":
+app/api/config.py:212: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/config.py: note: In function "get_configuration_templates":
+app/api/config.py:311: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/config.py: note: In function "get_current_configuration":
+app/api/config.py:419: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/config.py: note: In function "update_configuration":
+app/api/config.py:470: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/config.py: note: In function "test_service_connection":
+app/api/config.py:493: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/analytics.py: note: In function "get_cost_analytics":
+app/api/analytics.py:29: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/analytics.py:75: error: Generator has incompatible item type "object"; expected "bool"  [misc]
+app/api/analytics.py:76: error: Generator has incompatible item type "object"; expected "bool"  [misc]
+app/api/analytics.py:77: error: Generator has incompatible item type "object"; expected "bool"  [misc]
+app/api/analytics.py: note: In function "get_usage_analytics":
+app/api/analytics.py:114: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/analytics.py: note: In function "get_performance_metrics":
+app/api/analytics.py:162: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/analytics.py: note: In function "get_budget_status":
+app/api/analytics.py:192: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/analytics.py: note: In function "update_budget_limits":
+app/api/analytics.py:232: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/analytics.py: note: In function "get_cost_projections":
+app/api/analytics.py:267: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/analytics.py:294: error: Generator has incompatible item type "object"; expected "bool"  [misc]
+app/api/analytics.py: note: In function "export_analytics_data":
+app/api/analytics.py:321: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "__init__" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:27: error: Function is missing a type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "dispatch" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:75: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/middleware/security_middleware.py:101: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/security_middleware.py: note: In member "_add_security_context" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:114: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_validate_request_basics" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:137: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_validate_and_sanitize_inputs" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:161: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_validate_query_parameters" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:179: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_validate_request_body" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:201: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_validate_json_content" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:247: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_detect_malicious_patterns" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:283: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_check_patterns" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:297: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_add_security_headers" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:332: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_log_security_event" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:382: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/security_middleware.py: note: In member "_log_security_incident" of class "SecurityMiddleware":
+app/middleware/security_middleware.py:414: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/entities.py: note: In class "EntityMention":
+app/knowledge_graph/entities.py:93: error: Incompatible types in assignment (expression has type "None", variable has type "dict[Any, Any]")  [assignment]
+app/knowledge_graph/entities.py: note: In member "__post_init__" of class "EntityMention":
+app/knowledge_graph/entities.py:95: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/entities.py:95: note: Use "-> None" if function does not return a value
+app/knowledge_graph/entities.py:97: error: Statement is unreachable  [unreachable]
+app/knowledge_graph/entities.py: note: In member "__init__" of class "EntityExtractor":
+app/knowledge_graph/entities.py:164: error: Incompatible default for argument "config" (default has type "None", argument has type "EntityExtractionConfig")  [assignment]
+app/knowledge_graph/entities.py:164: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/knowledge_graph/entities.py:164: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/knowledge_graph/entities.py: note: In member "_initialize_models" of class "EntityExtractor":
+app/knowledge_graph/entities.py:192: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/entities.py:192: note: Use "-> None" if function does not return a value
+app/knowledge_graph/entities.py: note: In member "extract_entities" of class "EntityExtractor":
+app/knowledge_graph/entities.py:229: error: Statement is unreachable  [unreachable]
+app/knowledge_graph/entities.py: note: In member "_extract_with_spacy" of class "EntityExtractor":
+app/knowledge_graph/entities.py:272: error: "None" not callable  [misc]
+app/knowledge_graph/entities.py: note: In member "_extract_with_openai" of class "EntityExtractor":
+app/knowledge_graph/entities.py:355: error: Need type annotation for "mentions" (hint: "mentions: list[<type>] = ...")  [var-annotated]
+app/knowledge_graph/entities.py:372: error: Module has no attribute "ChatCompletion"  [attr-defined]
+app/knowledge_graph/entities.py: note: In member "_extract_with_tfidf" of class "EntityExtractor":
+app/knowledge_graph/entities.py:389: error: Need type annotation for "mentions" (hint: "mentions: list[<type>] = ...")  [var-annotated]
+app/knowledge_graph/entities.py: note: In member "_consolidate_entities" of class "EntityExtractor":
+app/knowledge_graph/entities.py:542: error: Need type annotation for "entity_groups" (hint: "entity_groups: dict[<type>, <type>] = ...")  [var-annotated]
+app/knowledge_graph/entities.py:570: error: Need type annotation for "name_counts" (hint: "name_counts: dict[<type>, <type>] = ...")  [var-annotated]
+app/knowledge_graph/entities.py:575: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[Any], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/knowledge_graph/entities.py:578: error: Need type annotation for "type_confidences" (hint: "type_confidences: dict[<type>, <type>] = ...")  [var-annotated]
+app/knowledge_graph/entities.py:602: error: Missing named argument "description" for "ExtractedEntity"  [call-arg]
+app/knowledge_graph/entities.py: note: In member "_calculate_spacy_confidence" of class "EntityExtractor":
+app/knowledge_graph/entities.py:682: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/knowledge_graph/entities.py: note: In function "set_entity_extractor_config":
+app/knowledge_graph/entities.py:744: error: Function is missing a return type annotation  [no-untyped-def]
+app/core/text_processor.py: note: In member "validate_confidence" of class "ProcessingQuality":
+app/core/text_processor.py:134: error: Function is missing a type annotation  [no-untyped-def]
+app/core/text_processor.py: note: In member "__init__" of class "TextChunk":
+app/core/text_processor.py:155: error: Function is missing a type annotation  [no-untyped-def]
+app/core/text_processor.py: note: In member "validate_cost" of class "FileProcessingResult":
+app/core/text_processor.py:190: error: Function is missing a type annotation  [no-untyped-def]
+app/core/text_processor.py: note: In member "validate_overlap" of class "ProcessingConfig":
+app/core/text_processor.py:237: error: Function is missing a type annotation  [no-untyped-def]
+app/core/text_processor.py: note: In member "get_openai_client" of class "EnhancedTextProcessor":
+app/core/text_processor.py:275: error: Incompatible types in assignment (expression has type "OpenAI", variable has type "None")  [assignment]
+app/core/text_processor.py:280: error: Incompatible return value type (got "None", expected "OpenAI")  [return-value]
+app/core/text_processor.py: note: In member "extract_text_from_docx" of class "EnhancedTextProcessor":
+app/core/text_processor.py:568: error: Need type annotation for "errors" (hint: "errors: list[<type>] = ...")  [var-annotated]
+app/core/text_processor.py: note: In member "extract_text_from_pdf" of class "EnhancedTextProcessor":
+app/core/text_processor.py:612: error: Need type annotation for "warnings" (hint: "warnings: list[<type>] = ...")  [var-annotated]
+app/knowledge_graph/relationships.py: note: In class "RelationshipEvidence":
+app/knowledge_graph/relationships.py:64: error: Incompatible types in assignment (expression has type "None", variable has type "dict[Any, Any]")  [assignment]
+app/knowledge_graph/relationships.py: note: In member "__post_init__" of class "RelationshipEvidence":
+app/knowledge_graph/relationships.py:66: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/relationships.py:66: note: Use "-> None" if function does not return a value
+app/knowledge_graph/relationships.py:68: error: Statement is unreachable  [unreachable]
+app/knowledge_graph/relationships.py: note: In member "__init__" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:141: error: Incompatible default for argument "config" (default has type "None", argument has type "RelationshipDetectionConfig")  [assignment]
+app/knowledge_graph/relationships.py:141: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/knowledge_graph/relationships.py:141: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/knowledge_graph/relationships.py:171: error: Need type annotation for "_embedding_cache" (hint: "_embedding_cache: dict[<type>, <type>] = ...")  [var-annotated]
+app/knowledge_graph/relationships.py: note: In member "_detect_pair_relationships" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:229: error: Need type annotation for "relationships" (hint: "relationships: list[<type>] = ...")  [var-annotated]
+app/knowledge_graph/relationships.py: note: In member "_detect_cooccurrence_relationship" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:314: error: Unsupported operand types for - ("float" and "timedelta64[timedelta | int | None]")  [operator]
+app/knowledge_graph/relationships.py:322: error: Argument "text_snippet" to "RelationshipEvidence" has incompatible type "object"; expected "str"  [arg-type]
+app/knowledge_graph/relationships.py:323: error: Argument "start_pos" to "RelationshipEvidence" has incompatible type "object"; expected "int"  [arg-type]
+app/knowledge_graph/relationships.py:324: error: Argument "end_pos" to "RelationshipEvidence" has incompatible type "object"; expected "int"  [arg-type]
+app/knowledge_graph/relationships.py: note: In member "_detect_context_similarity_relationship" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:384: error: "None" has no attribute "fit_transform"  [attr-defined]
+app/knowledge_graph/relationships.py: note: In member "_detect_pattern_relationships" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:478: error: Missing named argument "bidirectional" for "DetectedRelationship"  [call-arg]
+app/knowledge_graph/relationships.py:521: error: Missing named argument "bidirectional" for "DetectedRelationship"  [call-arg]
+app/knowledge_graph/relationships.py: note: In member "_detect_ai_relationships" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:599: error: Need type annotation for "relationships" (hint: "relationships: list[<type>] = ...")  [var-annotated]
+app/knowledge_graph/relationships.py:618: error: Module has no attribute "ChatCompletion"  [attr-defined]
+app/knowledge_graph/relationships.py: note: In member "_get_embedding" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:636: error: Returning Any from function declared to return "ndarray[tuple[Any, ...], dtype[Any]] | None"  [no-any-return]
+app/knowledge_graph/relationships.py: note: In member "_merge_relationships" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:721: error: Argument "strength" to "DetectedRelationship" has incompatible type "floating[Any]"; expected "float"  [arg-type]
+app/knowledge_graph/relationships.py: note: In member "_filter_relationships" of class "RelationshipDetector":
+app/knowledge_graph/relationships.py:736: error: Need type annotation for "entity_counts"  [var-annotated]
+app/knowledge_graph/relationships.py: note: In function "set_relationship_detector_config":
+app/knowledge_graph/relationships.py:817: error: Function is missing a return type annotation  [no-untyped-def]
+app/core/quality_assessor.py: note: In function "calculate_readability_score":
+app/core/quality_assessor.py:226: error: Function is missing a type annotation  [no-untyped-def]
+app/core/quality_assessor.py: note: In member "calculate_readability_score" of class "QualityAssessmentEngine":
+app/core/quality_assessor.py:256: error: Returning Any from function declared to return "float"  [no-any-return]
+app/core/quality_assessor.py: note: In member "assess_content_quality" of class "QualityAssessmentEngine":
+app/core/quality_assessor.py:456: error: Incompatible default for argument "entities" (default has type "None", argument has type "list[str]")  [assignment]
+app/core/quality_assessor.py:456: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/core/quality_assessor.py:456: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/knowledge_graph/storage.py: note: In member "close" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:121: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/storage.py:121: note: Use "-> None" if function does not return a value
+app/knowledge_graph/storage.py: note: In member "create_node" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:155: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "get_node_by_id" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:180: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "get_node_by_name" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:205: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "search_nodes" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:230: error: Argument 1 to "append" of "list" has incompatible type "float"; expected "str"  [arg-type]
+app/knowledge_graph/storage.py:235: error: Argument 1 to "append" of "list" has incompatible type "list[str]"; expected "str"  [arg-type]
+app/knowledge_graph/storage.py:240: error: Argument 1 to "append" of "list" has incompatible type "int"; expected "str"  [arg-type]
+app/knowledge_graph/storage.py:242: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "find_similar_nodes" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:257: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "update_node" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:323: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py:325: error: Returning Any from function declared to return "bool"  [no-any-return]
+app/knowledge_graph/storage.py: note: In member "delete_node" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:329: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py:356: error: Returning Any from function declared to return "bool"  [no-any-return]
+app/knowledge_graph/storage.py: note: In member "create_edge" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:392: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "get_edge_by_id" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:422: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "get_edges_by_nodes" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:460: error: Argument 1 to "append" of "list" has incompatible type "list[str]"; expected "UUID"  [arg-type]
+app/knowledge_graph/storage.py:465: error: Argument 1 to "append" of "list" has incompatible type "float"; expected "UUID"  [arg-type]
+app/knowledge_graph/storage.py:473: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "get_node_neighbors" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:486: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "update_edge" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:557: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py:559: error: Returning Any from function declared to return "bool"  [no-any-return]
+app/knowledge_graph/storage.py: note: In member "delete_edge" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:563: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py:571: error: Returning Any from function declared to return "bool"  [no-any-return]
+app/knowledge_graph/storage.py: note: In member "create_document_entity_relationship" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:597: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "get_document_entities" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:628: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "batch_create_nodes" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:722: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "batch_create_edges" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:796: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "get_graph_statistics" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:806: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "calculate_node_centrality_metrics" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:817: error: Item "None" of "Any | None" has no attribute "acquire"  [union-attr]
+app/knowledge_graph/storage.py: note: In member "_row_to_node" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:837: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/knowledge_graph/storage.py: note: In member "_row_to_edge" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:854: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/knowledge_graph/storage.py: note: In member "_row_to_document_entity" of class "KnowledgeGraphStorage":
+app/knowledge_graph/storage.py:873: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/knowledge_graph/storage.py: note: In member "__init__" of class "_SingleConnectionPool":
+app/knowledge_graph/storage.py:893: error: Function is missing a type annotation  [no-untyped-def]
+app/knowledge_graph/storage.py: note: In member "acquire" of class "_SingleConnectionPool":
+app/knowledge_graph/storage.py:896: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/storage.py: note: In member "close" of class "_SingleConnectionPool":
+app/knowledge_graph/storage.py:899: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/storage.py:899: note: Use "-> None" if function does not return a value
+app/knowledge_graph/queries.py: note: In member "search_entities" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:154: error: Incompatible return value type (got "list[GraphNode]", expected "list[GraphNode | tuple[GraphNode, float]]")  [return-value]
+app/knowledge_graph/queries.py:154: note: "list" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+app/knowledge_graph/queries.py:154: note: Consider using "Sequence" instead, which is covariant
+app/knowledge_graph/queries.py:154: note: Perhaps you need a type annotation for "nodes"? Suggestion: "list[GraphNode | tuple[GraphNode, float]]"
+app/knowledge_graph/queries.py: note: In member "get_entity_by_name" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:179: error: Incompatible return value type (got "GraphNode | tuple[GraphNode, float] | None", expected "GraphNode | None")  [return-value]
+app/knowledge_graph/queries.py: note: In member "get_entities_by_type" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:191: error: Incompatible return value type (got "list[GraphNode | tuple[GraphNode, float]]", expected "list[GraphNode]")  [return-value]
+app/knowledge_graph/queries.py: note: In member "get_entity_relationships" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:268: error: Need type annotation for "relationships"  [var-annotated]
+app/knowledge_graph/queries.py: note: In member "find_similar_entities" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:370: error: Missing named argument "query_embedding" for "SimilarityResult"  [call-arg]
+app/knowledge_graph/queries.py:403: error: Missing named argument "query_node" for "SimilarityResult"  [call-arg]
+app/knowledge_graph/queries.py:403: error: Missing named argument "query_embedding" for "SimilarityResult"  [call-arg]
+app/knowledge_graph/queries.py: note: In member "find_similar_by_embedding" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:421: error: Missing named argument "query_node" for "SimilarityResult"  [call-arg]
+app/knowledge_graph/queries.py:433: error: Missing named argument "query_node" for "SimilarityResult"  [call-arg]
+app/knowledge_graph/queries.py:433: error: Missing named argument "query_embedding" for "SimilarityResult"  [call-arg]
+app/knowledge_graph/queries.py: note: In member "extract_subgraph" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:471: error: "list[RelationshipType]" has no attribute "value"  [attr-defined]
+app/knowledge_graph/queries.py: note: In member "analyze_entity_connections" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:578: error: Need type annotation for "analysis"  [var-annotated]
+app/knowledge_graph/queries.py:599: error: Unsupported target for indexed assignment ("list[Any] | float | dict[Any, Any] | int | str")  [index]
+app/knowledge_graph/queries.py:599: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
+app/knowledge_graph/queries.py:599: note: Possible overload variants:
+app/knowledge_graph/queries.py:599: note:     def __setitem__(self, SupportsIndex, Any, /) -> None
+app/knowledge_graph/queries.py:599: note:     def __setitem__(self, slice[Any, Any, Any], Iterable[Any], /) -> None
+app/knowledge_graph/queries.py:600: error: Item "list[Any]" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py:600: error: Item "float" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py:600: error: Item "int" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py:600: error: Item "str" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py:610: error: Unsupported target for indexed assignment ("list[Any] | float | dict[Any, Any] | int | str")  [index]
+app/knowledge_graph/queries.py:610: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
+app/knowledge_graph/queries.py:610: note: Possible overload variants:
+app/knowledge_graph/queries.py:610: note:     def __setitem__(self, SupportsIndex, Any, /) -> None
+app/knowledge_graph/queries.py:610: note:     def __setitem__(self, slice[Any, Any, Any], Iterable[Any], /) -> None
+app/knowledge_graph/queries.py:611: error: Item "list[Any]" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py:611: error: Item "float" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py:611: error: Item "int" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py:611: error: Item "str" of "list[Any] | float | dict[Any, Any] | int | str" has no attribute "get"  [union-attr]
+app/knowledge_graph/queries.py: note: In member "_bfs_shortest_path" of class "KnowledgeGraphQuery":
+app/knowledge_graph/queries.py:669: error: Need type annotation for "queue"  [var-annotated]
+app/knowledge_graph/queries.py: note: In function "_dfs_all_paths":
+app/knowledge_graph/queries.py:749: error: Need type annotation for "paths" (hint: "paths: list[<type>] = ...")  [var-annotated]
+app/knowledge_graph/queries.py:751: error: Function is missing a type annotation  [no-untyped-def]
+app/knowledge_graph/builder.py:52: error: Cannot determine type of "logger"  [has-type]
+app/knowledge_graph/builder.py:52: error: Name "logger" is used before definition  [used-before-def]
+app/knowledge_graph/builder.py: note: In member "close" of class "KnowledgeGraphBuilder":
+app/knowledge_graph/builder.py:151: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/builder.py:151: note: Use "-> None" if function does not return a value
+app/knowledge_graph/builder.py: note: In function "process_text_batch":
+app/knowledge_graph/builder.py:277: error: Function is missing a type annotation  [no-untyped-def]
+app/knowledge_graph/builder.py: note: In member "process_text_batch" of class "KnowledgeGraphBuilder":
+app/knowledge_graph/builder.py:296: error: Argument 1 to "append" of "list" has incompatible type "Any | BaseException"; expected "GraphBuildResult"  [arg-type]
+app/knowledge_graph/builder.py: note: In member "_process_entities" of class "KnowledgeGraphBuilder":
+app/knowledge_graph/builder.py:483: error: Argument 1 to "append" of "list" has incompatible type "None"; expected "GraphNode"  [arg-type]
+app/knowledge_graph/builder.py:485: error: Incompatible return value type (got "list[GraphNode]", expected "list[GraphNode | None]")  [return-value]
+app/knowledge_graph/builder.py:485: note: "list" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+app/knowledge_graph/builder.py:485: note: Consider using "Sequence" instead, which is covariant
+app/knowledge_graph/builder.py:485: note: Perhaps you need a type annotation for "nodes"? Suggestion: "list[GraphNode | None]"
+app/knowledge_graph/builder.py: note: In member "_process_relationships" of class "KnowledgeGraphBuilder":
+app/knowledge_graph/builder.py:507: error: Need type annotation for "edges" (hint: "edges: list[<type>] = ...")  [var-annotated]
+app/knowledge_graph/builder.py:519: error: Argument 1 to "append" of "list" has incompatible type "None"; expected "GraphEdge"  [arg-type]
+app/knowledge_graph/builder.py:562: error: Argument 1 to "append" of "list" has incompatible type "None"; expected "GraphEdge"  [arg-type]
+app/knowledge_graph/builder.py:564: error: Incompatible return value type (got "list[GraphEdge]", expected "list[GraphEdge | None]")  [return-value]
+app/knowledge_graph/builder.py:564: note: "list" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+app/knowledge_graph/builder.py:564: note: Consider using "Sequence" instead, which is covariant
+app/knowledge_graph/builder.py:564: note: Perhaps you need a type annotation for "edges"? Suggestion: "list[GraphEdge | None]"
+app/knowledge_graph/builder.py: note: In member "_update_document_entity_relationships" of class "KnowledgeGraphBuilder":
+app/knowledge_graph/builder.py:566: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/builder.py: note: In member "_send_graph_updates" of class "KnowledgeGraphBuilder":
+app/knowledge_graph/builder.py:599: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/builder.py: note: In member "clear_caches" of class "KnowledgeGraphBuilder":
+app/knowledge_graph/builder.py:739: error: Function is missing a return type annotation  [no-untyped-def]
+app/knowledge_graph/builder.py:739: note: Use "-> None" if function does not return a value
+app/realtime/supabase_client.py: note: In function "subscribe_to_table_changes":
+app/realtime/supabase_client.py:163: error: Function is missing a type annotation  [no-untyped-def]
+app/realtime/supabase_client.py: note: In function "subscribe_to_broadcast":
+app/realtime/supabase_client.py:219: error: Function is missing a type annotation  [no-untyped-def]
+app/realtime/supabase_client.py: note: In function "subscribe_all_channels":
+app/realtime/supabase_client.py:287: error: Function is missing a type annotation  [no-untyped-def]
+app/realtime/supabase_client.py: note: In member "__new__" of class "SupabaseRealtimeClient":
+app/realtime/supabase_client.py:382: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/supabase_client.py: note: In function "initialize_supabase_realtime":
+app/realtime/supabase_client.py:614: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/realtime/supabase_client.py:656: error: Argument "enabled" to "SupabaseRealtimeConfig" has incompatible type "str | bool"; expected "bool"  [arg-type]
+app/realtime/supabase_client.py:657: error: Argument "max_retries" to "SupabaseRealtimeConfig" has incompatible type "str | int"; expected "int"  [arg-type]
+app/realtime/supabase_client.py:658: error: Argument "retry_delay" to "SupabaseRealtimeConfig" has incompatible type "str | float"; expected "float"  [arg-type]
+app/realtime/supabase_client.py:659: error: Argument "heartbeat_interval" to "SupabaseRealtimeConfig" has incompatible type "str | int"; expected "int"  [arg-type]
+app/realtime/supabase_client.py:662: error: Argument "timeout" to "SupabaseRealtimeConfig" has incompatible type "str | int"; expected "int"  [arg-type]
+app/processing/quality_assessment.py: note: In member "_call_anthropic_quality_assessment" of class "ProcessingQualityAnalyzer":
+app/processing/quality_assessment.py:425: error: Item "OpenAI" of "Any | OpenAI | None" has no attribute "messages"  [union-attr]
+app/processing/quality_assessment.py:425: error: Item "None" of "Any | OpenAI | None" has no attribute "messages"  [union-attr]
+app/processing/quality_assessment.py:439: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/processing/quality_assessment.py: note: In member "_call_openai_quality_assessment" of class "ProcessingQualityAnalyzer":
+app/processing/quality_assessment.py:449: error: Item "None" of "Any | OpenAI | None" has no attribute "chat"  [union-attr]
+app/processing/quality_assessment.py:461: error: Argument 2 to "search" has incompatible type "Any | str | None"; expected "str"  [arg-type]
+app/processing/quality_assessment.py:463: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/processing/quality_assessment.py: note: In member "_assess_coherence" of class "ProcessingQualityAnalyzer":
+app/processing/quality_assessment.py:790: error: Need type annotation for "word_freq" (hint: "word_freq: dict[<type>, <type>] = ...")  [var-annotated]
+app/processing/quality_assessment.py:801: error: Returning Any from function declared to return "float"  [no-any-return]
+app/processing/file_classification.py: note: In member "classify_with_content_analysis" of class "AIFileClassifier":
+app/processing/file_classification.py:307: error: Missing named argument "language_detected" for "ContentAnalysis"  [call-arg]
+app/processing/file_classification.py: note: In member "_analyze_file_content" of class "AIFileClassifier":
+app/processing/file_classification.py:386: error: Missing named argument "language_detected" for "ContentAnalysis"  [call-arg]
+app/processing/file_classification.py:432: error: Missing named argument "language_detected" for "ContentAnalysis"  [call-arg]
+app/processing/file_classification.py: note: In member "_call_anthropic_analysis" of class "AIFileClassifier":
+app/processing/file_classification.py:482: error: Item "OpenAI" of "Any | OpenAI | None" has no attribute "messages"  [union-attr]
+app/processing/file_classification.py:482: error: Item "None" of "Any | OpenAI | None" has no attribute "messages"  [union-attr]
+app/processing/file_classification.py:498: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/processing/file_classification.py: note: In member "_call_openai_analysis" of class "AIFileClassifier":
+app/processing/file_classification.py:515: error: Item "None" of "Any | OpenAI | None" has no attribute "chat"  [union-attr]
+app/processing/file_classification.py:528: error: Argument 2 to "search" has incompatible type "Any | str | None"; expected "str"  [arg-type]
+app/processing/file_classification.py:530: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/processing/file_classification.py: note: In member "_combine_analysis_results" of class "AIFileClassifier":
+app/processing/file_classification.py:594: error: Argument "key" to "max" has incompatible type "Callable[[dict[str, object]], object]"; expected "Callable[[dict[str, object]], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/processing/file_classification.py: note: In function "_combine_analysis_results":
+app/processing/file_classification.py:594: error: Incompatible return value type (got "object", expected "SupportsDunderLT[Any] | SupportsDunderGT[Any]")  [return-value]
+app/processing/error_intelligence.py: note: In member "analyze_error" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:255: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/processing/error_intelligence.py:257: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/processing/error_intelligence.py:259: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/processing/error_intelligence.py: note: In member "attempt_recovery" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:317: error: "Langfuse" has no attribute "trace"  [attr-defined]
+app/processing/error_intelligence.py:335: error: Missing named argument "new_error" for "RecoveryResult"  [call-arg]
+app/processing/error_intelligence.py:346: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/processing/error_intelligence.py:347: error: Unsupported target for indexed assignment ("object")  [index]
+app/processing/error_intelligence.py:348: error: "object" has no attribute "get"  [attr-defined]
+app/processing/error_intelligence.py:385: error: Unsupported operand types for + ("object" and "int")  [operator]
+app/processing/error_intelligence.py: note: In member "_call_anthropic_error_analysis" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:458: error: Item "OpenAI" of "Any | OpenAI | None" has no attribute "messages"  [union-attr]
+app/processing/error_intelligence.py:458: error: Item "None" of "Any | OpenAI | None" has no attribute "messages"  [union-attr]
+app/processing/error_intelligence.py:473: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/processing/error_intelligence.py: note: In member "_call_openai_error_analysis" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:483: error: Item "None" of "Any | OpenAI | None" has no attribute "chat"  [union-attr]
+app/processing/error_intelligence.py:496: error: Argument 2 to "search" has incompatible type "Any | str | None"; expected "str"  [arg-type]
+app/processing/error_intelligence.py:498: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/processing/error_intelligence.py: note: In member "_gather_error_context" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:565: error: Incompatible types in assignment (expression has type "dict[str, str | int | Any]", target has type "str")  [assignment]
+app/processing/error_intelligence.py:570: error: Name "os" is not defined  [name-defined]
+app/processing/error_intelligence.py:574: error: Incompatible types in assignment (expression has type "dict[str, str]", target has type "str")  [assignment]
+app/processing/error_intelligence.py:578: error: Incompatible types in assignment (expression has type "dict[Any, str]", target has type "str")  [assignment]
+app/processing/error_intelligence.py:586: error: Incompatible types in assignment (expression has type "dict[str, Any]", target has type "str")  [assignment]
+app/processing/error_intelligence.py:592: error: Incompatible types in assignment (expression has type "dict[str, Any]", target has type "str")  [assignment]
+app/processing/error_intelligence.py:598: error: Incompatible types in assignment (expression has type "dict[str, str]", target has type "str")  [assignment]
+app/processing/error_intelligence.py: note: In member "_find_similar_errors" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:613: error: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
+app/processing/error_intelligence.py:617: error: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
+app/processing/error_intelligence.py:623: error: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
+app/processing/error_intelligence.py: note: In member "_execute_recovery_strategy" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:768: error: Statement is unreachable  [unreachable]
+app/processing/error_intelligence.py: note: In function "_initialize_error_patterns":
+app/processing/error_intelligence.py:1002: error: Function is missing a type annotation  [no-untyped-def]
+app/processing/error_intelligence.py:1008: error: Function is missing a type annotation  [no-untyped-def]
+app/processing/error_intelligence.py:1014: error: Function is missing a type annotation  [no-untyped-def]
+app/processing/error_intelligence.py:1017: error: Function is missing a type annotation  [no-untyped-def]
+app/processing/error_intelligence.py:1024: error: Function is missing a type annotation  [no-untyped-def]
+app/processing/error_intelligence.py: note: In member "get_error_summary" of class "IntelligentErrorHandler":
+app/processing/error_intelligence.py:1107: error: Need type annotation for "error_categories" (hint: "error_categories: dict[<type>, <type>] = ...")  [var-annotated]
+app/processing/error_intelligence.py:1124: error: Argument "key" to "max" has incompatible type overloaded function; expected "Callable[[str], SupportsDunderLT[Any] | SupportsDunderGT[Any]]"  [arg-type]
+app/monitoring/langfuse_client.py: note: In member "__new__" of class "LangfuseClientManager":
+app/monitoring/langfuse_client.py:68: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/langfuse_client.py: note: In member "initialize" of class "LangfuseClientManager":
+app/monitoring/langfuse_client.py:95: error: Unexpected keyword argument "max_retries" for "Langfuse"  [call-arg]
+/Users/james/Documents/Product-RD/brAIn/venv/lib/python3.13/site-packages/langfuse/_client/client.py:177: note: "Langfuse" defined here
+app/monitoring/langfuse_client.py:103: error: Argument "timeout" to "Langfuse" has incompatible type "float"; expected "int | None"  [arg-type]
+app/monitoring/langfuse_client.py: note: In member "health_check" of class "LangfuseClientManager":
+app/monitoring/langfuse_client.py:166: error: Item "Langfuse" of "Langfuse | None" has no attribute "trace"  [union-attr]
+app/monitoring/langfuse_client.py:166: error: Item "None" of "Langfuse | None" has no attribute "trace"  [union-attr]
+app/monitoring/langfuse_client.py:174: error: Item "None" of "LangfuseConfig | None" has no attribute "host"  [union-attr]
+app/monitoring/langfuse_client.py:175: error: Item "None" of "LangfuseConfig | None" has no attribute "environment"  [union-attr]
+app/monitoring/langfuse_client.py: note: In function "initialize_langfuse":
+app/monitoring/langfuse_client.py:279: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/monitoring/langfuse_client.py:323: error: Argument "enabled" to "LangfuseConfig" has incompatible type "str | bool"; expected "bool"  [arg-type]
+app/monitoring/langfuse_client.py:324: error: Argument "flush_at" to "LangfuseConfig" has incompatible type "str | int"; expected "int"  [arg-type]
+app/monitoring/langfuse_client.py:325: error: Argument "flush_interval" to "LangfuseConfig" has incompatible type "str | float"; expected "float"  [arg-type]
+app/monitoring/langfuse_client.py:326: error: Argument "max_retries" to "LangfuseConfig" has incompatible type "str | int"; expected "int"  [arg-type]
+app/monitoring/langfuse_client.py:327: error: Argument "timeout" to "LangfuseConfig" has incompatible type "str | float"; expected "float"  [arg-type]
+app/monitoring/langfuse_client.py:328: error: Argument "debug" to "LangfuseConfig" has incompatible type "str | bool"; expected "bool"  [arg-type]
+app/monitoring/langfuse_client.py: note: In member "__enter__" of class "LangfuseContext":
+app/monitoring/langfuse_client.py:342: error: Function is missing a type annotation  [no-untyped-def]
+app/monitoring/langfuse_client.py: note: In member "__exit__" of class "LangfuseContext":
+app/monitoring/langfuse_client.py:345: error: Function is missing a type annotation  [no-untyped-def]
+app/middleware/auth_middleware.py: note: In member "__init__" of class "AuthenticationMiddleware":
+app/middleware/auth_middleware.py:30: error: Function is missing a type annotation  [no-untyped-def]
+app/middleware/auth_middleware.py: note: In member "_validate_token" of class "AuthenticationMiddleware":
+app/middleware/auth_middleware.py:155: error: Statement is unreachable  [unreachable]
+app/middleware/auth_middleware.py: note: In member "dispatch" of class "AuthenticationMiddleware":
+app/middleware/auth_middleware.py:163: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/auth_middleware.py:216: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/auth_middleware.py: note: In function "require_role":
+app/middleware/auth_middleware.py:244: error: Function is missing a return type annotation  [no-untyped-def]
+app/middleware/auth_middleware.py: note: In member "__init__" of class "APIKeyAuthenticationMiddleware":
+app/middleware/auth_middleware.py:282: error: Function is missing a type annotation  [no-untyped-def]
+app/middleware/auth_middleware.py: note: In member "dispatch" of class "APIKeyAuthenticationMiddleware":
+app/middleware/auth_middleware.py:310: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/auth_middleware.py:314: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/middleware/auth_middleware.py:339: error: Returning Any from function declared to return "Response"  [no-any-return]
+app/core/database_handler.py: note: In class "DocumentMetadata":
+app/core/database_handler.py:96: error: Incompatible types in assignment (expression has type "dict[str, Any] | None", base class "BaseModel" defined the type as "Callable[[bool, str], dict[str, Any]]")  [assignment]
+app/core/database_handler.py: note: In member "__init__" of class "DocumentChunk":
+app/core/database_handler.py:115: error: Function is missing a type annotation  [no-untyped-def]
+app/core/database_handler.py: note: In member "__init__" of class "EnhancedDatabaseHandler":
+app/core/database_handler.py:165: error: Incompatible default for argument "supabase_url" (default has type "None", argument has type "str")  [assignment]
+app/core/database_handler.py:165: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/core/database_handler.py:165: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/core/database_handler.py:166: error: Incompatible default for argument "supabase_key" (default has type "None", argument has type "str")  [assignment]
+app/core/database_handler.py:166: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/core/database_handler.py:166: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/core/database_handler.py: note: In member "calculate_vector_similarity" of class "EnhancedDatabaseHandler":
+app/core/database_handler.py:204: error: Returning Any from function declared to return "float"  [no-any-return]
+app/core/database_handler.py: note: In member "detect_content_duplicate" of class "EnhancedDatabaseHandler":
+app/core/database_handler.py:274: error: Value of type "Any | None" is not indexable  [index]
+app/core/database_handler.py:275: error: Value of type "Any | None" is not indexable  [index]
+app/core/database_handler.py: note: In member "get_processing_statistics" of class "EnhancedDatabaseHandler":
+app/core/database_handler.py:680: error: Argument "total_processing_cost" to "ProcessingStats" has incompatible type "Decimal | Literal[0]"; expected "Decimal"  [arg-type]
+app/core/database_handler.py: note: In function "process_file_for_rag":
+app/core/database_handler.py:732: error: Incompatible default for argument "mime_type" (default has type "None", argument has type "str")  [assignment]
+app/core/database_handler.py:732: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/core/database_handler.py:732: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/core/database_handler.py:733: error: Incompatible default for argument "config" (default has type "None", argument has type "dict[str, Any]")  [assignment]
+app/core/database_handler.py:733: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+app/core/database_handler.py:733: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+app/config/validators.py: note: In member "__init__" of class "ConfigurationValidator":
+app/config/validators.py:34: error: Function is missing a return type annotation  [no-untyped-def]
+app/config/validators.py:34: note: Use "-> None" if function does not return a value
+app/config/validators.py: note: In member "validate_langfuse" of class "ConfigurationValidator":
+app/config/validators.py:292: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/config/validators.py: note: In member "_add_recommendations" of class "ConfigurationValidator":
+app/config/validators.py:441: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/auth.py: note: In function "login":
+app/api/auth.py:67: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/auth.py:79: error: Item "None" of "Session | None" has no attribute "access_token"  [union-attr]
+app/api/auth.py:80: error: Item "None" of "Session | None" has no attribute "refresh_token"  [union-attr]
+app/api/auth.py: note: In function "logout":
+app/api/auth.py:99: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/auth.py: note: In function "refresh_token":
+app/api/auth.py:113: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/auth.py: note: In function "get_current_user_profile":
+app/api/auth.py:144: error: Function is missing a return type annotation  [no-untyped-def]
+app/api/auth.py: note: In function "get_session_info":
+app/api/auth.py:155: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/subscription_handlers.py: note: In member "__init__" of class "RealtimeSubscriptionManager":
+app/realtime/subscription_handlers.py:602: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/subscription_handlers.py:602: note: Use "-> None" if function does not return a value
+app/realtime/message_broadcaster.py: note: In member "__init__" of class "PriorityQueue":
+app/realtime/message_broadcaster.py:105: error: Function is missing a return type annotation  [no-untyped-def]
+app/realtime/message_broadcaster.py:105: note: Use "-> None" if function does not return a value
+app/realtime/message_broadcaster.py:106: error: Need type annotation for "_queues"  [var-annotated]
+app/realtime/message_broadcaster.py: note: In member "get" of class "PriorityQueue":
+app/realtime/message_broadcaster.py:127: error: Returning Any from function declared to return "BroadcastMessage"  [no-any-return]
+app/realtime/message_broadcaster.py:145: error: Returning Any from function declared to return "BroadcastMessage"  [no-any-return]
+app/realtime/message_broadcaster.py: note: In member "_process_message" of class "MessageBroadcaster":
+app/realtime/message_broadcaster.py:370: error: "WebSocketConnectionManager" has no attribute "get_all_connections"  [attr-defined]
+app/realtime/message_broadcaster.py: note: In member "_deliver_to_connection" of class "MessageBroadcaster":
+app/realtime/message_broadcaster.py:449: error: "WebSocketConnectionManager" has no attribute "send_to_connection"; maybe "user_connections" or "session_connections"?  [attr-defined]
+app/monitoring/llm_tracker.py: note: In member "__init__" of class "LLMTracker":
+app/monitoring/llm_tracker.py:99: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/llm_tracker.py:99: note: Use "-> None" if function does not return a value
+app/monitoring/llm_tracker.py: note: In member "create_trace" of class "LLMTracker":
+app/monitoring/llm_tracker.py:128: error: "Langfuse" has no attribute "trace"  [attr-defined]
+app/monitoring/llm_tracker.py: note: In member "_store_local_analytics" of class "LLMTracker":
+app/monitoring/llm_tracker.py:283: error: Unexpected keyword argument "total_tokens" for "LLMUsage"  [call-arg]
+app/monitoring/llm_tracker.py:283: error: Unexpected keyword argument "cost" for "LLMUsage"  [call-arg]
+app/monitoring/llm_tracker.py:283: error: Unexpected keyword argument "processing_duration_ms" for "LLMUsage"  [call-arg]
+app/monitoring/llm_tracker.py:283: error: Unexpected keyword argument "success" for "LLMUsage"  [call-arg]
+app/monitoring/llm_tracker.py:283: error: Unexpected keyword argument "request_metadata" for "LLMUsage"  [call-arg]
+app/monitoring/llm_tracker.py:283: error: Unexpected keyword argument "response_metadata" for "LLMUsage"  [call-arg]
+app/monitoring/llm_tracker.py:284: error: Argument "user_id" to "LLMUsage" has incompatible type "UUID | None"; expected "UUID"  [arg-type]
+app/monitoring/llm_tracker.py:285: error: Argument "operation_type" to "LLMUsage" has incompatible type "str"; expected "OperationType"  [arg-type]
+app/monitoring/llm_tracker.py: note: In member "add_user_feedback" of class "LLMTracker":
+app/monitoring/llm_tracker.py:346: error: "Langfuse" has no attribute "score"  [attr-defined]
+app/monitoring/llm_tracker.py: note: In function "track_llm_operation":
+app/monitoring/llm_tracker.py:384: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/llm_tracker.py:384: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/monitoring/llm_tracker.py:410: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/monitoring/llm_tracker.py:428: error: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+app/monitoring/llm_tracker.py: note: In function "track_embedding_generation":
+app/monitoring/llm_tracker.py:566: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/llm_tracker.py: note: In function "track_document_processing":
+app/monitoring/llm_tracker.py:582: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/llm_tracker.py: note: In function "track_search_operation":
+app/monitoring/llm_tracker.py:597: error: Function is missing a return type annotation  [no-untyped-def]
+app/monitoring/llm_tracker.py: note: In function "track_ai_configuration":
+app/monitoring/llm_tracker.py:612: error: Function is missing a return type annotation  [no-untyped-def]
+app/core/duplicate_detector.py: note: In member "detect_exact_duplicates" of class "DuplicateDetectionEngine":
+app/core/duplicate_detector.py:271: error: Need type annotation for "hash_to_id" (hint: "hash_to_id: dict[<type>, <type>] = ...")  [var-annotated]
+app/core/duplicate_detector.py: note: In member "deduplicate_content_batch" of class "DuplicateDetectionEngine":
+app/core/duplicate_detector.py:472: error: Need type annotation for "duplicate_groups" (hint: "duplicate_groups: list[<type>] = ...")  [var-annotated]
+app/processing/intelligent_processor.py: note: In class "ProcessingJob":
+app/processing/intelligent_processor.py:92: error: Argument "default_factory" to "Field" has incompatible type "type[ProcessingContext]"; expected "Callable[[], Never] | Callable[[dict[str, Any]], Never]"  [arg-type]
+app/processing/intelligent_processor.py: note: In member "__init__" of class "IntelligentFileProcessor":
+app/processing/intelligent_processor.py:141: error: Incompatible types in assignment (expression has type "None", variable has type "EnhancedTextProcessor")  [assignment]
+app/processing/intelligent_processor.py:142: error: Incompatible types in assignment (expression has type "None", variable has type "QualityAssessmentEngine")  [assignment]
+app/processing/intelligent_processor.py:143: error: Incompatible types in assignment (expression has type "None", variable has type "DuplicateDetectionEngine")  [assignment]
+app/processing/intelligent_processor.py: note: In member "process_file_intelligently" of class "IntelligentFileProcessor":
+app/processing/intelligent_processor.py:169: error: Missing named argument "domain_knowledge" for "ProcessingContext"  [call-arg]
+app/processing/intelligent_processor.py:178: error: "Langfuse" has no attribute "trace"  [attr-defined]
+app/processing/intelligent_processor.py:216: error: Missing named argument "error_analysis" for "IntelligentProcessingResult"  [call-arg]
+app/processing/intelligent_processor.py:222: error: "dict[str, Any]" has no attribute "applied_optimizations"  [attr-defined]
+app/processing/intelligent_processor.py:233: error: "dict[str, Any]" has no attribute "metadata"  [attr-defined]
+app/processing/intelligent_processor.py: note: In member "_apply_format_optimizations" of class "IntelligentFileProcessor":
+app/processing/intelligent_processor.py:309: error: Incompatible return value type (got "OptimizationResult", expected "dict[str, Any]")  [return-value]
+app/processing/intelligent_processor.py: note: In member "_execute_intelligent_extraction" of class "IntelligentFileProcessor":
+app/processing/intelligent_processor.py:325: error: Argument 1 to "compile_rules" of "ExtractionRulesEngine" has incompatible type "list[str]"; expected "list[str | dict[str, Any] | CustomRule]"  [arg-type]
+app/processing/intelligent_processor.py:325: note: "list" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+app/processing/intelligent_processor.py:325: note: Consider using "Sequence" instead, which is covariant
+app/processing/intelligent_processor.py:333: error: Returning Any from function declared to return "dict[str, Any]"  [no-any-return]
+app/processing/intelligent_processor.py:333: error: "OptimizationStrategy" has no attribute "extract_content"  [attr-defined]
+app/processing/intelligent_processor.py:341: error: Incompatible types in "await" (actual type "FileProcessingResult", expected type "Awaitable[Any]")  [misc]
+app/processing/intelligent_processor.py:342: error: Argument 1 to "process_file_with_validation" of "EnhancedTextProcessor" has incompatible type "Path"; expected "bytes"  [arg-type]
+app/processing/intelligent_processor.py:342: error: Argument 2 to "process_file_with_validation" of "EnhancedTextProcessor" has incompatible type "ProcessingConfig"; expected "str"  [arg-type]
+app/processing/intelligent_processor.py: note: In member "batch_process_intelligently" of class "IntelligentFileProcessor":
+app/processing/intelligent_processor.py:437: error: Missing named argument "domain_knowledge" for "ProcessingContext"  [call-arg]
+app/processing/intelligent_processor.py: note: In function "batch_process_intelligently":
+app/processing/intelligent_processor.py:448: error: Function is missing a type annotation  [no-untyped-def]
+app/processing/intelligent_processor.py: note: In member "batch_process_intelligently" of class "IntelligentFileProcessor":
+app/processing/intelligent_processor.py:478: error: Argument 1 to "append" of "list" has incompatible type "Any | BaseException"; expected "IntelligentProcessingResult"  [arg-type]
+app/core/processing_orchestrator.py:38: error: Module "app.monitoring.langfuse_client" has no attribute "LangfuseClient"; maybe "LangfuseClientManager" or "LangfuseContext"?  [attr-defined]
+app/core/processing_orchestrator.py: note: In member "__init__" of class "ProcessingJob":
+app/core/processing_orchestrator.py:101: error: Function is missing a type annotation  [no-untyped-def]
+app/core/processing_orchestrator.py: note: At top level:
+app/core/processing_orchestrator.py:138: error: Name "ProcessingConfig" already defined (possibly by an import)  [no-redef]
+app/core/processing_orchestrator.py: note: In member "__init__" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:221: error: "ProcessingConfig" has no attribute "enable_langfuse_monitoring"  [attr-defined]
+app/core/processing_orchestrator.py: note: In member "create_processing_job" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:270: error: "ProcessingConfig" has no attribute "supported_extensions"  [attr-defined]
+app/core/processing_orchestrator.py: note: In member "create_batch_from_directory" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:310: error: "ProcessingConfig" has no attribute "supported_extensions"  [attr-defined]
+app/core/processing_orchestrator.py:315: error: "ProcessingConfig" has no attribute "exclude_patterns"  [attr-defined]
+app/core/processing_orchestrator.py: note: In member "estimate_job_cost" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:353: error: "CostCalculator" has no attribute "calculate_embedding_cost"  [attr-defined]
+app/core/processing_orchestrator.py:354: error: Returning Any from function declared to return "Decimal"  [no-any-return]
+app/core/processing_orchestrator.py: note: In member "should_retry_job" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:370: error: "ProcessingConfig" has no attribute "max_retries"  [attr-defined]
+app/core/processing_orchestrator.py: note: In member "process_single_job" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:450: error: "ProcessingConfig" has no attribute "enable_quality_assessment"  [attr-defined]
+app/core/processing_orchestrator.py:455: error: Unsupported operand types for > ("float" and "QualityAssessmentResult")  [operator]
+app/core/processing_orchestrator.py:506: error: "ProcessingConfig" has no attribute "max_retries"  [attr-defined]
+app/core/processing_orchestrator.py: note: In member "process_batch" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:551: error: "ProcessingConfig" has no attribute "enable_async_processing"  [attr-defined]
+app/core/processing_orchestrator.py:553: error: "ProcessingConfig" has no attribute "max_concurrent_jobs"  [attr-defined]
+app/core/processing_orchestrator.py: note: In function "process_batch":
+app/core/processing_orchestrator.py:555: error: Function is missing a type annotation  [no-untyped-def]
+app/core/processing_orchestrator.py: note: In member "process_batch" of class "EnhancedProcessingOrchestrator":
+app/core/processing_orchestrator.py:595: error: Incompatible types in assignment (expression has type "Decimal | Literal[0]", variable has type "Decimal")  [assignment]
+app/core/__init__.py: note: In function "get_orchestrator":
+app/core/__init__.py:87: error: Function is missing a return type annotation  [no-untyped-def]
+app/core/__init__.py: note: In function "quick_process_file":
+app/core/__init__.py:130: error: Function is missing a return type annotation  [no-untyped-def]
+app/core/__init__.py:150: error: Returning Any from function declared to return "FileProcessingResult"  [no-any-return]
+app/core/__init__.py: note: In function "configure_processing":
+app/core/__init__.py:242: error: "None" has no attribute "config"  [attr-defined]
+app/core/__init__.py:243: error: "None" has no attribute "config"  [attr-defined]
+app/core/__init__.py:244: error: "None" has no attribute "config"  [attr-defined]
+Found 817 errors in 60 files (checked 76 source files)

@@ -1,0 +1,1 @@
+/Users/james/Documents/Product-RD/brAIn/venv/bin/python: No module named mypy
