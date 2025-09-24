@@ -17,7 +17,7 @@ from typing import List, Dict, Any
 import hashlib
 
 # Import the enhanced pipeline components
-from core import (
+from app.core import (
     EnhancedTextProcessor,
     EnhancedDatabaseHandler,
     DuplicateDetectionEngine,

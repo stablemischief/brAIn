@@ -20,7 +20,7 @@ import sys
 
 sys.path.append("/Users/james/Documents/Product-RD/brAIn")
 
-from src.processing.intelligent_processor import (
+from app.processing.intelligent_processor import (
     IntelligentFileProcessor,
     ProcessingContext,
     IntelligentProcessingResult,

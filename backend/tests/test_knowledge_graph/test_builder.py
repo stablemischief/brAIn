@@ -8,12 +8,12 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import uuid4, UUID
 from datetime import datetime, timezone
 
-from src.knowledge_graph.builder import (
+from app.knowledge_graph.builder import (
     KnowledgeGraphBuilder,
     GraphBuildConfig,
     GraphBuildResult,
 )
-from src.knowledge_graph.entities import (
+from app.knowledge_graph.entities import (
     EntityExtractor,
     ExtractedEntity,
     EntityType,

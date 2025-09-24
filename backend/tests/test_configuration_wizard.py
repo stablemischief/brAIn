@@ -12,7 +12,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch, AsyncMock, MagicMock
 from datetime import datetime
 
-from config.models import (
+from app.config.models import (
     SystemConfig,
     DatabaseConfig,
     OpenAIConfig,

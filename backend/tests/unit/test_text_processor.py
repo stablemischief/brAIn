@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch, AsyncMock
 from pathlib import Path
 import tempfile
 
-from core.text_processor import (
+from app.core.text_processor import (
     TextProcessor,
     ProcessingResult,
     ProcessingConfig,

@@ -10,8 +10,8 @@ from unittest.mock import MagicMock, patch
 from typing import Dict, List, Any
 
 # Import configuration modules
-from api.config import ConfigurationAssistant, ConfigurationValidator
-from config.settings import SettingsManager
+from app.api.config import ConfigurationAssistant, ConfigurationValidator
+from app.config.settings import SettingsManager
 from pydantic import BaseModel, ValidationError
 
 

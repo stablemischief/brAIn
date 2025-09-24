@@ -10,14 +10,14 @@ from datetime import datetime, timedelta
 from uuid import uuid4, UUID
 
 # Import modules under test
-from monitoring.langfuse_client import (
+from app.monitoring.langfuse_client import (
     LangfuseConfig,
     LangfuseClientManager,
     get_langfuse_client,
     initialize_langfuse,
     validate_langfuse_environment,
 )
-from monitoring.llm_tracker import (
+from app.monitoring.llm_tracker import (
     TraceMetadata,
     OperationResult,
     LLMTracker,

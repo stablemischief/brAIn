@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, AsyncMock, patch
 from datetime import datetime
 import uuid
 
-from core.database_handler import (
+from app.core.database_handler import (
     DatabaseHandler,
     Document,
     DatabaseError,

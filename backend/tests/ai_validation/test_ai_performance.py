@@ -11,10 +11,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from unittest.mock import MagicMock, patch
 
 # Import AI performance modules
-from core.text_processor import EnhancedTextProcessor
-from src.cost.cost_calculator import CostCalculator
-from src.knowledge_graph.builder import KnowledgeGraphBuilder
-from src.search.hybrid_search import HybridSearchEngine
+from app.core.text_processor import EnhancedTextProcessor
+from app.cost.cost_calculator import CostCalculator
+from app.knowledge_graph.builder import KnowledgeGraphBuilder
+from app.search.hybrid_search import HybridSearchEngine
 
 
 @pytest.mark.performance

@@ -11,10 +11,10 @@ from unittest.mock import MagicMock, patch
 from typing import List, Dict, Tuple
 
 # Import search modules
-from src.search.hybrid_search import HybridSearchEngine
-from src.search.context_ranking import ContextRanker
-from src.search.search_analytics import SearchAnalytics
-from src.search.document_suggestions import DocumentSuggestionEngine
+from app.search.hybrid_search import HybridSearchEngine
+from app.search.context_ranking import ContextRanker
+from app.search.search_analytics import SearchAnalytics
+from app.search.document_suggestions import DocumentSuggestionEngine
 
 
 @pytest.mark.ai

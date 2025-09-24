@@ -11,14 +11,14 @@ from unittest.mock import MagicMock, patch
 from datetime import datetime, timedelta
 
 # Import cost calculation modules
-from src.cost.cost_calculator import (
+from app.cost.cost_calculator import (
     CostCalculator,
     CostBreakdown,
     CostCategory,
     BudgetPeriod,
 )
-from src.cost.token_counter import TokenCounter, ModelProvider
-from src.cost.budget_manager import BudgetManager
+from app.cost.token_counter import TokenCounter, ModelProvider
+from app.cost.budget_manager import BudgetManager
 
 
 @pytest.mark.ai

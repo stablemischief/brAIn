@@ -11,10 +11,10 @@ from unittest.mock import MagicMock, patch
 from typing import List, Dict, Tuple
 
 # Import knowledge graph modules
-from src.knowledge_graph.builder import KnowledgeGraphBuilder
-from src.knowledge_graph.entities import EntityExtractor
-from src.knowledge_graph.relationships import RelationshipDetector
-from src.knowledge_graph.queries import GraphQueryEngine
+from app.knowledge_graph.builder import KnowledgeGraphBuilder
+from app.knowledge_graph.entities import EntityExtractor
+from app.knowledge_graph.relationships import RelationshipDetector
+from app.knowledge_graph.queries import GraphQueryEngine
 
 
 @pytest.mark.ai

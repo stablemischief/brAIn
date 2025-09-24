@@ -11,8 +11,8 @@ from unittest.mock import MagicMock, patch
 from typing import List, Dict, Tuple
 
 # Import AI quality assessment modules
-from core.quality_assessor import QualityAssessmentEngine
-from api.config import ConfigurationAssistant
+from app.core.quality_assessor import QualityAssessmentEngine
+from app.api.config import ConfigurationAssistant
 
 
 @pytest.mark.ai
