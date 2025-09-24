@@ -17,7 +17,7 @@ starlette = "^0.27.0"
 
 # Pydantic for data validation
 pydantic = "^2.5.0"
-pydantic-ai = "^0.0.13"
+pydantic-ai = "^1.0.0"
 pydantic-settings = "^2.1.0"
 
 # Database dependencies

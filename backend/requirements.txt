@@ -9,14 +9,14 @@ starlette==0.27.0
 
 # Pydantic for data validation
 pydantic>=2.5.0,<3.0
-pydantic-ai>=0.0.13,<1.0.0
+pydantic-ai>=1.0.0,<2.0.0
 pydantic-settings==2.1.0
 
 # Database dependencies
-asyncpg==0.29.0
-psycopg2-binary==2.9.9
-alembic==1.13.0
-pgvector==0.2.4
+asyncpg>=0.29.0,<1.0.0
+psycopg2-binary>=2.9.9,<3.0.0
+alembic>=1.13.0,<2.0.0
+pgvector>=0.2.4,<1.0.0
 
 # Supabase and real-time
 supabase>=2.3.4,<3.0.0
@@ -24,7 +24,7 @@ supabase>=2.3.4,<3.0.0
 # OpenAI and AI services
 openai>=1.6.1,<2.0.0
 langfuse>=2.21.0,<3.0.0
-tiktoken==0.5.2
+tiktoken>=0.5.2,<1.0.0
 
 # Google Drive integration
 google-auth==2.25.2
@@ -48,7 +48,7 @@ aioredis==2.0.1
 
 # HTTP client and file handling
 httpx>=0.24.0,<1.0.0
-aiofiles==23.2.1
+aiofiles>=23.2.1,<24.0.0
 
 # Utilities
 python-multipart==0.0.6
