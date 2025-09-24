@@ -1,0 +1,64 @@
+# brAIn v2.0 - Minimal Requirements for CI/CD Fix
+# Core dependencies only - let pip resolve versions
+
+fastapi
+uvicorn[standard]
+pydantic>=2.5.0
+pydantic-ai>=1.0.0
+pydantic-settings
+
+# Database
+asyncpg
+psycopg2-binary
+alembic
+pgvector
+
+# Supabase
+supabase
+
+# OpenAI
+openai
+langfuse
+tiktoken
+
+# Google Drive
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+
+# Document processing
+PyPDF2
+python-docx
+openpyxl
+python-pptx
+beautifulsoup4
+markdown
+ebooklib
+striprtf
+
+# Redis
+redis
+aioredis
+
+# HTTP
+httpx
+aiofiles
+websockets
+
+# Utils
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+typer
+rich
+
+# Monitoring
+prometheus-client
+structlog
+
+# Data
+numpy
+pandas
+scikit-learn
