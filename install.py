@@ -147,10 +147,10 @@ async def run_wizard(wizard):
     choice = input("\nSelect template [1-5]: ")
 
     template_map = {
-        "1": "development",
-        "2": "production",
-        "3": "cost_optimized",
-        "4": "high_performance",
+        "1": "Development Environment",
+        "2": "Production Secure",
+        "3": "Cost Optimized",
+        "4": "High Performance",
         "5": "custom"
     }
 
@@ -158,7 +158,7 @@ async def run_wizard(wizard):
 
     if template != "custom":
         print(f"\n✅ Using {template.replace('_', ' ').title()} template")
-        config = wizard.templates.get_template(template)
+        config = wizard.templates.get_template_by_name(template)
 
         # Quick customization for template
         print("\n🔧 Quick Setup (press Enter to use defaults):")
