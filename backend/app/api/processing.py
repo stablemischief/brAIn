@@ -10,15 +10,15 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query, Background
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, or_
 
-from config.settings import get_settings
-from models.api import (
+from app.config.settings import get_settings
+from app.models.api import (
     ProcessingStatusResponse,
     ProcessingJobResponse,
     ProcessingStatsResponse,
     ProcessingStartRequest,
     ProcessingQueueResponse,
 )
-from models.documents import Document, ProcessingJob
+from app.models.documents import Document, ProcessingJob
 from database.connection import get_database_session
 from api.auth import get_current_user
 

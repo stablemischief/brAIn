@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from fastapi import Request, Response, HTTPException, status
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from config.settings import get_settings
+from app.config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 

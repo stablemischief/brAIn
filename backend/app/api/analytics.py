@@ -10,8 +10,8 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, text, and_, func
 
-from config.settings import get_settings
-from models.api import (
+from app.config.settings import get_settings
+from app.models.api import (
     CostAnalyticsResponse,
     UsageAnalyticsResponse,
     PerformanceMetricsResponse,

@@ -322,6 +322,96 @@
 
 ---
 
-**LAST UPDATED**: September 24, 2025 - Plan Created
-**NEXT UPDATE**: After each task completion
-**STATUS**: READY TO BEGIN IMPLEMENTATION
+## 📋 PHASE 5: SYSTEM INTEGRATION AUDIT (USER-READY STATE)
+**Lead**: Full BMAD Team | **Duration**: 16-24 hours | **Status**: PLANNING
+**CRITICAL**: Address fundamental integration issues revealed by installer failure
+
+### **5.0 EMERGENCY ASSESSMENT - Installer Infinite Loop Analysis**
+- **Task**: Analyze installer failure root causes
+- **Status**: COMPLETED ✅
+- **Key Findings**:
+  - Import structure inconsistency: `config.models` vs `app.config.models`
+  - Cascading import failures across multiple modules
+  - Installer logic creates infinite loop when dependencies install but imports still fail
+  - User experience completely broken - requires technical debugging
+- **Impact**: System is in "developer working state" but NOT "user-ready state"
+
+### **5.1 Import Structure Standardization (CRITICAL)**
+- **Task**: Systematically fix ALL import paths for consistency
+- **Status**: NOT_STARTED
+- **Scope**:
+  - Audit ALL Python files for import inconsistencies
+  - Standardize on `from app.module.submodule import` pattern
+  - Fix config wizard and all dependent modules
+  - Verify no circular imports exist
+- **Files Expected**: 50+ files with import fixes needed
+- **Duration**: 8-12 hours
+- **Validation**: Import audit tool + manual verification
+
+### **5.2 End-to-End Installation Testing**
+- **Task**: Create bulletproof installer that actually works
+- **Status**: NOT_STARTED
+- **Requirements**:
+  - Test on completely fresh environment (no existing dependencies)
+  - Handle virtual environment creation gracefully
+  - Provide clear error messages and recovery paths
+  - No infinite loops or cascading failures
+  - Complete user journey: download → install → configure → run
+- **Duration**: 6-8 hours
+- **Validation**: Fresh VM/container testing
+
+### **5.3 Configuration System Integration**
+- **Task**: Ensure configuration wizard integrates properly with entire system
+- **Status**: NOT_STARTED
+- **Scope**:
+  - Fix all import paths in config modules
+  - Test wizard end-to-end with real database connections
+  - Verify generated configurations actually work with main application
+  - Create fallback configurations for offline/testing scenarios
+- **Duration**: 4-6 hours
+- **Validation**: Full wizard → app startup → basic operations test
+
+### **5.4 User Journey Validation**
+- **Task**: Test complete user experience from first contact to working system
+- **Status**: NOT_STARTED
+- **Test Scenarios**:
+  - Fresh user on macOS with no Python experience
+  - Fresh user on macOS with Python experience
+  - Developer setup on different environments
+  - Error recovery scenarios (network issues, permission problems, etc.)
+- **Duration**: 4-6 hours
+- **Validation**: Multiple real user test sessions
+
+### **PHASE 5 SUCCESS CRITERIA**:
+- ✅ One-command installation that works without debugging
+- ✅ Clear error messages and recovery paths
+- ✅ Complete user journey tested end-to-end
+- ✅ No technical knowledge required for basic installation
+- ✅ System ready for actual user testing
+
+---
+
+## 🚨 CRITICAL PROJECT STATUS UPDATE
+
+### **HONEST ASSESSMENT**
+- **Phase 1-4**: System works for developers who understand the internals
+- **Phase 5**: Required to make system work for actual users
+- **Current State**: brAIn v2.0 is NOT ready for user installation
+
+### **USER FEEDBACK INTEGRATION**
+- James correctly identified that installer failure indicates systemic issues
+- "Whack-a-mole" debugging pattern must be avoided
+- System integration was insufficient in previous phases
+- Need complete audit before any user testing
+
+### **CONTEXT MANAGEMENT STRATEGY**
+- Phase 5 will be executed incrementally with handoff documents
+- Each sub-phase will be context-preserved with git commits
+- Progress tracking in this document to prevent work loss
+- Session planning to avoid context window exhaustion
+
+---
+
+**LAST UPDATED**: September 25, 2025 - Phase 5 Added (System Integration Audit)
+**NEXT UPDATE**: After each Phase 5 task completion
+**STATUS**: PHASE 5 READY TO BEGIN - Full system integration required for user-ready state

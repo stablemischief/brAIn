@@ -17,7 +17,7 @@ import httpx
 from openai import OpenAI, AuthenticationError as OpenAIAuthError
 from supabase import create_client, Client
 
-from config.models import (
+from app.config.models import (
     DatabaseConfig,
     OpenAIConfig,
     AnthropicConfig,

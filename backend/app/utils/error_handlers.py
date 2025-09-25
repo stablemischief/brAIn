@@ -15,7 +15,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from pydantic import ValidationError
 import sqlalchemy.exc
 
-from config.settings import get_settings
+from app.config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 

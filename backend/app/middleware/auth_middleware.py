@@ -13,7 +13,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from supabase import create_client, Client
 import jwt
 
-from config.settings import get_settings
+from app.config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 

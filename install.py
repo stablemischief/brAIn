@@ -8,9 +8,37 @@ import sys
 import os
 import subprocess
 from pathlib import Path
+import platform
 
-# Add backend to path for imports
-sys.path.insert(0, str(Path(__file__).parent / "backend"))
+def check_virtual_env():
+    """Check if we're in a virtual environment."""
+    return sys.prefix != sys.base_prefix
+
+def create_virtual_env():
+    """Create and guide user to activate virtual environment."""
+    venv_path = Path.cwd() / "venv"
+
+    if not venv_path.exists():
+        print("📦 Creating virtual environment...")
+        subprocess.run([sys.executable, "-m", "venv", "venv"], check=True)
+        print("✅ Virtual environment created!")
+
+    # Provide activation instructions based on OS
+    if platform.system() == "Windows":
+        activate_cmd = "venv\\Scripts\\activate"
+    else:
+        activate_cmd = "source venv/bin/activate"
+
+    print("\n" + "="*60)
+    print("⚠️  VIRTUAL ENVIRONMENT REQUIRED")
+    print("="*60)
+    print("\nModern Python requires a virtual environment for package installation.")
+    print("\nPlease run these commands:")
+    print(f"\n  1. {activate_cmd}")
+    print("  2. python3 install.py")
+    print("\n" + "="*60)
+
+    return False
 
 def main():
     """Main installation entry point."""
@@ -21,13 +49,22 @@ def main():
 ╚══════════════════════════════════════════════════════════════╝
     """)
 
-    print("🚀 Starting AI Configuration Wizard...\n")
-
     # Check Python version
     if sys.version_info < (3, 9):
         print("❌ Error: Python 3.9+ required")
         print(f"   Current version: {sys.version}")
         sys.exit(1)
+
+    # Check for virtual environment on modern Python
+    if sys.version_info >= (3, 11) and not check_virtual_env():
+        print("🔍 Checking environment...")
+        if not create_virtual_env():
+            sys.exit(0)
+
+    print("🚀 Starting AI Configuration Wizard...\n")
+
+    # Add backend to path for imports
+    sys.path.insert(0, str(Path(__file__).parent / "backend"))
 
     try:
         # Import and run the wizard
@@ -51,21 +88,39 @@ def main():
         asyncio.run(run_wizard(wizard))
 
     except ImportError as e:
-        print(f"\n❌ Missing dependencies. Installing required packages...\n")
+        print(f"\n❌ Missing dependencies: {e}\n")
+
+        # Check if we're in a venv now
+        if not check_virtual_env():
+            print("⚠️  Not in a virtual environment!")
+            create_virtual_env()
+            sys.exit(1)
 
         # Auto-install basic requirements
         requirements_file = Path(__file__).parent / "backend" / "requirements.txt"
         if requirements_file.exists():
             print("📦 Installing dependencies from requirements.txt...")
-            subprocess.check_call([
-                sys.executable, "-m", "pip", "install", "-q",
+            print("This may take a few minutes on first install...\n")
+
+            result = subprocess.run([
+                sys.executable, "-m", "pip", "install",
                 "-r", str(requirements_file)
-            ])
-            print("✅ Dependencies installed. Please run install.py again.")
+            ], capture_output=True, text=True)
+
+            if result.returncode == 0:
+                print("✅ Dependencies installed successfully!")
+                print("\n🔄 Restarting installer with dependencies...")
+                print("-" * 50 + "\n")
+                # Restart the script with dependencies installed
+                os.execv(sys.executable, ['python3', __file__] + sys.argv[1:])
+            else:
+                print("❌ Failed to install dependencies:")
+                print(result.stderr)
+                sys.exit(1)
         else:
             print("❌ Error: requirements.txt not found")
             print("   Please ensure you're in the brAIn project directory")
-        sys.exit(1)
+            sys.exit(1)
 
 async def run_wizard(wizard):
     """Run the configuration wizard."""
@@ -157,9 +212,8 @@ async def run_wizard(wizard):
             print("🎉 Installation Complete!")
             print("=" * 50)
             print("\nTo start brAIn, run:")
-            print("  cd backend")
-            print("  python -m uvicorn app.main:app --reload")
-            print("\nOr use: python run.py")
+            print("  python3 -m uvicorn app.main:app --reload")
+            print("\n(Make sure you're still in the virtual environment)")
     else:
         print("❌ Configuration validation failed:")
         for error in validation_result.errors:

@@ -8,7 +8,7 @@ schema creation, and required extensions based on configuration.
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 
-from config.models import DatabaseConfig, SystemConfig
+from app.config.models import DatabaseConfig, SystemConfig
 
 
 class SQLScriptGenerator:

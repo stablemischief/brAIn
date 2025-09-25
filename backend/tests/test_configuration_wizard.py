@@ -23,10 +23,10 @@ from app.config.models import (
     ConfigurationTemplate,
     ValidationResult,
 )
-from config.validators import ConfigurationValidator
-from config.templates import ConfigurationTemplates
-from config.sql_generator import SQLScriptGenerator
-from config.wizard import ConfigurationWizard
+from app.config.validators import ConfigurationValidator
+from app.config.templates import ConfigurationTemplates
+from app.config.sql_generator import SQLScriptGenerator
+from app.config.wizard import ConfigurationWizard
 
 
 @pytest.fixture

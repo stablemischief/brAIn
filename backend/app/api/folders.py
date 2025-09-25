@@ -10,14 +10,14 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_
 
-from config.settings import get_settings
-from models.api import (
+from app.config.settings import get_settings
+from app.models.api import (
     FolderResponse,
     FolderCreateRequest,
     FolderUpdateRequest,
     FolderListResponse,
 )
-from models.documents import Folder
+from app.models.documents import Folder
 from database.connection import get_database_session
 from api.auth import get_current_user
 

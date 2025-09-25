@@ -12,8 +12,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import jwt
 from supabase import create_client, Client
 
-from config.settings import get_settings
-from models.api import (
+from app.config.settings import get_settings
+from app.models.api import (
     LoginRequest,
     LoginResponse,
     UserResponse,

@@ -12,8 +12,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
-from config.settings import get_settings
-from models.api import HealthResponse, SystemMetricsResponse, ServiceStatusResponse
+from app.config.settings import get_settings
+from app.models.api import HealthResponse, SystemMetricsResponse, ServiceStatusResponse
 from database.connection import get_database_session
 
 router = APIRouter()

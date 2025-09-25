@@ -15,7 +15,7 @@ import hashlib
 
 from pydantic import ValidationError
 
-from config.models import (
+from app.config.models import (
     SystemConfig,
     ConfigurationExport,
     ValidationResult,
@@ -28,9 +28,9 @@ from config.models import (
     CostManagementConfig,
     ProcessingConfig,
 )
-from config.validators import ConfigurationValidator
-from config.templates import ConfigurationTemplates
-from config.sql_generator import SQLScriptGenerator
+from app.config.validators import ConfigurationValidator
+from app.config.templates import ConfigurationTemplates
+from app.config.sql_generator import SQLScriptGenerator
 
 
 class ConfigurationWizard:

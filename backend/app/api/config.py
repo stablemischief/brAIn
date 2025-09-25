@@ -10,8 +10,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import ValidationError
 
-from config.settings import get_settings
-from models.api import (
+from app.config.settings import get_settings
+from app.models.api import (
     ConfigurationWizardStep,
     ConfigurationValidationResponse,
     ConfigurationTemplateResponse,
